@@ -86,6 +86,7 @@
     line-height: 1;
   }
   .homeCupFinalizeCloseBtn:hover { background: #3a3f4b; color: #fff; }
+  .homeCupFinalizeCloseBottom { display: none; }
 
   #status { color: #f88; font-size: 13px; margin-bottom: 8px; white-space: pre-wrap; }
 
@@ -740,6 +741,13 @@
     .homeCupFinalizeOverlay { padding: 10px; align-items: flex-end; }
     .homeCupFinalizePanel { max-height: 85vh; padding: 16px 14px; border-radius: 14px; }
     .homeCupFinalizeCloseBtn { width: 36px; height: 36px; font-size: 15px; }
+    /* 左手親指で届く画面下部の大きな閉じるボタン */
+    .homeCupFinalizeCloseBottom {
+      display: block; position: sticky; bottom: 0; width: 100%; margin-top: 12px;
+      padding: 14px; font-size: 16px; border-radius: 10px;
+      background: #2f6fed; color: #fff; border: none; cursor: pointer;
+      box-shadow: 0 -6px 12px rgba(28,32,40,0.9);
+    }
 
     /* 図鑑・殿堂：3列固定のカード */
     #zukanGrid, .hofGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
@@ -15076,9 +15084,13 @@
   function applyAutoSell(pulls, protectedIds) {
     if (!autoSellThreshold) return 0;
     let refund = 0;
+    // 同名の別ID選手（例：大迫勇也が複数IDで存在）を既に所持しているか。
+    // 「日本人は対象外」でも、同名選手の重複保持だけは防ぐために売却対象へ戻す
+    const ownsSameNamePlayer = (player) => data.players.some((q) => q.id !== player.id && q.name === player.name
+      && collectionState.players[q.id] && collectionState.players[q.id].owned);
     pulls.forEach((pull) => {
       if (pull.isNew && !pull.guaranteed && !(protectedIds && protectedIds.has(pull.player.id))
-          && !(autoSellExcludeJapanese && pull.player.nationality === 'JP')
+          && !(autoSellExcludeJapanese && pull.player.nationality === 'JP' && !ownsSameNamePlayer(pull.player))
           && pull.player.rarity <= autoSellThreshold) {
         collectionState.players[pull.player.id] = { owned: false, everOwned: true, dupes: 0, level: 0, xp: 0, fatigue: 0 };
         const r = TUNING.dupeRefund(pull.player.rarity);
@@ -19925,6 +19937,15 @@
     resetItemActivation();
     // activeCupIdはここでリセットしない：カップ解放条件は恒久フラグのみのため、
     // 来月も同じカップを選べる状態なら自動的に「前回踏襲」で継続する（setActiveCupSelectionで明示的に変えるまで維持）
+    // 優勝時は「優勝翌月限定」で解放される次の章（例：ワールドツアーカップ 第1章→第2章）があれば自動で次月の選択に切り替える。
+    // 同じカップも選択肢に残るため連続挑戦も可能。最終章（次の章なし）の優勝ならそのまま同じカップが選択された状態になる
+    if (placement === 'champion') {
+      const nextDef = cupDefsForCountry(country).find((d) => d.cond && d.cond.type === 'wonCupLastMonth' && d.cond.n === cs.cupNumber);
+      if (nextDef) {
+        const nextCup = availableCups().find((c) => c.n === nextDef.n);
+        if (nextCup) season.activeCupId = nextCup.id;
+      }
+    }
     season.cupState = null;
 
     // box/panelIdを呼び出し側から渡せるようにして、同じ確定結果をリーグ戦タブとホーム画面の両方に描画できるようにする
@@ -20390,6 +20411,7 @@
           <div class="homeCupFinalizePanel">
             <button type="button" class="homeCupFinalizeCloseBtn" title="閉じる">✕</button>
             <div class="homeCupFinalize"></div>
+            <button type="button" class="homeCupFinalizeCloseBottom">閉じる</button>
           </div>
         </div>
       `;
@@ -20399,8 +20421,8 @@
       overlay.addEventListener('click', (e) => {
         if (e.target === overlay) overlay.classList.remove('open');
       });
-      box.querySelector('.homeCupFinalizeCloseBtn').addEventListener('click', () => {
-        overlay.classList.remove('open');
+      box.querySelectorAll('.homeCupFinalizeCloseBtn, .homeCupFinalizeCloseBottom').forEach(btn => {
+        btn.addEventListener('click', () => overlay.classList.remove('open'));
       });
     }
     return {
