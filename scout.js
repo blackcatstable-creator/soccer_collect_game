@@ -96,7 +96,7 @@ const GUARDRAILS = {
   stepUpMargin: 1,
   // G2拡張：★N（キーの値）を新規に出すには、★(N-1)以上を所持している必要人数。
   // 1人引いただけで連鎖的に上へ跳ねないようにする（★12以下は対象外）
-  stepUpOwnedRequired: { 13: 3, 14: 3, 15: 4, 16: 4, 17: 4 },
+  stepUpOwnedRequired: { 13: 2, 14: 2, 15: 3, 16: 3, 17: 3 },
   // G6 カップ強度上限：通常カップ（レジェンドカップ・ターゲットカップ以外）の排出上限。
   // 参加クラブの戦力（上位cupPowerTopN クラブの平均）を levelTiers に通した★帯が、そのカップの上限になる
   cupPowerTopN: 3,
@@ -106,7 +106,7 @@ const GUARDRAILS = {
   normalCupMaxRarity: 17,
   // G7 高レア希少化：通常カップでは該当レアの抽選重みをこの倍率に減衰（強いカップでも「ほんの少し」だけ出る）。
   // ★18以上はレジェンドカップ専用（index.html の LEGEND_ONLY_MIN_RARITY）
-  softRarityWeights: { 15: 0.15, 16: 0.07, 17: 0.03 },
+  softRarityWeights: { 15: 0.3, 16: 0.2, 17: 0.1 },
   // G3 大物制限：実効上限に近いレア帯（上限 - topBandWidth + 1 以上）は
   // 1回のスカウトで topBandPerScout 人まで
   topBandWidth: 2,

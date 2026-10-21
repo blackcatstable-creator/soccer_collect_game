@@ -269,6 +269,12 @@
     background: #4a7dfc; color: #fff; border-radius: 4px; padding: 1px 8px;
   }
 
+  /* 戦力91以上（★〜）の最高位は金色で強調 */
+  .gradeTag.gradeTop {
+    background: linear-gradient(135deg, #ffd54a, #ff9f1c); color: #3a2400; font-weight: bold;
+    box-shadow: 0 0 8px rgba(255, 190, 40, 0.8); border: 1px solid #fff3b0;
+  }
+
   .tierLabel { font-size: 9px; color: #999; }
 
   #clubSearchInput { font-size: 14px; padding: 6px; min-width: 240px; }
@@ -869,6 +875,9 @@
   <div class="teamPowerBox statBox">
     <span class="stat">チーム総合戦力（リーグ用編成）: <span class="statVal"><b id="homeTeamPower">0</b></span></span>
     <span class="statSep">／</span><span class="stat">チーム評価: <span class="statVal"><b id="homeTeamGrade" class="gradeTag">-</b></span></span>
+    <span class="statSep">／</span><span class="stat">チーム総合戦力（カップ用編成）: <span class="statVal"><b id="homeCupTeamPower">0</b></span></span>
+    <span class="statSep">／</span><span class="stat">カップ評価: <span class="statVal"><b id="homeCupTeamGrade" class="gradeTag">-</b></span></span>
+    <span class="statSep">／</span><span class="stat">カップ総合ランキング（全チーム）: <span class="statVal"><b id="homeCupAllRank">-</b></span></span>
     <span class="statSep">／</span><span class="stat">所属: <span class="statVal"><b id="homeDivision">-</b></span></span>
     <span class="statSep">／</span><span class="stat">クラブランク: <span class="statVal"><b id="homeClubRank">-</b></span></span>
     <span class="statSep">／</span><span class="stat">世界ランキング: <span class="statVal"><b id="homeWorldRank">-</b>位</span></span>
@@ -1158,6 +1167,7 @@
   <div class="summary">
     <button type="button" id="copyFormationBtn">もう一方の編成をコピー</button>
     <button type="button" id="clearFormationBtn">全員外す</button>
+    <button type="button" id="removeMaxLevelBtn">レベル10の選手を外す</button>
     <button type="button" id="hideOtherStartersBtn" aria-pressed="false">もう一方のスタメンを非表示：OFF</button>
   </div>
   <div class="summary">
@@ -16295,6 +16305,21 @@
         cupClubSelectionMode = parsed.cupClubSelectionMode || {};
         cupClubManualPick = parsed.cupClubManualPick || {};
         legendLadderTier = parsed.legendLadderTier || {};
+        // 2026-10-21：GBラダー最上位に鬼Tier 8個を追加したため、旧セーブのGB tierを8つ下へずらす（1回のみ）
+        // 2026-10-21：さらにGBを80 Tierへ再編したため、旧セーブのGB tierは位置の割合で80段へ換算する（1回のみ）
+        // 2026-10-21（最終）：未収録クラブを各国ラダーに追加（GB 87／他5ヶ国 38 tier）。旧セーブは位置の割合で換算（1回のみ）
+        // 以降は legendLadderMaxes（保存時の各国tier数）と現在のtier数が違えば割合で換算する
+        {
+          const oldMaxes = parsed.legendLadderMaxes || (parsed.legendLadderV4
+            ? { GB: 87, ES: 38, IT: 38, DE: 38, FR: 38, JP: 38 }
+            : { GB: parsed.legendGbLadder80 ? 80 : parsed.legendGbShift8 ? 58 : 50, ES: 30, IT: 30, DE: 30, FR: 30, JP: 30 });
+          Object.keys(oldMaxes).forEach((cc) => {
+            if (typeof legendLadderTier[cc] !== 'number') return;
+            const newMax = legendLadderMaxTier(cc);
+            if (newMax === oldMaxes[cc]) return;
+            legendLadderTier[cc] = Math.max(1, Math.min(newMax, Math.round(legendLadderTier[cc] / oldMaxes[cc] * newMax)));
+          });
+        }
         legendTopClears = parsed.legendTopClears || {};
         divisionChampionEver = parsed.divisionChampionEver || {};
         divisionChampionLastYear = parsed.divisionChampionLastYear || {};
@@ -16357,6 +16382,10 @@
       cupChampionLastMonth,
       cupChampionCount,
       legendLadderTier,
+      legendGbShift8: true,
+      legendGbLadder80: true,
+      legendLadderV4: true,
+      legendLadderMaxes: Object.fromEntries(Object.keys(LEGEND_LADDER_TIERS_BY_COUNTRY).map((cc) => [cc, legendLadderMaxTier(cc)])),
       legendTopClears,
       cupClubSelectionMode,
       cupClubManualPick,
@@ -17006,7 +17035,7 @@
   }
   function computeMatchPower(context) { return computeMatchTeamStats(context).power; }
 
-  // チーム評価：90-94はSSS、95以上はSSS★〜（下のgradeOf参照）。Gより下は35以下を最低として5刻みでH・Iまで細分化
+  // チーム評価：90台前半（90.x）はSSS、91以上は★〜（下のgradeOf参照）。Gより下は35以下を最低として5刻みでH・Iまで細分化
   const TEAM_GRADE_THRESHOLDS = [
     { grade: 'SSS', min: 90 },
     { grade: 'SS', min: 85 },
@@ -17023,21 +17052,28 @@
     { grade: 'I-', min: 20 },
     { grade: 'I--', min: 0 }, // 20未満（下限なし）
   ];
-  // 95以上は90台のSSSに★を付与（95=★、96=★★…、理論値＝最高総合値99で★5まで）
-  const GRADE_STAR_MIN = 95;
+  // 91以上はSSSを超える最高位として★のみ表示（91=★、92=★★…、理論値＝最高総合値99で★9まで）
+  const GRADE_STAR_MIN = 91;
   const GRADE_STAR_MAX = 19;
   function gradeOf(power) {
     if (power >= GRADE_STAR_MIN) {
-      return 'SSS' + '★'.repeat(Math.min(GRADE_STAR_MAX, Math.floor(power) - GRADE_STAR_MIN + 1));
+      return '★'.repeat(Math.min(GRADE_STAR_MAX, Math.floor(power) - GRADE_STAR_MIN + 1));
     }
     const t = TEAM_GRADE_THRESHOLDS.find((t) => power >= t.min);
     return t ? t.grade : TEAM_GRADE_THRESHOLDS[TEAM_GRADE_THRESHOLDS.length - 1].grade;
   }
 
+  // 評価タグの文字を設定し、95以上（SSS★〜）なら最高位の金色スタイルを付ける
+  function setGradeTag(id, power) {
+    const el = document.getElementById(id);
+    el.textContent = gradeOf(power);
+    el.classList.toggle('gradeTop', power >= GRADE_STAR_MIN);
+  }
+
   function renderTeamPower() {
     const power = computeTeamPower(currentFormationContext);
     document.getElementById('teamPower').textContent = power.toFixed(1);
-    document.getElementById('teamGrade').textContent = gradeOf(power);
+    setGradeTag('teamGrade', power);
   }
 
   function leagueName(leagueId) {
@@ -17537,57 +17573,101 @@
   // c_fa_c(≈65)=ES T8／DE T8／FR T8。各国の並びは戦力降順を維持（FA挿入で下位クラブが1枠ずつ繰り上がる）。
   const LEGEND_LADDER_TIERS_BY_COUNTRY = {
     GB: [
-      ['c_leg_madrid', 'c_leg_world', 'c_fr_01', 'c_sel_es_all'],
-      ['c_sel_gb_all', 'c_sel_it_all', 'c_leg_nt_brazil', 'c_leg_arsenal'],
-      ['c_leg_milan', 'c_leg_nt_portugal', 'c_leg_inter', 'c_leg_barcelona'],
-      ['c_madrid', 'c_leg_bayern', 'c_fa_a', 'c_leg_africa'],
-      ['c_leg_chelsea', 'sel_gb_3', 'sel_gb_1', 'c_leg_nt_germany'],
-      ['sel_it_1', 'c_leg_nt_argentina', 'c_leg_juventus', 'c_leg_nt_france'],
-      ['c_leg_atletico', 'nt_3', 'c_leg_liverpool', 'c_leg_roma'],
-      ['c_leg_nt_croatia', 'c_leg_monaco', 'nt_1', 'nt_32'],
-      ['c_other_008', 'c_sel_de_all', 'c_leg_lazio', 'c_leg_parma'],
-      ['c_other_006', 'c_en_16', 'c_it_03', 'c_en_11'],
-      ['c_en_15', 'c_other_012', 'c_es_04', 'c_other_013'],
-      ['c_es_06', 'c_en_20', 'c_it_19', 'sel_es_1'],
-      ['c_other_003', 'sel_es_2', 'c_leg_nt_japan', 'c_en_08'],
-      ['c_en_07', 'c_it_05', 'c_en_17', 'c_en_13'],
-      ['c_other_015', 'c_leg_ajax', 'c_fa_b', 'c_it_07'],
-      ['c_fr_02', 'c_it_08', 'c_es_05', 'c_other_019'],
-      ['c_es_07', 'sel_de_3', 'c_other_017', 'c_en_09'],
-      ['c_other_028', 'c_other_023', 'c_de_04', 'c_other_036'],
-      ['c_en_18', 'c_es_08', 'c_other_020', 'c_de_08'],
-      ['c_fr_08', 'c_fr_04', 'c_de_05', 'c_en_10'],
-      ['c_es_09', 'c_other_031', 'c_en_19', 'c_fr_07'],
-      ['c_other_034', 'c_it_21', 'c_leg_kashima', 'c_it_09'],
-      ['c_de_06', 'c_other_026', 'c_other_021', 'c_other_030'],
-      ['c_it_10', 'c_other_033', 'c_other_032', 'c_other_022'],
-      ['c_it_17', 'c_fr_18', 'c_other_055', 'c_de2_18'],
-      ['c_other_054', 'c_other_046', 'c_other_040', 'c_other_041'],
-      ['c_other_049', 'c_other_044', 'c_other_045', 'c_de_09'],
-      ['c_other_061', 'c_other_048', 'c_other_052', 'c_other_062'],
-      ['c_de_10', 'c_other_050', 'c_it_15', 'c_other_059'],
-      ['c_leg_visselkobe', 'c_de_13', 'c_other_053', 'c_other_056'],
-      ['c_other_057', 'c_fr_05', 'c_de_11', 'c_it_12'],
-      ['c_other_037', 'c_other_065', 'c_other_039', 'c_de_14'],
-      ['c_leg_jubilo', 'c_de_21', 'c_fr_13', 'c_de2_17'],
-      ['c_other_067', 'c_other_066', 'c_other_068', 'c_other_069'],
-      ['c_de2_19', 'c_other_072', 'c_other_038', 'c_it_18'],
-      ['c_it_22', 'c_en2_05', 'c_fr_14', 'c_other_074'],
-      ['c_de_24', 'c_other_073', 'c_fr_09', 'c_leg_yokohamafm'],
-      ['c_es_12', 'c_en4_21', 'c_de_23', 'c_other_077'],
-      ['c_other_076', 'c_de2_03', 'c_de2_05', 'c_it2_12'],
-      ['c_de_25', 'c_en4_03', 'c_other_078', 'c_es_15'],
-      ['c_de2_13', 'c_fr_15', 'c_jpsel_a', 'c_es_17'],
-      ['c_it2_15', 'c_it2_14', 'c_de2_11', 'c_es2_02'],
-      ['c_es2_10', 'c_de2_10', 'c_fr_16', 'c_es_21'],
-      ['c_en2_02', 'c_us_16', 'c_es_22', 'c_es2_16'],
-      ['c_de2_12', 'c_en4_12', 'c_jp1_02', 'c_es_23'],
-      ['c_en4_16', 'c_it2_01', 'c_en3_15', 'c_en5_16'],
-      ['c_it2_13', 'c_en2_03', 'c_en2_04', 'c_it2_05'],
-      ['c_de2_15', 'c_es2_09', 'c_es2_03', 'c_es2_01'],
-      ['c_it2_02', 'c_es2_06', 'c_es2_04', 'c_en5_18'],
-      ['c_it2_19', 'c_en5_07', 'c_en2_06', 'c_es2_19'],
-    ],    ES: [
+      // 2026-10-21 GB：戦力50以上の全クラブ(レジェンド32・代表nt_含む)＋図鑑★11以上の選手が所属する全クラブを戦力降順・重複なしで配置
+      ['c_leg_madrid', 'c_leg_world', 'nt_2', 'c_sel_gb_all'],
+      ['c_sel_it_all', 'c_leg_nt_brazil', 'c_leg_arsenal', 'c_leg_nt_portugal'],
+      ['c_leg_milan', 'c_leg_inter', 'c_leg_barcelona', 'c_madrid'],
+      ['c_sel_free', 'nt_6', 'c_sel_fr_all', 'nt_3'],
+      ['c_en_02', 'nt_0', 'c_leg_nt_france', 'c_leg_africa'],
+      ['c_fa_a', 'c_fr_01', 'nt_4', 'c_leg_chelsea'],
+      ['c_leg_nt_argentina', 'c_leg_manutd', 'c_leg_bayern', 'nt_9'],
+      ['c_leg_juventus', 'nt_1', 'sel_gb_3', 'sel_gb_1'],
+      ['c_leg_nt_italy', 'c_leg_nt_germany', 'sel_gb_4', 'sel_gb_2'],
+      ['c_en_01', 'c_leg_liverpool', 'sel_it_1', 'nt_5'],
+      ['c_sel_es_all', 'c_en_05', 'c_leg_nt_netherlands', 'c_it_02'],
+      ['sel_it_2', 'c_other_001', 'c_leg_atletico', 'nt_7'],
+      ['nt_8', 'sel_it_3', 'c_en_03', 'c_es_02'],
+      ['c_en_04', 'c_other_009', 'nt_11', 'c_other_002'],
+      ['c_leg_nt_croatia', 'c_other_007', 'c_leg_monaco', 'c_it_04'],
+      ['c_it_01', 'nt_32', 'c_other_005', 'c_en_06'],
+      ['c_other_008', 'c_other_011', 'c_sel_de_all', 'c_leg_lazio'],
+      ['nt_19', 'c_leg_roma', 'nt_12', 'c_es_03'],
+      ['sel_es_3', 'c_other_006', 'c_leg_nt_japan', 'c_other_003'],
+      ['sel_fr_1', 'sel_fr_3', 'c_de_01', 'c_leg_parma'],
+      ['sel_es_2', 'c_en_08', 'c_en_16', 'nt_21'],
+      ['c_en_14', 'sel_fr_2', 'c_en_07', 'c_it_05'],
+      ['nt_33', 'c_it_03', 'nt_10', 'nt_13'],
+      ['nt_18', 'c_en_17', 'nt_16', 'c_other_014'],
+      ['c_en_13', 'nt_34', 'c_en_11', 'nt_15'],
+      ['c_other_015', 'c_other_018', 'c_en_15', 'nt_24'],
+      ['nt_14', 'c_other_004', 'nt_25', 'c_other_012'],
+      ['c_leg_ajax', 'nt_40', 'c_fr_06', 'nt_17'],
+      ['c_fa_b', 'c_it_07', 'c_es_04', 'nt_37'],
+      ['c_other_013', 'c_fr_02', 'nt_20', 'sel_de_2'],
+      ['nt_41', 'c_en_12', 'c_es_05', 'c_other_019'],
+      ['c_es_06', 'c_es_07', 'c_fr_03', 'nt_53'],
+      ['c_en_20', 'c_it_06', 'nt_26', 'c_it_08'],
+      ['sel_de_3', 'c_other_017', 'sel_de_1', 'c_it_19'],
+      ['c_en_09', 'sel_es_1', 'c_other_028', 'c_other_016'],
+      ['c_other_023', 'nt_35', 'c_de_03', 'c_de_04'],
+      ['c_de_02', 'c_other_036', 'c_en_18', 'c_it_10'],
+      ['c_es_08', 'c_fr_04', 'c_other_020', 'nt_28'],
+      ['nt_27', 'c_fr_08', 'c_de_08', 'c_de_05'],
+      ['c_de2_16', 'c_fr_07', 'nt_38', 'c_nl_02'],
+      ['c_en_10', 'c_es_09', 'c_other_029', 'c_fa_c'],
+      ['c_en_19', 'c_es_10', 'c_other_031', 'c_other_034'],
+      ['c_fr_12', 'c_other_025', 'c_it_21', 'c_other_024'],
+      ['c_it_09', 'c_de_06', 'c_other_026', 'c_it_16'],
+      ['c_other_030', 'c_other_033', 'nt_30', 'c_other_021'],
+      ['c_other_032', 'c_other_027', 'c_it_11', 'c_other_022'],
+      ['nt_22', 'c_de_12', 'c_it_17', 'c_fr_18'],
+      ['c_de2_18', 'nt_29', 'c_other_063', 'c_other_054'],
+      ['c_other_055', 'c_other_042', 'c_other_045', 'nt_36'],
+      ['c_other_040', 'c_other_041', 'c_other_043', 'c_other_044'],
+      ['c_es_11', 'c_other_046', 'c_other_049', 'c_de_09'],
+      ['c_other_061', 'c_other_035', 'c_de_10', 'c_other_062'],
+      ['c_other_048', 'c_other_052', 'c_other_047', 'c_other_058'],
+      ['c_other_050', 'c_other_059', 'c_it_15', 'c_other_051'],
+      ['c_other_060', 'nt_39', 'c_de_13', 'c_leg_kashima'],
+      ['c_other_053', 'c_other_056', 'c_en2_22', 'c_other_057'],
+      ['c_fr_05', 'c_de2_20', 'c_de_11', 'c_it_12'],
+      ['c_other_064', 'nt_52', 'c_other_037', 'c_other_065'],
+      ['c_other_038', 'c_other_039', 'c_de_22', 'c_de_14'],
+      ['c_leg_visselkobe', 'c_leg_jubilo', 'c_de_21', 'c_fr_17'],
+      ['c_fr_13', 'nt_23', 'c_nl_01', 'c_other_066'],
+      ['c_other_067', 'c_other_068', 'c_other_069', 'c_other_071'],
+      ['c_de2_19', 'c_jleaguesel', 'c_other_072', 'c_it_20'],
+      ['c_it_18', 'nt_49', 'c_de2_04', 'c_it_22'],
+      ['c_other_070', 'c_en2_05', 'c_de_24', 'c_other_074'],
+      ['c_fr_14', 'c_es_13', 'c_other_073', 'nt_31'],
+      ['c_fr_09', 'c_fr_19', 'c_other_075', 'c_de2_17'],
+      ['c_es_12', 'c_de2_07', 'c_en2_23', 'c_en4_21'],
+      ['c_de_23', 'c_en4_15', 'c_de2_03', 'c_other_076'],
+      ['c_other_077', 'c_es_24', 'c_de2_05', 'c_jpsel_c'],
+      ['c_it2_12', 'c_fr_10', 'c_de_25', 'nt_42'],
+      ['c_en4_03', 'c_leg_yokohamafm', 'nt_48', 'c_leg_urawa'],
+      ['c_en4_18', 'c_other_078', 'nt_43', 'c_es_15'],
+      ['c_de2_13', 'nt_50', 'c_fr_15', 'c_nl_03'],
+      ['c_jpsel_b', 'nt_54', 'c_jpsel_a', 'c_es_17'],
+      ['c_en2_25', 'c_it2_15', 'c_es2_22', 'c_it2_14'],
+      ['c_de2_11', 'nt_44', 'c_es2_05', 'c_de2_08'],
+      ['c_en3_14', 'c_es2_02', 'c_es2_10', 'c_en2_01'],
+      ['c_fr_16', 'c_de2_02', 'c_en3_16', 'c_es_21'],
+      ['c_en2_02', 'c_en4_22', 'nt_46', 'c_us_16'],
+      ['c_es2_17', 'c_es_22', 'nt_45', 'c_it2_16'],
+      ['c_es2_16', 'c_de2_01', 'c_de2_12', 'c_de2_10'],
+      ['c_en2_03', 'c_jp1_16', 'c_en2_04', 'c_de2_15'],
+      ['c_jp1_11', 'nt_47', 'c_en2_06', 'c_de2_14'],
+      ['c_jp1_19', 'c_en2_17', 'c_en2_14', 'c_jp1_15'],
+      ['c_en2_07', 'c_es2_07', 'c_it3_40', 'c_jp1_17'],
+      ['c_fr2_11', 'c_en2_16', 'c_fr2_15', 'c_es3_40'],
+      ['c_jp1_13', 'c_de3_01', 'c_de3_08', 'c_en2_09'],
+      ['c_es3_21', 'c_it3_24', 'c_jp2_17', 'c_fr3_02'],
+      ['c_es3_07', 'c_es3_16', 'c_es3_10', 'c_fr3_06'],
+      ['c_de3_19', 'c_es3_17', 'c_fr3_13', 'c_de3_06'],
+      ['c_en3_20', 'c_de3_12', 'c_de3_20', 'c_en3_04'],
+    ],
+    ES: [
       ['c_sel_free', 'c_leg_bayern', 'c_leg_chelsea', 'c_leg_manutd'],
       ['sel_gb_1', 'sel_it_1', 'c_en_01', 'c_leg_juventus'],
       ['c_other_001', 'nt_6', 'nt_8', 'c_other_007'],
@@ -17612,13 +17692,22 @@
       ['c_de2_07', 'c_other_077', 'c_en4_15', 'c_it2_12'],
       ['c_leg_urawa', 'c_en4_18', 'c_nl_03', 'c_it2_15'],
       ['c_es2_02', 'c_de2_08', 'c_es_21', 'c_es2_17'],
-      ['c_en4_09', 'c_es_23', 'c_en3_15', 'c_jp1_16'],
-      ['c_it2_05', 'c_en2_04', 'c_de2_15', 'c_es2_03'],
-      ['c_es2_01', 'c_es2_09', 'c_es2_04', 'c_it2_02'],
-      ['c_es2_06', 'c_en5_18', 'c_it2_19', 'c_en5_07'],
-      ['c_es2_19', 'c_en2_06', 'c_es2_13', 'c_it2_10'],
-      ['c_en5_13', 'c_en4_14', 'c_en4_11', 'c_es_25'],
-    ],    IT: [
+      ['c_en4_09', 'c_de2_12', 'c_es_23', 'c_en3_15'],
+      ['c_jp1_16', 'c_it2_05', 'c_en2_04', 'c_de2_15'],
+      ['c_es2_03', 'c_es2_01', 'c_es2_09', 'c_es2_04'],
+      ['c_it2_02', 'c_es2_06', 'c_en5_18', 'c_jp1_11'],
+      ['c_it2_19', 'c_en5_07', 'c_es2_19', 'c_en2_06'],
+      ['c_es2_13', 'c_it2_10', 'c_en5_13', 'c_en4_14'],
+      ['c_en4_11', 'c_es_25', 'c_jp1_14', 'c_es2_08'],
+      ['c_fr2_09', 'c_it3_30', 'c_it3_34', 'c_jp1_07'],
+      ['c_en2_18', 'c_de3_03', 'c_de3_15', 'c_it3_47'],
+      ['c_jp2_10', 'c_it3_15', 'c_fr3_15', 'c_fr3_12'],
+      ['c_es3_31', 'c_en2_19', 'c_it3_39', 'c_de3_14'],
+      ['c_jp2_02', 'c_fr3_16', 'c_de3_09', 'c_jp2_08'],
+      ['c_home', 'c_jp3_09', 'c_en3_03', 'c_jp3_10'],
+      ['c_en3_11', 'c_en3_18', 'c_jp3_06', 'c_en3_23'],
+    ],
+    IT: [
       ['c_sel_free', 'c_fa_a', 'c_leg_africa', 'c_leg_manutd'],
       ['sel_gb_1', 'c_leg_bayern', 'sel_it_1', 'c_leg_juventus'],
       ['c_leg_atletico', 'nt_2', 'nt_4', 'c_other_002'],
@@ -17642,14 +17731,23 @@
       ['c_de_23', 'c_en4_15', 'c_it2_12', 'c_de_25'],
       ['c_leg_urawa', 'c_es_15', 'c_en2_25', 'c_de2_11'],
       ['c_es2_05', 'c_en2_02', 'c_it2_16', 'c_en4_12'],
-      ['c_en3_15', 'c_it2_05', 'c_es2_09', 'c_en5_07'],
-      ['c_en5_13', 'c_en4_23', 'c_en4_17', 'c_jp1_20'],
-      ['c_es2_23', 'c_en4_13', 'c_en4_19', 'c_fr2_14'],
-      ['c_it2_07', 'c_fr2_10', 'c_fr2_01', 'c_en4_20'],
-      ['c_it2_06', 'c_en4_04', 'c_es2_21', 'c_es2_18'],
-      ['c_it2_09', 'c_en2_17', 'c_en4_05', 'c_it2_03'],
-      ['c_en2_08', 'c_it2_20', 'c_it2_18', 'c_en4_10'],
-    ],    DE: [
+      ['c_de2_10', 'c_en3_15', 'c_it2_05', 'c_es2_09'],
+      ['nt_47', 'c_en5_07', 'c_en5_13', 'c_en4_23'],
+      ['c_en4_17', 'c_jp1_20', 'c_es2_23', 'c_en4_13'],
+      ['c_en4_19', 'c_fr2_14', 'c_it2_07', 'c_fr2_10'],
+      ['c_fr2_01', 'c_en4_20', 'c_it2_06', 'c_en4_04'],
+      ['c_es2_21', 'c_es2_18', 'c_it2_09', 'c_en2_17'],
+      ['c_en4_05', 'c_it2_03', 'c_en2_08', 'c_it2_20'],
+      ['c_it2_18', 'c_en4_10', 'c_jp1_15', 'c_es2_11'],
+      ['c_jp1_17', 'c_jp1_23', 'c_es3_25', 'c_jp1_08'],
+      ['c_fr2_07', 'c_en2_15', 'c_de3_16', 'c_fr3_10'],
+      ['c_jp2_23', 'c_es3_30', 'c_es3_29', 'c_fr3_11'],
+      ['c_es3_03', 'c_es3_15', 'c_jp2_01', 'c_fr3_09'],
+      ['c_es3_06', 'c_fr3_04', 'c_fr3_14', 'c_jp3_17'],
+      ['c_jp2_19', 'c_de3_11', 'c_jp2_04', 'c_jp3_16'],
+      ['c_en3_24', 'c_en3_22', 'c_en3_13', 'c_en3_08'],
+    ],
+    DE: [
       ['c_sel_free', 'c_fa_a', 'c_leg_africa', 'sel_gb_3'],
       ['c_leg_nt_germany', 'c_leg_nt_france', 'nt_0', 'c_leg_nt_argentina'],
       ['c_leg_atletico', 'c_leg_liverpool', 'nt_11', 'c_leg_nt_croatia'],
@@ -17672,15 +17770,24 @@
       ['c_other_074', 'c_other_073', 'c_fr_19', 'c_de2_07'],
       ['c_de_23', 'c_other_077', 'c_de_25', 'c_leg_yokohamafm'],
       ['c_es_15', 'c_fr_15', 'c_es2_22', 'c_es2_05'],
-      ['c_es_21', 'c_es2_17', 'c_en4_09', 'c_it2_01'],
-      ['c_en2_04', 'c_es2_03', 'c_en5_07', 'c_en4_14'],
-      ['c_en4_23', 'c_fr2_03', 'c_en4_19', 'c_jp1_06'],
-      ['c_fr2_10', 'c_en4_20', 'c_fr2_01', 'c_es2_21'],
-      ['c_it2_06', 'c_en4_04', 'c_es2_18', 'c_it2_09'],
-      ['c_en2_17', 'c_en4_05', 'c_it2_03', 'c_en2_08'],
-      ['c_it2_20', 'c_it2_18', 'c_en4_10', 'c_en2_10'],
-      ['c_it2_11', 'c_en2_12', 'c_en2_14', 'c_es2_14'],
-    ],    FR: [
+      ['c_es_21', 'c_es2_17', 'c_en4_09', 'c_jp1_02'],
+      ['c_it2_01', 'c_en2_04', 'c_es2_03', 'c_en5_07'],
+      ['c_en4_14', 'c_en4_23', 'c_it2_17', 'c_fr2_03'],
+      ['c_en4_19', 'c_jp1_06', 'c_fr2_10', 'c_en4_20'],
+      ['c_fr2_01', 'c_es2_21', 'c_it2_06', 'c_en4_04'],
+      ['c_es2_18', 'c_it2_09', 'c_en2_17', 'c_en4_05'],
+      ['c_it2_03', 'c_en2_08', 'c_it2_20', 'c_it2_18'],
+      ['c_en4_10', 'c_en2_10', 'c_it2_11', 'c_en2_12'],
+      ['c_en2_14', 'c_es2_14', 'c_jp1_12', 'c_it2_08'],
+      ['c_fr2_02', 'c_jp1_21', 'c_fr2_18', 'c_it3_36'],
+      ['c_es3_36', 'c_jp2_20', 'c_it3_53', 'c_it3_44'],
+      ['c_jp2_13', 'c_en2_21', 'c_jp2_22', 'c_fr3_08'],
+      ['c_it3_12', 'c_de3_10', 'c_jp3_19', 'c_jp3_05'],
+      ['c_es3_38', 'c_fr3_03', 'c_jp3_03', 'c_de3_18'],
+      ['c_jp3_04', 'c_jp3_07', 'c_en3_02', 'c_en3_19'],
+      ['c_jp3_13', 'c_jp3_11', 'c_jp3_12', 'c_en3_07'],
+    ],
+    FR: [
       ['c_en_02', 'c_leg_chelsea', 'c_leg_manutd', 'sel_gb_3'],
       ['c_leg_nt_germany', 'c_leg_nt_france', 'c_it_02', 'c_leg_nt_argentina'],
       ['c_en_03', 'nt_5', 'c_leg_nt_croatia', 'c_it_01'],
@@ -17703,15 +17810,24 @@
       ['c_other_073', 'c_leg_yokohamafm', 'c_de2_07', 'c_other_077'],
       ['c_de2_03', 'c_de_25', 'c_leg_urawa', 'c_es_15'],
       ['c_de2_13', 'c_es2_22', 'c_de2_08', 'c_es_21'],
-      ['c_es2_17', 'c_en4_09', 'c_it2_01', 'c_it2_05'],
-      ['c_es2_09', 'c_en2_06', 'c_en4_14', 'c_it2_04'],
-      ['c_es2_20', 'c_it2_07', 'c_it2_06', 'c_jp1_03'],
-      ['c_it2_09', 'c_en2_17', 'c_en4_05', 'c_it2_03'],
-      ['c_en2_08', 'c_it2_20', 'c_en4_10', 'c_it2_18'],
-      ['c_it2_11', 'c_en2_12', 'c_en2_14', 'c_en2_10'],
-      ['c_es2_14', 'c_fr2_17', 'c_en5_10', 'c_be_11'],
-      ['c_fr2_04', 'c_en2_07', 'c_fr2_08', 'c_fr2_13'],
-    ],    JP: [
+      ['c_es2_17', 'c_en4_09', 'c_es2_15', 'c_it2_01'],
+      ['c_it2_05', 'c_es2_09', 'c_en2_06', 'c_en4_14'],
+      ['c_it2_04', 'c_de2_14', 'c_es2_20', 'c_it2_07'],
+      ['c_it2_06', 'c_jp1_03', 'c_it2_09', 'c_jp1_19'],
+      ['c_en2_17', 'c_en4_05', 'c_it2_03', 'c_en2_08'],
+      ['c_it2_20', 'c_en4_10', 'c_it2_18', 'c_it2_11'],
+      ['c_en2_12', 'c_en2_14', 'c_en2_10', 'c_es2_14'],
+      ['c_fr2_17', 'c_en5_10', 'c_be_11', 'c_fr2_04'],
+      ['c_en2_07', 'c_jp1_09', 'c_fr2_08', 'c_fr2_13'],
+      ['c_jp2_09', 'c_jp1_18', 'c_jp1_04', 'c_en2_13'],
+      ['c_de3_02', 'c_jp2_21', 'c_en2_11', 'c_it3_10'],
+      ['c_es3_37', 'c_it3_20', 'c_jp2_16', 'c_fr3_01'],
+      ['c_it3_22', 'c_es3_12', 'c_en2_20', 'c_es3_08'],
+      ['c_es3_35', 'c_it3_48', 'c_de3_13', 'c_jp2_03'],
+      ['c_de3_05', 'c_jp2_12', 'c_de3_07', 'c_jp2_24'],
+      ['c_jp3_15', 'c_en3_17', 'c_jp3_14', 'c_en3_21'],
+    ],
+    JP: [
       ['nt_10', 'c_other_014', 'nt_34', 'c_other_018'],
       ['nt_13', 'c_fr_06', 'c_es_04', 'c_other_012'],
       ['c_it_07', 'c_other_013', 'c_other_019', 'c_en_12'],
@@ -17733,16 +17849,25 @@
       ['c_es_17', 'c_de2_02', 'c_en2_25', 'c_jpsel_b'],
       ['c_it2_15', 'c_es2_02', 'c_es2_05', 'c_es_21'],
       ['c_es_22', 'c_es2_17', 'c_it2_16', 'c_de2_01'],
-      ['c_en4_12', 'c_en3_15', 'c_en2_04', 'c_it2_05'],
-      ['c_it2_13', 'c_de2_15', 'c_es2_09', 'c_es2_03'],
-      ['c_en2_06', 'c_en4_14', 'c_en4_23', 'c_fr2_03'],
-      ['c_es2_23', 'c_en4_13', 'c_en4_24', 'c_es2_20'],
-      ['c_en4_19', 'c_it2_07', 'c_fr2_14', 'c_fr2_10'],
-      ['c_fr2_01', 'c_en4_20', 'c_it2_06', 'c_en4_04'],
-      ['c_es2_21', 'c_es2_18', 'c_it2_09', 'c_en2_17'],
-      ['c_en4_05', 'c_it2_03', 'c_en2_08', 'c_it2_20'],
-      ['c_it2_18', 'c_en4_10', 'c_en2_14', 'c_en2_10'],
-    ],  };
+      ['c_en4_12', 'nt_51', 'c_en3_15', 'c_en2_04'],
+      ['c_it2_05', 'c_it2_13', 'c_de2_15', 'c_es2_09'],
+      ['c_es2_03', 'c_en2_06', 'c_en4_14', 'c_en4_23'],
+      ['c_fr2_03', 'c_es2_23', 'c_en4_13', 'c_en4_24'],
+      ['c_es2_20', 'c_en4_19', 'c_it2_07', 'c_fr2_14'],
+      ['c_fr2_10', 'c_fr2_01', 'c_en4_20', 'c_it2_06'],
+      ['c_en4_04', 'c_es2_21', 'c_es2_18', 'c_it2_09'],
+      ['c_fctokyo', 'c_jp1_19', 'c_en2_17', 'c_en4_05'],
+      ['c_it2_03', 'c_en2_08', 'c_it2_20', 'c_it2_18'],
+      ['c_en4_10', 'c_en2_14', 'c_en2_10', 'c_jp1_10'],
+      ['c_sa_06', 'c_fr2_06', 'c_es3_34', 'c_fr2_12'],
+      ['c_de3_04', 'c_en2_24', 'c_it3_05', 'c_jp2_14'],
+      ['c_it3_27', 'c_it3_29', 'c_it3_23', 'c_jp2_17'],
+      ['c_fr3_17', 'c_fr3_05', 'c_jp2_11', 'c_fr3_07'],
+      ['c_jp1_05', 'c_en3_12', 'c_jp1_22', 'c_jp3_01'],
+      ['c_it3_04', 'c_jp3_08', 'c_en3_09', 'c_en3_01'],
+      ['c_de3_17', 'c_jp3_18', 'c_en3_06', 'c_en3_05'],
+    ],
+  };
   function legendLadderMaxTier(cc) {
     return (LEGEND_LADDER_TIERS_BY_COUNTRY[cc] || LEGEND_LADDER_TIERS_BY_COUNTRY.ES).length;
   }
@@ -19445,6 +19570,23 @@
     return worldRankForPower(clubRankingPower());
   }
 
+  // カップ総合ランキング（表示専用・判定には使わない）：レジェンド／選抜／代表／アニメ／仮想クラブも含む全チームが対象。
+  // カップ戦編成の総合力が全チーム中何位かを返す（対戦相手のカップ想定レベル=10で比較。乱数ぶれ防止のためキャッシュ）
+  let cachedAllTeamCupPowers = null;
+  function allTeamCupPowers() {
+    if (!cachedAllTeamCupPowers) {
+      const ids = data.clubs.filter((c) => c.id !== MY_CLUB_ID).map((c) => c.id)
+        .concat(Object.keys(SYNTHETIC_CLUBS));
+      cachedAllTeamCupPowers = ids.map((id) => clubPower(id, 10));
+    }
+    return cachedAllTeamCupPowers;
+  }
+  function cupAllTeamRank() {
+    const pool = allTeamCupPowers();
+    const power = computeTeamPower('cup');
+    return { rank: pool.filter((p) => p > power).length + 1, total: pool.length + 1 };
+  }
+
   // 世界順位に応じたスタジアム収入への倍率。初期値（500位）で等倍、世界1位で最大+100%まで増加する
   function worldRankIncomeMultiplier() {
     const rank = clubWorldRank();
@@ -20476,6 +20618,29 @@
     return data.players.filter((p) => ok(p) && p.rarity >= minR && p.rarity <= maxR);
   }
 
+  // 同一人物ガード：同名の別IDレコード（所属チーム違い・代表・レジェンズ等）をすでに所持している選手は、
+  // レジェンドカップ・ターゲットカップでも「新規」として二重に獲得できないよう抽選対象から外す。
+  // 外した結果プールが空になる場合だけ、元のプールをそのまま使う（空振り防止）
+  let sameNameIdsCache = null;
+  function sameNameIdsMap() {
+    if (sameNameIdsCache && sameNameIdsCache.n === data.players.length) return sameNameIdsCache.map;
+    const map = new Map();
+    data.players.forEach((p) => {
+      if (!map.has(p.name)) map.set(p.name, []);
+      map.get(p.name).push(p.id);
+    });
+    sameNameIdsCache = { n: data.players.length, map };
+    return map;
+  }
+  function ownsOtherSameNameRecord(p) {
+    return (sameNameIdsMap().get(p.name) || []).some((id) => id !== p.id
+      && collectionState.players[id] && collectionState.players[id].owned);
+  }
+  function excludeSameNameOwned(pool) {
+    const filtered = pool.filter((p) => !ownsOtherSameNameRecord(p));
+    return filtered.length > 0 ? filtered : pool;
+  }
+
   // 勝てば対戦した相手クラブの選手、無敗0勝なら参加クラブ全体の下位3割からスカウト
   // rank/totalParticipantsが渡された場合、順位が良いほどスカウトの質にも少しボーナスが乗る
   function runCupScout(cs, rank, totalParticipants) {
@@ -20498,9 +20663,21 @@
     let pool = [];
     let scoutedFromSubstitute = false;
     let scoutedFromBeatenUnion = false;
+    let scoutedFromBeatenAll = false;
     if (cs.wins >= 1) {
       pool = realPlayerPoolForClub(cs.lastBeatenClubId, restrictStrongest);
       scoutedFromSubstitute = pool.length > 0 && pool[0].club !== cs.lastBeatenClubId;
+      // 通常カップ・レジェンドカップ：倒したクラブ全ての選手をまとめて候補にする（2026-10-21。以前は最後に倒した1クラブのみ）
+      if (!cs.targetPool && cs.beatenClubIds && cs.beatenClubIds.length > 1) {
+        const seen = new Set();
+        const union = [];
+        cs.beatenClubIds.forEach((cid) => {
+          realPlayerPoolForClub(cid, restrictStrongest).forEach((p) => {
+            if (!seen.has(p.id)) { seen.add(p.id); union.push(p); }
+          });
+        });
+        if (union.length > 0) { pool = union; scoutedFromSubstitute = false; scoutedFromBeatenAll = true; }
+      }
       // ターゲットカップ：倒したクラブ全ての「その★帯の未入手選手」をまとめてスカウト対象にする（どのクラブからかはランダム）
       if (cs.targetPool) {
         const beaten = (cs.beatenClubIds && cs.beatenClubIds.length) ? cs.beatenClubIds : [cs.lastBeatenClubId];
@@ -20518,6 +20695,8 @@
     // ★18以上の選手はレジェンドカップ（legendLadder）でしか獲得できない。他のカップ・スカウトでは抽選対象から外す
     // （ターゲットカップは例外：★18〜20の各段が★指定で未入手選手を狙うカップのため、従来どおり排出可能）
     if (cs.poolType !== 'legendLadder' && !cs.targetPool) pool = pool.filter((p) => p.rarity < LEGEND_ONLY_MIN_RARITY);
+    // 同名の別IDレコードを所持済みの選手は抽選対象から外す（全カップ共通。レジェンド/ターゲットでの二重獲得防止）
+    pool = excludeSameNameOwned(pool);
 
     // 収集ペースのガードレール（scout.js参照）。チケット類も hardCap は越えられない
     const guard = currentScoutGuardrails();
@@ -20627,6 +20806,8 @@
     const pityLine = pityUsed ? '<div class="summary">スカウトの粘り：被りが続いていたため未所持選手を1人保証しました。</div>' : '';
     const scoutSourceLabel = scoutedFromBeatenUnion
       ? `倒したクラブ（${cs.beatenClubIds.map((id) => clubDisplayName(id)).join('、')}）の未入手選手`
+      : scoutedFromBeatenAll
+      ? `倒したクラブ（${cs.beatenClubIds.map((id) => clubDisplayName(id)).join('、')}）の選手`
       : cs.wins >= 1
       ? (scoutedFromSubstitute ? `${clubDisplayName(cs.lastBeatenClubId)}相当の他クラブ選手` : clubDisplayName(cs.lastBeatenClubId) + 'の選手')
       : '参加クラブの控え選手';
@@ -20656,6 +20837,17 @@
     const chosen = [];
     // G5 低レア抑制：★lowRaritySuppressMax以下の排出重みを、監督レベルが上がるほど大きく減衰させる
     const lowRaritySuppress = GUARDRAILS.lowRaritySuppressBase / (1 + GUARDRAILS.lowRaritySuppressK * managerLevel);
+    // 主力（各クラブの総合値上位11人）の所持率：主力をほぼ入手済みなら、控え等の未入手選手を監督レベルに応じて優先する
+    // （低レア抑制を未入手選手には緩め、未入手ボーナスも上乗せ。レアの上限・大物制限などは従来どおり）
+    const mainIds = new Set();
+    const byClubMain = new Map();
+    pool.forEach((p) => { if (!byClubMain.has(p.club)) byClubMain.set(p.club, []); byClubMain.get(p.club).push(p); });
+    byClubMain.forEach((list) => list.sort((a, b) => b.overall - a.overall).slice(0, 11).forEach((p) => mainIds.add(p.id)));
+    let mainOwned = 0;
+    pool.forEach((p) => { if (mainIds.has(p.id) && collectionState.players[p.id] && collectionState.players[p.id].owned) mainOwned += 1; });
+    const mainOwnedRatio = mainIds.size ? mainOwned / mainIds.size : 0;
+    const mgrFrac = Math.min(1, managerLevel / FACILITY_MAX_LEVEL);
+    const benchFocus = mainOwnedRatio * mgrFrac;
     for (let i = 0; i < count && remaining.length > 0; i++) {
       const topBandAllowed = !g3Active || (topBandLeft > 0 && i < GUARDRAILS.topBandEligibleDraws);
       const pickable = topBandAllowed ? remaining : remaining.filter((p) => p.rarity < topBandMin);
@@ -20663,9 +20855,11 @@
       const weights = pickable.map((p) => {
         const owned = collectionState.players[p.id] && collectionState.players[p.id].owned;
         let w = p.rarity;
-        if (p.rarity <= GUARDRAILS.lowRaritySuppressMax) w *= lowRaritySuppress;
+        if (p.rarity <= GUARDRAILS.lowRaritySuppressMax) {
+          w *= owned ? lowRaritySuppress : lowRaritySuppress + (1 - lowRaritySuppress) * benchFocus;
+        }
         if (softenHighRarity && GUARDRAILS.softRarityWeights[p.rarity] != null) w *= GUARDRAILS.softRarityWeights[p.rarity];
-        if (!owned) w *= 1 + managerLevel / 10;
+        if (!owned) w *= (1 + managerLevel / 10) * (1 + benchFocus * 2);
         return w;
       });
       const total = weights.reduce((a, b) => a + b, 0);
@@ -20675,6 +20869,8 @@
       idx = Math.min(idx, pickable.length - 1);
       const picked = pickable[idx];
       remaining.splice(remaining.indexOf(picked), 1);
+      // 同じスカウト内で同名の別IDレコードが2枚出ないようにする
+      for (let k = remaining.length - 1; k >= 0; k--) if (remaining[k].name === picked.name) remaining.splice(k, 1);
       if (g3Active && picked.rarity >= topBandMin) topBandLeft -= 1;
       chosen.push(picked);
     }
@@ -20859,7 +21055,12 @@
 
     const power = computeTeamPower('league');
     document.getElementById('homeTeamPower').textContent = power.toFixed(1);
-    document.getElementById('homeTeamGrade').textContent = gradeOf(power);
+    setGradeTag('homeTeamGrade', power);
+    const cupPower = computeTeamPower('cup');
+    document.getElementById('homeCupTeamPower').textContent = cupPower.toFixed(1);
+    setGradeTag('homeCupTeamGrade', cupPower);
+    const cupRank = cupAllTeamRank();
+    document.getElementById('homeCupAllRank').textContent = `${cupRank.rank.toLocaleString()}位／${cupRank.total.toLocaleString()}チーム`;
 
     // 毎週必ずリーグ戦（前半）を実施し、選択中カップの必要週数の範囲内だけカップ戦（後半）も並行して実施する。
     // 月の第1週（＝まだ確定していない場合）は、現在選択中のカップでプレビュー表示する
@@ -21824,6 +22025,21 @@
         const selfLabel = currentFormationContext === 'league' ? 'リーグ戦用' : 'カップ戦用';
         if (!confirm(`${selfLabel}の編成（スタメン・ベンチ）を全員外します。よろしいですか？`)) return;
         formation[currentFormationContext] = emptyFormationSlots();
+        persistSave();
+        renderFormation();
+      });
+    }
+    const removeMaxBtn = document.getElementById('removeMaxLevelBtn');
+    if (removeMaxBtn) {
+      removeMaxBtn.addEventListener('click', () => {
+        const f = formation[currentFormationContext];
+        const isMax = (id) => id && currentLevelOf(id) >= PLAYER_MAX_LEVEL;
+        const count = [...f.starters, ...f.bench].filter(isMax).length;
+        const selfLabel = currentFormationContext === 'league' ? 'リーグ戦用' : 'カップ戦用';
+        if (count === 0) { alert(`${selfLabel}の編成にレベル10の選手はいません`); return; }
+        if (!confirm(`${selfLabel}の編成からレベル10の選手${count}人を外します。よろしいですか？`)) return;
+        f.starters = f.starters.map((id) => (isMax(id) ? null : id));
+        f.bench = f.bench.map((id) => (isMax(id) ? null : id));
         persistSave();
         renderFormation();
       });
