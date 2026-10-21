@@ -1182,6 +1182,7 @@
     </select>
     ／ 候補選手を絞り込み：
     <input type="text" id="candidateFilterInput" placeholder="選手名で絞り込み" style="width:160px;">
+    ／ <label><input type="checkbox" id="hideMaxLevelChk">レベル10の選手を除く</label>
   </div>
   <div class="teamPowerBox statBox">
     <span class="stat">チーム総合戦力: <span class="statVal"><b id="teamPower">0</b></span></span>
@@ -3540,7 +3541,7 @@
     { "id": "p_970322", "name": "ダニエル・ペレツ", "alias": null, "category": "active", "nationality": "IL", "club": "c_en2_17", "position": "GK", "stats": { "attack": 7, "defense": 39, "speed": 27, "gk": 51 }, "overall": 45, "rarity": 7, "cost": 7, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 30, "portraitSeed": "p_970322" },
     { "id": "p_970323", "name": "ジョージ・ロング", "alias": null, "category": "active", "nationality": "GB", "club": "c_en2_17", "position": "GK", "stats": { "attack": 6, "defense": 33, "speed": 23, "gk": 42 }, "overall": 38, "rarity": 5, "cost": 5, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 41, "portraitSeed": "p_970323", "dexHidden": true },
     { "id": "p_970324", "name": "ジャック・スティーヴンス", "alias": null, "category": "active", "nationality": "GB", "club": "c_en2_17", "position": "DF", "stats": { "attack": 22, "defense": 55, "speed": 28, "gk": 5 }, "overall": 50, "rarity": 8, "cost": 8, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 5, "portraitSeed": "p_970324" },
-    { "id": "p_970325", "name": "テイラー・ハーウッド=ベリス", "alias": null, "category": "active", "nationality": "GB", "club": "c_en2_17", "position": "DF", "stats": { "attack": 22, "defense": 54, "speed": 28, "gk": 5 }, "overall": 49, "rarity": 8, "cost": 8, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 6, "portraitSeed": "p_970325" },
+    { "id": "p_970325", "name": "テイラー・ハーウッド=ベリス", "alias": null, "category": "active", "nationality": "GB", "club": null, "position": "DF", "stats": { "attack": 22, "defense": 54, "speed": 28, "gk": 5 }, "overall": 49, "rarity": 8, "cost": 8, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 6, "portraitSeed": "p_970325", "dexHidden": true },
     { "id": "p_970326", "name": "ライアン・マニング", "alias": null, "category": "active", "nationality": "IE", "club": "c_en2_17", "position": "DF", "stats": { "attack": 21, "defense": 52, "speed": 27, "gk": 5 }, "overall": 48, "rarity": 8, "cost": 8, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 3, "portraitSeed": "p_970326" },
     { "id": "p_970327", "name": "ジャック・ステフェン", "alias": null, "category": "active", "nationality": "DK", "club": "c_en2_17", "position": "DF", "stats": { "attack": 20, "defense": 50, "speed": 26, "gk": 5 }, "overall": 46, "rarity": 7, "cost": 7, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 2, "portraitSeed": "p_970327" },
     { "id": "p_970328", "name": "ジェームズ・ブリー", "alias": null, "category": "active", "nationality": "GB", "club": "c_en2_17", "position": "DF", "stats": { "attack": 19, "defense": 48, "speed": 24, "gk": 5 }, "overall": 44, "rarity": 7, "cost": 7, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 4, "portraitSeed": "p_970328" },
@@ -4144,7 +4145,7 @@
     { "id": "p_66016", "name": "ファン・イムボム", "alias": null, "category": "active", "nationality": "KR", "club": "c_nl_03", "position": "MF", "stats": { "attack": 40, "defense": 34, "speed": 38, "gk": 5 }, "overall": 49, "rarity": 8, "cost": 8, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 6, "portraitSeed": "p_66016" },
     { "id": "p_66017", "name": "シャルル・ファンハウテ", "alias": null, "category": "active", "nationality": "BE", "club": "c_nl_03", "position": "MF", "stats": { "attack": 40, "defense": 34, "speed": 36, "gk": 5 }, "overall": 49, "rarity": 8, "cost": 8, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 34, "portraitSeed": "p_66017" },
     { "id": "p_66018", "name": "アニス・ハジムーサ", "alias": null, "category": "active", "nationality": "DZ", "club": "c_nl_03", "position": "FW", "stats": { "attack": 56, "defense": 18, "speed": 46, "gk": 5 }, "overall": 61, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 23, "portraitSeed": "p_66018" },
-    { "id": "p_66019", "name": "上田綺世", "alias": null, "category": "active", "nationality": "JP", "club": "c_nl_03", "position": "FW", "stats": { "attack": 52, "defense": 16, "speed": 43, "gk": 5 }, "overall": 58, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 9, "portraitSeed": "p_66019" },
+    { "id": "p_66019", "name": "上田綺世", "alias": null, "category": "active", "nationality": "JP", "club": null, "position": "FW", "stats": { "attack": 52, "defense": 16, "speed": 43, "gk": 5 }, "overall": 58, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 9, "portraitSeed": "p_66019", "dexHidden": true },
     { "id": "p_66020", "name": "レオ・サウアー", "alias": null, "category": "active", "nationality": "SK", "club": "c_nl_03", "position": "FW", "stats": { "attack": 44, "defense": 17, "speed": 43, "gk": 5 }, "overall": 52, "rarity": 8, "cost": 8, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 16, "portraitSeed": "p_66020" },
     { "id": "p_67001", "name": "小久保玲央ブライアン", "alias": null, "category": "active", "nationality": "JP", "club": "c_be_11", "position": "GK", "stats": { "attack": 6, "defense": 45, "speed": 34, "gk": 52 }, "overall": 51, "rarity": 8, "cost": 8, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 16, "portraitSeed": "p_67001" },
     { "id": "p_67002", "name": "マット・レンダース", "alias": null, "category": "active", "nationality": "BE", "club": "c_be_11", "position": "GK", "stats": { "attack": 5, "defense": 39, "speed": 31, "gk": 39 }, "overall": 35, "rarity": 3, "cost": 3, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 21, "portraitSeed": "p_67002", "dexHidden": true },
@@ -8332,7 +8333,7 @@
     { "id": "p_110157", "name": "アンドリヤ・ブラトヴィッチ", "alias": null, "category": "active", "nationality": "ME", "club": "c_fr_08", "position": "MF", "stats": { "attack": 54, "defense": 44, "speed": 50, "gk": 5 }, "overall": 49, "rarity": 7, "cost": 7, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 5, "portraitSeed": "p_110157" },
     { "id": "p_110158", "name": "ママドゥ・サンガレ", "alias": null, "category": "active", "nationality": "ML", "club": "c_fr_08", "position": "MF", "stats": { "attack": 54, "defense": 44, "speed": 50, "gk": 5 }, "overall": 49, "rarity": 7, "cost": 7, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 8, "portraitSeed": "p_110158" },
     { "id": "p_110159", "name": "アマドゥ・アイダラ", "alias": null, "category": "active", "nationality": "ML", "club": "c_fr_08", "position": "MF", "stats": { "attack": 68, "defense": 56, "speed": 62, "gk": 5 }, "overall": 62, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 21, "portraitSeed": "p_110159" },
-    { "id": "p_110160", "name": "アドリアン・トマソン", "alias": null, "category": "active", "nationality": "FR", "club": "c_fr_08", "position": "MF", "stats": { "attack": 68, "defense": 56, "speed": 62, "gk": 5 }, "overall": 62, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 28, "portraitSeed": "p_110160" },
+    { "id": "p_110160", "name": "アドリアン・トマソン", "alias": null, "category": "active", "nationality": "FR", "club": "c_fr_08", "position": "MF", "stats": { "attack": 68, "defense": 56, "speed": 62, "gk": 5 }, "overall": 62, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 28, "portraitSeed": "p_110160", "dexHidden": true },
     { "id": "p_110161", "name": "アルファ・ジャロ", "alias": null, "category": "active", "nationality": "FR", "club": null, "position": "MF", "stats": { "attack": 54, "defense": 44, "speed": 50, "gk": 5 }, "overall": 49, "rarity": 7, "cost": 7, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 31, "portraitSeed": "p_110161", "dexHidden": true },
     { "id": "p_110162", "name": "フロリアン・ソトカ", "alias": null, "category": "active", "nationality": "FR", "club": "c_fr_08", "position": "FW", "stats": { "attack": 70, "defense": 25, "speed": 64, "gk": 5 }, "overall": 61, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 7, "portraitSeed": "p_110162" },
     { "id": "p_110163", "name": "アラン・サンマクシマン", "alias": null, "category": "active", "nationality": "FR", "club": "c_fr_08", "position": "FW", "stats": { "attack": 85, "defense": 32, "speed": 78, "gk": 5 }, "overall": 75, "rarity": 13, "cost": 13, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 9, "portraitSeed": "p_110163" },
@@ -8342,7 +8343,7 @@
     { "id": "p_110167", "name": "ウェスリー・サイード", "alias": null, "category": "active", "nationality": "FR", "club": "c_fr_08", "position": "FW", "stats": { "attack": 62, "defense": 22, "speed": 56, "gk": 5 }, "overall": 54, "rarity": 8, "cost": 8, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 22, "portraitSeed": "p_110167" },
 
     { "id": "p_110168", "name": "ラドスワフ・マイェツキ", "alias": null, "category": "active", "nationality": "PL", "club": "c_fr_09", "position": "GK", "stats": { "attack": 4, "defense": 37, "speed": 32, "gk": 78 }, "overall": 70, "rarity": 12, "cost": 12, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 1, "portraitSeed": "p_110168" },
-    { "id": "p_110169", "name": "グレゴワール・クデール", "alias": null, "category": "active", "nationality": "FR", "club": "c_fr_09", "position": "GK", "stats": { "attack": 3, "defense": 30, "speed": 28, "gk": 58 }, "overall": 52, "rarity": 8, "cost": 8, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 30, "portraitSeed": "p_110169" },
+    { "id": "p_110169", "name": "グレゴワール・クデール", "alias": null, "category": "active", "nationality": "FR", "club": "c_fr_09", "position": "GK", "stats": { "attack": 3, "defense": 30, "speed": 28, "gk": 58 }, "overall": 52, "rarity": 8, "cost": 8, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 30, "portraitSeed": "p_110169", "dexHidden": true },
     { "id": "p_110170", "name": "ノア・ジョニー", "alias": null, "category": "active", "nationality": "IE", "club": null, "position": "GK", "stats": { "attack": 3, "defense": 22, "speed": 22, "gk": 38 }, "overall": 35, "rarity": 3, "cost": 3, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 50, "portraitSeed": "p_110170", "dexHidden": true },
     { "id": "p_110171", "name": "ブラッドリー・ロコ", "alias": null, "category": "active", "nationality": "FR", "club": "c_fr_09", "position": "DF", "stats": { "attack": 35, "defense": 62, "speed": 48, "gk": 5 }, "overall": 53, "rarity": 8, "cost": 8, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 2, "portraitSeed": "p_110171" },
     { "id": "p_110172", "name": "ジュニオール・ジャズ", "alias": null, "category": "active", "nationality": "CI", "club": "c_fr_09", "position": "DF", "stats": { "attack": 35, "defense": 62, "speed": 48, "gk": 5 }, "overall": 53, "rarity": 8, "cost": 8, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 4, "portraitSeed": "p_110172" },
@@ -8401,7 +8402,7 @@
     { "id": "p_110223", "name": "バレンティン・バルコ", "alias": null, "category": "active", "nationality": "AR", "club": "c_fr_12", "position": "MF", "stats": { "attack": 68, "defense": 56, "speed": 62, "gk": 5 }, "overall": 62, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 32, "portraitSeed": "p_110223" },
     { "id": "p_110224", "name": "ディエゴ・モレイラ", "alias": null, "category": "active", "nationality": "BE", "club": "c_fr_12", "position": "FW", "stats": { "attack": 70, "defense": 25, "speed": 64, "gk": 5 }, "overall": 61, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 7, "portraitSeed": "p_110224" },
     { "id": "p_110225", "name": "ホアキン・パニケリ", "alias": null, "category": "active", "nationality": "AR", "club": "c_fr_12", "position": "FW", "stats": { "attack": 85, "defense": 32, "speed": 78, "gk": 5 }, "overall": 75, "rarity": 13, "cost": 13, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 9, "portraitSeed": "p_110225" },
-    { "id": "p_110226", "name": "エマヌエル・エメガ", "alias": null, "category": "active", "nationality": "NL", "club": "c_fr_12", "position": "FW", "stats": { "attack": 91, "defense": 34, "speed": 83, "gk": 5 }, "overall": 80, "rarity": 14, "cost": 14, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 10, "portraitSeed": "p_110226" },
+    { "id": "p_110226", "name": "エマヌエル・エメガ", "alias": null, "category": "active", "nationality": "NL", "club": "c_fr_12", "position": "FW", "stats": { "attack": 91, "defense": 34, "speed": 83, "gk": 5 }, "overall": 80, "rarity": 14, "cost": 14, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 10, "portraitSeed": "p_110226", "dexHidden": true },
     { "id": "p_110227", "name": "セバスティアン・ナナシ", "alias": null, "category": "active", "nationality": "SE", "club": "c_fr_12", "position": "FW", "stats": { "attack": 70, "defense": 25, "speed": 64, "gk": 5 }, "overall": 61, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 11, "portraitSeed": "p_110227" },
     { "id": "p_110228", "name": "ダヴィド・ダトロ・フォファナ", "alias": null, "category": "active", "nationality": "CI", "club": "c_fr_12", "position": "FW", "stats": { "attack": 62, "defense": 22, "speed": 56, "gk": 5 }, "overall": 54, "rarity": 8, "cost": 8, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 15, "portraitSeed": "p_110228" },
     { "id": "p_110229", "name": "マルシャル・ゴド", "alias": null, "category": "active", "nationality": "CI", "club": "c_fr_12", "position": "FW", "stats": { "attack": 54, "defense": 20, "speed": 48, "gk": 5 }, "overall": 47, "rarity": 7, "cost": 7, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 20, "portraitSeed": "p_110229" },
@@ -8550,7 +8551,7 @@
     { "id": "p_110365", "name": "ヴァンサン・マルケッティ", "alias": null, "category": "active", "nationality": "FR", "club": "c_fr_18", "position": "MF", "stats": { "attack": 46, "defense": 38, "speed": 42, "gk": 5 }, "overall": 42, "rarity": 5, "cost": 5, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 4, "portraitSeed": "p_110365", "dexHidden": true },
     { "id": "p_110366", "name": "イラン・ケッバル", "alias": null, "category": "active", "nationality": "DZ", "club": "c_fr_18", "position": "MF", "stats": { "attack": 68, "defense": 56, "speed": 62, "gk": 5 }, "overall": 62, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 10, "portraitSeed": "p_110366" },
     { "id": "p_110367", "name": "マチュー・カファロ", "alias": null, "category": "active", "nationality": "FR", "club": "c_fr_18", "position": "MF", "stats": { "attack": 54, "defense": 44, "speed": 50, "gk": 5 }, "overall": 49, "rarity": 7, "cost": 7, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 13, "portraitSeed": "p_110367" },
-    { "id": "p_110368", "name": "マーシャル・ムネツィ", "alias": null, "category": "active", "nationality": "ZW", "club": "c_fr_18", "position": "MF", "stats": { "attack": 68, "defense": 56, "speed": 62, "gk": 5 }, "overall": 62, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 18, "portraitSeed": "p_110368" },
+    { "id": "p_110368", "name": "マーシャル・ムネツィ", "alias": null, "category": "active", "nationality": "ZW", "club": "c_fr_18", "position": "MF", "stats": { "attack": 68, "defense": 56, "speed": 62, "gk": 5 }, "overall": 62, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 18, "portraitSeed": "p_110368", "dexHidden": true },
     { "id": "p_110369", "name": "マキシム・ロペス", "alias": null, "category": "active", "nationality": "FR", "club": "c_fr_18", "position": "MF", "stats": { "attack": 82, "defense": 68, "speed": 74, "gk": 5 }, "overall": 75, "rarity": 13, "cost": 13, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 21, "portraitSeed": "p_110369" },
     { "id": "p_110370", "name": "ピエール・リー=メルー", "alias": null, "category": "active", "nationality": "FR", "club": "c_fr_18", "position": "MF", "stats": { "attack": 54, "defense": 44, "speed": 50, "gk": 5 }, "overall": 49, "rarity": 7, "cost": 7, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 33, "portraitSeed": "p_110370" },
     { "id": "p_110371", "name": "ヴィレム・グーベルス", "alias": null, "category": "active", "nationality": "FR", "club": "c_fr_18", "position": "FW", "stats": { "attack": 70, "defense": 25, "speed": 64, "gk": 5 }, "overall": 61, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 9, "portraitSeed": "p_110371" },
@@ -9280,7 +9281,7 @@
     { "id": "p_700018", "name": "ランダル・コロ・ムアニ", "alias": null, "category": "active", "nationality": "FR", "club": "c_it_01", "position": "FW", "stats": { "attack": 90, "defense": 25, "speed": 82, "gk": 3 }, "overall": 78, "rarity": 13, "cost": 13, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 14, "portraitSeed": "p_700018" },
     { "id": "p_700019", "name": "フランシスコ・コンセイソン", "alias": null, "category": "active", "nationality": "PT", "club": "c_it_01", "position": "FW", "stats": { "attack": 80, "defense": 20, "speed": 75, "gk": 3 }, "overall": 70, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 7, "portraitSeed": "p_700019" },
     { "id": "p_700020", "name": "ジョナサン・ダヴィド", "alias": null, "category": "active", "nationality": "CA", "club": "c_it_01", "position": "FW", "stats": { "attack": 92, "defense": 26, "speed": 84, "gk": 3 }, "overall": 80, "rarity": 14, "cost": 14, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 20, "portraitSeed": "p_700020" },
-    { "id": "p_700021", "name": "ティモシー・ウェア", "alias": null, "category": "active", "nationality": "US", "club": "c_it_01", "position": "FW", "stats": { "attack": 68, "defense": 18, "speed": 65, "gk": 3 }, "overall": 60, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 22, "portraitSeed": "p_700021" },
+    { "id": "p_700021", "name": "ティモシー・ウェア", "alias": null, "category": "active", "nationality": "US", "club": "c_it_01", "position": "FW", "stats": { "attack": 68, "defense": 18, "speed": 65, "gk": 3 }, "overall": 60, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 22, "portraitSeed": "p_700021", "dexHidden": true },
 
     { "id": "p_701001", "name": "ヤン・ゾマー", "alias": null, "category": "active", "nationality": "CH", "club": "c_it_02", "position": "GK", "stats": { "attack": 5, "defense": 50, "speed": 40, "gk": 95 }, "overall": 86, "rarity": 15, "cost": 15, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 1, "portraitSeed": "p_701001" },
     { "id": "p_701002", "name": "ジョセップ・マルティネス", "alias": null, "category": "active", "nationality": "ES", "club": "c_it_02", "position": "GK", "stats": { "attack": 5, "defense": 32, "speed": 28, "gk": 65 }, "overall": 58, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 40, "portraitSeed": "p_701002" },
@@ -9288,7 +9289,7 @@
     { "id": "p_701004", "name": "アレッサンドロ・バストーニ", "alias": null, "category": "active", "nationality": "IT", "club": "c_it_02", "position": "DF", "stats": { "attack": 72, "defense": 99, "speed": 87, "gk": 3 }, "overall": 91, "rarity": 18, "cost": 18, "epithetId": "e_bastoni", "sets": [], "exclusiveTo": null, "number": 95, "portraitSeed": "p_701004" },
     { "id": "p_701005", "name": "フランチェスコ・アチェルビ", "alias": null, "category": "active", "nationality": "IT", "club": "c_it_02", "position": "DF", "stats": { "attack": 55, "defense": 88, "speed": 70, "gk": 3 }, "overall": 77, "rarity": 13, "cost": 13, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 15, "portraitSeed": "p_701005" },
     { "id": "p_701006", "name": "ステファン・デ・フライ", "alias": null, "category": "active", "nationality": "NL", "club": "c_fa_b", "position": "DF", "stats": { "attack": 48, "defense": 78, "speed": 65, "gk": 3 }, "overall": 69, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 6, "portraitSeed": "p_701006" },
-    { "id": "p_701007", "name": "バンジャマン・パヴァール", "alias": null, "category": "active", "nationality": "FR", "club": "c_it_02", "position": "DF", "stats": { "attack": 48, "defense": 78, "speed": 65, "gk": 3 }, "overall": 69, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 28, "portraitSeed": "p_701007" },
+    { "id": "p_701007", "name": "バンジャマン・パヴァール", "alias": null, "category": "active", "nationality": "FR", "club": "c_it_02", "position": "DF", "stats": { "attack": 48, "defense": 78, "speed": 65, "gk": 3 }, "overall": 69, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 28, "portraitSeed": "p_701007", "dexHidden": true },
     { "id": "p_701008", "name": "フェデリコ・ディマルコ", "alias": null, "category": "active", "nationality": "IT", "club": "c_it_02", "position": "DF", "stats": { "attack": 55, "defense": 88, "speed": 70, "gk": 3 }, "overall": 77, "rarity": 13, "cost": 13, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 32, "portraitSeed": "p_701008" },
     { "id": "p_701009", "name": "デンゼル・ダンフリース", "alias": null, "category": "active", "nationality": "NL", "club": null, "position": "DF", "stats": { "attack": 59, "defense": 94, "speed": 75, "gk": 3 }, "overall": 82, "rarity": 15, "cost": 15, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 2, "portraitSeed": "p_701009", "dexHidden": true },
     { "id": "p_701010", "name": "ヤン・ビッセック", "alias": null, "category": "active", "nationality": "DE", "club": null, "position": "DF", "stats": { "attack": 40, "defense": 65, "speed": 58, "gk": 3 }, "overall": 58, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 31, "portraitSeed": "p_701010", "dexHidden": true },
@@ -9394,7 +9395,7 @@
     { "id": "p_706005", "name": "イサク・ヒエン", "alias": null, "category": "active", "nationality": "SE", "club": "c_it_07", "position": "DF", "stats": { "attack": 48, "defense": 78, "speed": 65, "gk": 3 }, "overall": 69, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 4, "portraitSeed": "p_706005" },
     { "id": "p_706006", "name": "セアド・コラシナツ", "alias": null, "category": "active", "nationality": "BA", "club": "c_it_07", "position": "DF", "stats": { "attack": 40, "defense": 65, "speed": 58, "gk": 3 }, "overall": 58, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 23, "portraitSeed": "p_706006" },
     { "id": "p_706007", "name": "ラファエル・トロイ", "alias": null, "category": "active", "nationality": "BR", "club": "c_it_07", "position": "DF", "stats": { "attack": 40, "defense": 65, "speed": 58, "gk": 3 }, "overall": 58, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 33, "portraitSeed": "p_706007" },
-    { "id": "p_706008", "name": "マッテオ・ルッジェーリ", "alias": null, "category": "active", "nationality": "IT", "club": "c_it_07", "position": "DF", "stats": { "attack": 40, "defense": 65, "speed": 58, "gk": 3 }, "overall": 58, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 22, "portraitSeed": "p_706008" },
+    { "id": "p_706008", "name": "マッテオ・ルッジェーリ", "alias": null, "category": "active", "nationality": "IT", "club": "c_it_07", "position": "DF", "stats": { "attack": 40, "defense": 65, "speed": 58, "gk": 3 }, "overall": 58, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 22, "portraitSeed": "p_706008", "dexHidden": true },
     { "id": "p_706009", "name": "ラウル・ベッリノーラ", "alias": null, "category": "active", "nationality": "IT", "club": "c_it_07", "position": "DF", "stats": { "attack": 48, "defense": 78, "speed": 65, "gk": 3 }, "overall": 69, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 19, "portraitSeed": "p_706009" },
     { "id": "p_706010", "name": "オディロン・コスヌ", "alias": null, "category": "active", "nationality": "CI", "club": "c_it_07", "position": "DF", "stats": { "attack": 40, "defense": 65, "speed": 58, "gk": 3 }, "overall": 58, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 5, "portraitSeed": "p_706010" },
     { "id": "p_706011", "name": "エデルソン", "alias": null, "category": "active", "nationality": "BR", "club": "c_it_07", "position": "MF", "stats": { "attack": 85, "defense": 70, "speed": 80, "gk": 3 }, "overall": 78, "rarity": 13, "cost": 13, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 18, "portraitSeed": "p_706011" },
@@ -9474,7 +9475,7 @@
     { "id": "p_710001", "name": "ラズヴァン・サヴァ", "alias": null, "category": "active", "nationality": "RO", "club": "c_it_11", "position": "GK", "stats": { "attack": 5, "defense": 32, "speed": 28, "gk": 65 }, "overall": 58, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 1, "portraitSeed": "p_710001" },
     { "id": "p_710002", "name": "マドゥカ・オコエ", "alias": null, "category": "active", "nationality": "NG", "club": "c_it_11", "position": "GK", "stats": { "attack": 5, "defense": 32, "speed": 28, "gk": 65 }, "overall": 58, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 28, "portraitSeed": "p_710002" },
     { "id": "p_710003", "name": "ダニエレ・パデッリ", "alias": null, "category": "active", "nationality": "IT", "club": null, "position": "GK", "stats": { "attack": 3, "defense": 20, "speed": 20, "gk": 35 }, "overall": 32, "rarity": 3, "cost": 3, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 22, "portraitSeed": "p_710003", "dexHidden": true },
-    { "id": "p_710004", "name": "ヤカ・ビヨル", "alias": null, "category": "active", "nationality": "SI", "club": "c_it_11", "position": "DF", "stats": { "attack": 48, "defense": 78, "speed": 65, "gk": 3 }, "overall": 69, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 5, "portraitSeed": "p_710004" },
+    { "id": "p_710004", "name": "ヤカ・ビヨル", "alias": null, "category": "active", "nationality": "SI", "club": "c_it_11", "position": "DF", "stats": { "attack": 48, "defense": 78, "speed": 65, "gk": 3 }, "overall": 69, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 5, "portraitSeed": "p_710004", "dexHidden": true },
     { "id": "p_710005", "name": "キングスリー・エイズィブエ", "alias": null, "category": "active", "nationality": "NG", "club": "c_it_11", "position": "DF", "stats": { "attack": 40, "defense": 65, "speed": 58, "gk": 3 }, "overall": 58, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 2, "portraitSeed": "p_710005" },
     { "id": "p_710006", "name": "クリスティアン・カバセレ", "alias": null, "category": "active", "nationality": "BE", "club": "c_it_11", "position": "DF", "stats": { "attack": 40, "defense": 65, "speed": 58, "gk": 3 }, "overall": 58, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 18, "portraitSeed": "p_710006" },
     { "id": "p_710007", "name": "ネウエン・ペレス", "alias": null, "category": "active", "nationality": "AR", "club": "c_it_11", "position": "DF", "stats": { "attack": 40, "defense": 65, "speed": 58, "gk": 3 }, "overall": 58, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 4, "portraitSeed": "p_710007" },
@@ -10478,7 +10479,7 @@
     { "id": "p_800030", "name": "エムレ・ジャン", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_02", "position": "MF", "stats": { "attack": 55, "defense": 72, "speed": 62, "gk": 0 }, "overall": 63, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 23, "portraitSeed": "p_800030" },
     { "id": "p_800031", "name": "マルセル・ザビツァー", "alias": null, "category": "active", "nationality": "AT", "club": "c_de_02", "position": "MF", "stats": { "attack": 65, "defense": 65, "speed": 72, "gk": 0 }, "overall": 67, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 7, "portraitSeed": "p_800031" },
     { "id": "p_800032", "name": "フェリックス・エンメチャ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_02", "position": "MF", "stats": { "attack": 68, "defense": 60, "speed": 75, "gk": 0 }, "overall": 67, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 8, "portraitSeed": "p_800032" },
-    { "id": "p_800033", "name": "パスカル・グロス", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_02", "position": "MF", "stats": { "attack": 68, "defense": 62, "speed": 60, "gk": 0 }, "overall": 64, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 10, "portraitSeed": "p_800033" },
+    { "id": "p_800033", "name": "パスカル・グロス", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_02", "position": "MF", "stats": { "attack": 68, "defense": 62, "speed": 60, "gk": 0 }, "overall": 64, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 10, "portraitSeed": "p_800033", "dexHidden": true },
     { "id": "p_800034", "name": "ユリアン・ブラント", "alias": null, "category": "active", "nationality": "DE", "club": "c_nl_01", "position": "MF", "stats": { "attack": 75, "defense": 45, "speed": 72, "gk": 0 }, "overall": 64, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 19, "portraitSeed": "p_800034" },
     { "id": "p_800035", "name": "ジョーブ・ベリンガム", "alias": null, "category": "active", "nationality": "GB", "club": "c_de_02", "position": "MF", "stats": { "attack": 65, "defense": 55, "speed": 75, "gk": 0 }, "overall": 65, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 17, "portraitSeed": "p_800035" },
     { "id": "p_800036", "name": "セルフー・グイラシー", "alias": null, "category": "active", "nationality": "GN", "club": "c_de_02", "position": "FW", "stats": { "attack": 85, "defense": 25, "speed": 78, "gk": 0 }, "overall": 74, "rarity": 13, "cost": 13, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 9, "portraitSeed": "p_800036" },
@@ -10508,14 +10509,14 @@
     { "id": "p_800059", "name": "アントニオ・ヌサ", "alias": null, "category": "active", "nationality": "NO", "club": "c_de_03", "position": "FW", "stats": { "attack": 75, "defense": 22, "speed": 88, "gk": 0 }, "overall": 71, "rarity": 12, "cost": 12, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 7, "portraitSeed": "p_800059" },
     { "id": "p_800060", "name": "ヨハン・バカヨコ", "alias": null, "category": "active", "nationality": "BE", "club": "c_de_03", "position": "FW", "stats": { "attack": 72, "defense": 20, "speed": 85, "gk": 0 }, "overall": 68, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 17, "portraitSeed": "p_800060" },
 
-    { "id": "p_800061", "name": "ルーカシュ・フラデツキー", "alias": null, "category": "active", "nationality": "FI", "club": "c_de_04", "position": "GK", "stats": { "attack": 5, "defense": 18, "speed": 32, "gk": 84 }, "overall": 72, "rarity": 12, "cost": 12, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 1, "portraitSeed": "p_800061" },
+    { "id": "p_800061", "name": "ルーカシュ・フラデツキー", "alias": null, "category": "active", "nationality": "FI", "club": "c_de_04", "position": "GK", "stats": { "attack": 5, "defense": 18, "speed": 32, "gk": 84 }, "overall": 72, "rarity": 12, "cost": 12, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 1, "portraitSeed": "p_800061", "dexHidden": true },
     { "id": "p_800062", "name": "マテイ・コヴァージュ", "alias": null, "category": "active", "nationality": "CZ", "club": "c_other_003", "position": "GK", "stats": { "attack": 5, "defense": 12, "speed": 30, "gk": 68 }, "overall": 58, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 30, "portraitSeed": "p_800062" },
     { "id": "p_800063", "name": "ニクラス・ロム", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_04", "position": "GK", "stats": { "attack": 5, "defense": 10, "speed": 25, "gk": 60 }, "overall": 51, "rarity": 7, "cost": 7, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 39, "portraitSeed": "p_800063", "dexHidden": true },
     { "id": "p_800064", "name": "エドモン・タプソバ", "alias": null, "category": "active", "nationality": "BF", "club": "c_de_04", "position": "DF", "stats": { "attack": 32, "defense": 78, "speed": 72, "gk": 0 }, "overall": 67, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 4, "portraitSeed": "p_800064" },
     { "id": "p_800065", "name": "ピエロ・インカピエ", "alias": null, "category": "active", "nationality": "EC", "club": "c_en_02", "position": "DF", "stats": { "attack": 60, "defense": 86, "speed": 82, "gk": 0 }, "overall": 80, "rarity": 15, "cost": 15, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 3, "portraitSeed": "p_800065" },
     { "id": "p_800066", "name": "アレックス・グリマルド", "alias": null, "category": "active", "nationality": "ES", "club": null, "position": "DF", "stats": { "attack": 60, "defense": 65, "speed": 75, "gk": 0 }, "overall": 67, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 20, "portraitSeed": "p_800066", "dexHidden": true },
-    { "id": "p_800067", "name": "ノルディ・ムキエレ", "alias": null, "category": "active", "nationality": "FR", "club": "c_de_04", "position": "DF", "stats": { "attack": 42, "defense": 72, "speed": 80, "gk": 0 }, "overall": 68, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 2, "portraitSeed": "p_800067" },
-    { "id": "p_800068", "name": "オディロン・コスヌ", "alias": null, "category": "active", "nationality": "CI", "club": "c_de_04", "position": "DF", "stats": { "attack": 35, "defense": 70, "speed": 76, "gk": 0 }, "overall": 65, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 6, "portraitSeed": "p_800068" },
+    { "id": "p_800067", "name": "ノルディ・ムキエレ", "alias": null, "category": "active", "nationality": "FR", "club": "c_de_04", "position": "DF", "stats": { "attack": 42, "defense": 72, "speed": 80, "gk": 0 }, "overall": 68, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 2, "portraitSeed": "p_800067", "dexHidden": true },
+    { "id": "p_800068", "name": "オディロン・コスヌ", "alias": null, "category": "active", "nationality": "CI", "club": "c_de_04", "position": "DF", "stats": { "attack": 35, "defense": 70, "speed": 76, "gk": 0 }, "overall": 65, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 6, "portraitSeed": "p_800068", "dexHidden": true },
     { "id": "p_800069", "name": "ジャニュエル・ベロシアン", "alias": null, "category": "active", "nationality": "FR", "club": "c_de_04", "position": "DF", "stats": { "attack": 28, "defense": 62, "speed": 70, "gk": 0 }, "overall": 57, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 25, "portraitSeed": "p_800069" },
     { "id": "p_800070", "name": "ロベルト・アンドリッヒ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_04", "position": "MF", "stats": { "attack": 55, "defense": 75, "speed": 62, "gk": 0 }, "overall": 64, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 33, "portraitSeed": "p_800070" },
     { "id": "p_800071", "name": "エセキエル・パラシオス", "alias": null, "category": "active", "nationality": "AR", "club": "c_en_20", "position": "MF", "stats": { "attack": 68, "defense": 62, "speed": 68, "gk": 0 }, "overall": 66, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 10, "portraitSeed": "p_800071" },
@@ -10529,7 +10530,7 @@
     { "id": "p_800079", "name": "マルタン・テリエ", "alias": null, "category": "active", "nationality": "FR", "club": "c_de_04", "position": "FW", "stats": { "attack": 75, "defense": 24, "speed": 82, "gk": 0 }, "overall": 69, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 11, "portraitSeed": "p_800079" },
     { "id": "p_800080", "name": "ネイサン・テラ", "alias": null, "category": "active", "nationality": "GB", "club": "c_de_04", "position": "FW", "stats": { "attack": 68, "defense": 20, "speed": 85, "gk": 0 }, "overall": 66, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 31, "portraitSeed": "p_800080" },
 
-    { "id": "p_800081", "name": "ケヴィン・トラップ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_05", "position": "GK", "stats": { "attack": 5, "defense": 18, "speed": 35, "gk": 82 }, "overall": 70, "rarity": 12, "cost": 12, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 1, "portraitSeed": "p_800081" },
+    { "id": "p_800081", "name": "ケヴィン・トラップ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_05", "position": "GK", "stats": { "attack": 5, "defense": 18, "speed": 35, "gk": 82 }, "overall": 70, "rarity": 12, "cost": 12, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 1, "portraitSeed": "p_800081", "dexHidden": true },
     { "id": "p_800082", "name": "カウア・サントス", "alias": null, "category": "active", "nationality": "BR", "club": "c_de_05", "position": "GK", "stats": { "attack": 5, "defense": 12, "speed": 30, "gk": 65 }, "overall": 55, "rarity": 8, "cost": 8, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 33, "portraitSeed": "p_800082", "dexHidden": true },
     { "id": "p_800083", "name": "ロビン・コッホ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_05", "position": "DF", "stats": { "attack": 32, "defense": 76, "speed": 68, "gk": 0 }, "overall": 65, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 4, "portraitSeed": "p_800083" },
     { "id": "p_800084", "name": "アルテュール・テアテ", "alias": null, "category": "active", "nationality": "BE", "club": null, "position": "DF", "stats": { "attack": 30, "defense": 72, "speed": 72, "gk": 0 }, "overall": 64, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 22, "portraitSeed": "p_800084", "dexHidden": true },
@@ -10550,7 +10551,7 @@
 
     { "id": "p_800099", "name": "モーリッツ・ニコラス", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_06", "position": "GK", "stats": { "attack": 5, "defense": 15, "speed": 30, "gk": 75 }, "overall": 64, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 1, "portraitSeed": "p_800099" },
     { "id": "p_800100", "name": "ヨナス・オムリン", "alias": null, "category": "active", "nationality": "CH", "club": "c_de_06", "position": "GK", "stats": { "attack": 5, "defense": 15, "speed": 32, "gk": 78 }, "overall": 66, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 18, "portraitSeed": "p_800100" },
-    { "id": "p_800101", "name": "板倉滉", "alias": null, "category": "active", "nationality": "JP", "club": "c_de_06", "position": "DF", "stats": { "attack": 32, "defense": 75, "speed": 70, "gk": 0 }, "overall": 65, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 4, "portraitSeed": "p_800101" },
+    { "id": "p_800101", "name": "板倉滉", "alias": null, "category": "active", "nationality": "JP", "club": "c_de_06", "position": "DF", "stats": { "attack": 32, "defense": 75, "speed": 70, "gk": 0 }, "overall": 65, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 4, "portraitSeed": "p_800101", "dexHidden": true },
     { "id": "p_800102", "name": "マルヴィン・フリードリヒ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_06", "position": "DF", "stats": { "attack": 30, "defense": 72, "speed": 62, "gk": 0 }, "overall": 61, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 5, "portraitSeed": "p_800102" },
     { "id": "p_800103", "name": "ニコ・エルヴェディ", "alias": null, "category": "active", "nationality": "CH", "club": null, "position": "DF", "stats": { "attack": 30, "defense": 74, "speed": 68, "gk": 0 }, "overall": 64, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 24, "portraitSeed": "p_800103", "dexHidden": true },
     { "id": "p_800104", "name": "ジョー・スキャリー", "alias": null, "category": "active", "nationality": "US", "club": "c_de_06", "position": "DF", "stats": { "attack": 45, "defense": 62, "speed": 80, "gk": 0 }, "overall": 63, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 2, "portraitSeed": "p_800104" },
@@ -10649,7 +10650,7 @@
     { "id": "p_800192", "name": "フィリップ・ペントケ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_12", "position": "GK", "stats": { "attack": 5, "defense": 10, "speed": 22, "gk": 60 }, "overall": 51, "rarity": 7, "cost": 7, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 39, "portraitSeed": "p_800192", "dexHidden": true },
     { "id": "p_800193", "name": "ジョン・アンソニー・ブルックス", "alias": null, "category": "active", "nationality": "US", "club": "c_de_12", "position": "DF", "stats": { "attack": 30, "defense": 72, "speed": 65, "gk": 0 }, "overall": 62, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 28, "portraitSeed": "p_800193" },
     { "id": "p_800194", "name": "ケヴィン・アクポグマ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_12", "position": "DF", "stats": { "attack": 30, "defense": 70, "speed": 70, "gk": 0 }, "overall": 62, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 4, "portraitSeed": "p_800194" },
-    { "id": "p_800195", "name": "オザン・カバク", "alias": null, "category": "active", "nationality": "TR", "club": "c_de_12", "position": "DF", "stats": { "attack": 32, "defense": 72, "speed": 68, "gk": 0 }, "overall": 63, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 15, "portraitSeed": "p_800195" },
+    { "id": "p_800195", "name": "オザン・カバク", "alias": null, "category": "active", "nationality": "TR", "club": "c_de_12", "position": "DF", "stats": { "attack": 32, "defense": 72, "speed": 68, "gk": 0 }, "overall": 63, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 15, "portraitSeed": "p_800195", "dexHidden": true },
     { "id": "p_800196", "name": "パヴェル・カデジャーベク", "alias": null, "category": "active", "nationality": "CZ", "club": "c_de_12", "position": "DF", "stats": { "attack": 45, "defense": 62, "speed": 72, "gk": 0 }, "overall": 61, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 3, "portraitSeed": "p_800196" },
     { "id": "p_800197", "name": "スタンリー・ンソキ", "alias": null, "category": "active", "nationality": "FR", "club": "c_de_12", "position": "DF", "stats": { "attack": 35, "defense": 65, "speed": 75, "gk": 0 }, "overall": 62, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 22, "portraitSeed": "p_800197" },
     { "id": "p_800198", "name": "ダヴィド・ユラーセク", "alias": null, "category": "active", "nationality": "CZ", "club": "c_de_12", "position": "DF", "stats": { "attack": 38, "defense": 60, "speed": 72, "gk": 0 }, "overall": 59, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 21, "portraitSeed": "p_800198" },
@@ -10658,7 +10659,7 @@
     { "id": "p_800201", "name": "ユリアン・ユストヴァン", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_12", "position": "MF", "stats": { "attack": 55, "defense": 58, "speed": 60, "gk": 0 }, "overall": 58, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 6, "portraitSeed": "p_800201" },
     { "id": "p_800202", "name": "ビラル・エル・カヌース", "alias": null, "category": "active", "nationality": "MA", "club": "c_de_12", "position": "MF", "stats": { "attack": 68, "defense": 38, "speed": 72, "gk": 0 }, "overall": 59, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 10, "portraitSeed": "p_800202" },
     { "id": "p_800203", "name": "マリウス・ビュルター", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_12", "position": "MF", "stats": { "attack": 62, "defense": 30, "speed": 68, "gk": 0 }, "overall": 53, "rarity": 8, "cost": 8, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 30, "portraitSeed": "p_800203", "dexHidden": true },
-    { "id": "p_800204", "name": "アントン・シュタッハ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_12", "position": "MF", "stats": { "attack": 58, "defense": 60, "speed": 62, "gk": 0 }, "overall": 60, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 8, "portraitSeed": "p_800204" },
+    { "id": "p_800204", "name": "アントン・シュタッハ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_12", "position": "MF", "stats": { "attack": 58, "defense": 60, "speed": 62, "gk": 0 }, "overall": 60, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 8, "portraitSeed": "p_800204", "dexHidden": true },
     { "id": "p_800205", "name": "ウムト・トフムジュ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_12", "position": "MF", "stats": { "attack": 60, "defense": 35, "speed": 70, "gk": 0 }, "overall": 54, "rarity": 8, "cost": 8, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 26, "portraitSeed": "p_800205", "dexHidden": true },
     { "id": "p_800206", "name": "アンドレイ・クラマリッチ", "alias": null, "category": "active", "nationality": "HR", "club": "c_de_12", "position": "FW", "stats": { "attack": 82, "defense": 25, "speed": 72, "gk": 0 }, "overall": 70, "rarity": 12, "cost": 12, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 27, "portraitSeed": "p_800206" },
     { "id": "p_800207", "name": "アダム・フロジェク", "alias": null, "category": "active", "nationality": "CZ", "club": "c_de_12", "position": "FW", "stats": { "attack": 72, "defense": 22, "speed": 75, "gk": 0 }, "overall": 65, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 11, "portraitSeed": "p_800207" },
@@ -10676,7 +10677,7 @@
     { "id": "p_800218", "name": "イェンス・シュターゲ", "alias": null, "category": "active", "nationality": "DK", "club": "c_de_13", "position": "MF", "stats": { "attack": 58, "defense": 55, "speed": 65, "gk": 0 }, "overall": 59, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 6, "portraitSeed": "p_800218" },
     { "id": "p_800219", "name": "レオナルド・ビッテンコート", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_13", "position": "MF", "stats": { "attack": 68, "defense": 38, "speed": 70, "gk": 0 }, "overall": 58, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 10, "portraitSeed": "p_800219" },
     { "id": "p_800220", "name": "フェリックス・アグ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_13", "position": "MF", "stats": { "attack": 48, "defense": 55, "speed": 72, "gk": 0 }, "overall": 58, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 26, "portraitSeed": "p_800220" },
-    { "id": "p_800221", "name": "マービン・ドゥクシュ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_13", "position": "FW", "stats": { "attack": 78, "defense": 22, "speed": 68, "gk": 0 }, "overall": 67, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 9, "portraitSeed": "p_800221" },
+    { "id": "p_800221", "name": "マービン・ドゥクシュ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_13", "position": "FW", "stats": { "attack": 78, "defense": 22, "speed": 68, "gk": 0 }, "overall": 67, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 9, "portraitSeed": "p_800221", "dexHidden": true },
     { "id": "p_800222", "name": "ジャスティン・ンジンマ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_13", "position": "FW", "stats": { "attack": 68, "defense": 24, "speed": 78, "gk": 0 }, "overall": 64, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 17, "portraitSeed": "p_800222" },
     { "id": "p_800223", "name": "ラファエル・ボレー", "alias": null, "category": "active", "nationality": "CO", "club": "c_de_13", "position": "FW", "stats": { "attack": 72, "defense": 22, "speed": 72, "gk": 0 }, "overall": 65, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 19, "portraitSeed": "p_800223" },
     { "id": "p_800224", "name": "デリック・ケーン", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_13", "position": "DF", "stats": { "attack": 45, "defense": 58, "speed": 75, "gk": 0 }, "overall": 60, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 3, "portraitSeed": "p_800224" },
@@ -10764,7 +10765,7 @@
     { "id": "p_800301", "name": "アダム・スシャツ", "alias": null, "category": "active", "nationality": "HR", "club": "c_de_24", "position": "GK", "stats": { "attack": 5, "defense": 10, "speed": 24, "gk": 62 }, "overall": 52, "rarity": 7, "cost": 7, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 39, "portraitSeed": "p_800301", "dexHidden": true },
     { "id": "p_800302", "name": "ティモ・バウムガルトル", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_24", "position": "DF", "stats": { "attack": 30, "defense": 68, "speed": 60, "gk": 0 }, "overall": 58, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 4, "portraitSeed": "p_800302" },
     { "id": "p_800303", "name": "イブライマ・シセ", "alias": null, "category": "active", "nationality": "FR", "club": "c_de_24", "position": "DF", "stats": { "attack": 28, "defense": 64, "speed": 65, "gk": 0 }, "overall": 57, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 5, "portraitSeed": "p_800303" },
-    { "id": "p_800304", "name": "デリー・マーキン", "alias": null, "category": "active", "nationality": "GB", "club": "c_de_24", "position": "DF", "stats": { "attack": 42, "defense": 58, "speed": 72, "gk": 0 }, "overall": 58, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 15, "portraitSeed": "p_800304" },
+    { "id": "p_800304", "name": "デリー・マーキン", "alias": null, "category": "active", "nationality": "GB", "club": "c_de_24", "position": "DF", "stats": { "attack": 42, "defense": 58, "speed": 72, "gk": 0 }, "overall": 58, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 15, "portraitSeed": "p_800304", "dexHidden": true },
     { "id": "p_800305", "name": "マックス・グリューガー", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_24", "position": "DF", "stats": { "attack": 28, "defense": 58, "speed": 60, "gk": 0 }, "overall": 53, "rarity": 8, "cost": 8, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 22, "portraitSeed": "p_800305", "dexHidden": true },
     { "id": "p_800306", "name": "ゼバスティアン・クラース", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_24", "position": "DF", "stats": { "attack": 30, "defense": 60, "speed": 58, "gk": 0 }, "overall": 54, "rarity": 8, "cost": 8, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 3, "portraitSeed": "p_800306", "dexHidden": true },
     { "id": "p_800307", "name": "ユスフ・カバダユ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de_24", "position": "DF", "stats": { "attack": 32, "defense": 55, "speed": 68, "gk": 0 }, "overall": 54, "rarity": 8, "cost": 8, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 2, "portraitSeed": "p_800307", "dexHidden": true },
@@ -10821,7 +10822,7 @@
 
     { "id": "p_810021", "name": "マルセル・シューエン", "alias": null, "category": "active", "nationality": "DE", "club": "c_de2_02", "position": "GK", "stats": { "attack": 5, "defense": 23, "speed": 36, "gk": 82 }, "overall": 71, "rarity": 12, "cost": 12, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 1, "portraitSeed": "p_810021" },
     { "id": "p_810022", "name": "フィリップ・キューン", "alias": null, "category": "active", "nationality": "DE", "club": "c_de2_02", "position": "GK", "stats": { "attack": 5, "defense": 12, "speed": 28, "gk": 46 }, "overall": 40, "rarity": 5, "cost": 5, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 33, "portraitSeed": "p_810022" },
-    { "id": "p_810023", "name": "クリストフ・クラーラー", "alias": null, "category": "active", "nationality": "AT", "club": "c_de2_02", "position": "DF", "stats": { "attack": 38, "defense": 70, "speed": 62, "gk": 5 }, "overall": 62, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 4, "portraitSeed": "p_810023" },
+    { "id": "p_810023", "name": "クリストフ・クラーラー", "alias": null, "category": "active", "nationality": "AT", "club": null, "position": "DF", "stats": { "attack": 38, "defense": 70, "speed": 62, "gk": 5 }, "overall": 62, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 4, "portraitSeed": "p_810023", "dexHidden": true },
     { "id": "p_810024", "name": "パトリック・プファイファー", "alias": null, "category": "active", "nationality": "DE", "club": "c_de2_02", "position": "DF", "stats": { "attack": 26, "defense": 56, "speed": 50, "gk": 5 }, "overall": 49, "rarity": 7, "cost": 7, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 5, "portraitSeed": "p_810024" },
     { "id": "p_810025", "name": "クレメンス・リーデル", "alias": null, "category": "active", "nationality": "DE", "club": "c_de2_02", "position": "DF", "stats": { "attack": 18, "defense": 44, "speed": 40, "gk": 5 }, "overall": 38, "rarity": 4, "cost": 4, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 15, "portraitSeed": "p_810025", "dexHidden": true },
     { "id": "p_810026", "name": "ティム・ツィヴェヤ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de2_02", "position": "DF", "stats": { "attack": 18, "defense": 42, "speed": 39, "gk": 5 }, "overall": 36, "rarity": 4, "cost": 4, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 21, "portraitSeed": "p_810026", "dexHidden": true },
@@ -10899,7 +10900,7 @@
     { "id": "p_810095", "name": "エリック・シュラノフ", "alias": null, "category": "active", "nationality": "BG", "club": "c_de2_05", "position": "FW", "stats": { "attack": 47, "defense": 11, "speed": 41, "gk": 5 }, "overall": 40, "rarity": 5, "cost": 5, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 17, "portraitSeed": "p_810095" },
 
     { "id": "p_810096", "name": "マリウス・フンク", "alias": null, "category": "active", "nationality": "DE", "club": "c_de2_07", "position": "GK", "stats": { "attack": 5, "defense": 23, "speed": 36, "gk": 83 }, "overall": 72, "rarity": 12, "cost": 12, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 1, "portraitSeed": "p_810096" },
-    { "id": "p_810097", "name": "マックス・ヴァイス", "alias": null, "category": "active", "nationality": "DE", "club": "c_de2_07", "position": "GK", "stats": { "attack": 5, "defense": 13, "speed": 28, "gk": 48 }, "overall": 42, "rarity": 5, "cost": 5, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 33, "portraitSeed": "p_810097" },
+    { "id": "p_810097", "name": "マックス・ヴァイス", "alias": null, "category": "active", "nationality": "DE", "club": null, "position": "GK", "stats": { "attack": 5, "defense": 13, "speed": 28, "gk": 48 }, "overall": 42, "rarity": 5, "cost": 5, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 33, "portraitSeed": "p_810097", "dexHidden": true },
     { "id": "p_810098", "name": "マルコ・ティーデ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de2_07", "position": "DF", "stats": { "attack": 38, "defense": 68, "speed": 61, "gk": 5 }, "overall": 60, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 4, "portraitSeed": "p_810098" },
     { "id": "p_810099", "name": "フィリップ・ハイゼ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de2_07", "position": "DF", "stats": { "attack": 38, "defense": 72, "speed": 63, "gk": 5 }, "overall": 63, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 3, "portraitSeed": "p_810099" },
     { "id": "p_810100", "name": "クリストフ・コバルト", "alias": null, "category": "active", "nationality": "AT", "club": "c_de2_07", "position": "DF", "stats": { "attack": 26, "defense": 53, "speed": 48, "gk": 5 }, "overall": 46, "rarity": 6, "cost": 6, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 5, "portraitSeed": "p_810100" },
@@ -10939,7 +10940,7 @@
 
     { "id": "p_810133", "name": "ミヒャエル・ラタイチャック", "alias": null, "category": "active", "nationality": "DE", "club": "c_de2_10", "position": "GK", "stats": { "attack": 5, "defense": 20, "speed": 36, "gk": 77 }, "overall": 66, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 1, "portraitSeed": "p_810133" },
     { "id": "p_810134", "name": "ヨナス・ケルスケン", "alias": null, "category": "active", "nationality": "DE", "club": "c_de2_10", "position": "GK", "stats": { "attack": 5, "defense": 12, "speed": 28, "gk": 45 }, "overall": 39, "rarity": 4, "cost": 4, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 33, "portraitSeed": "p_810134", "dexHidden": true },
-    { "id": "p_810135", "name": "アモス・ピーパー", "alias": null, "category": "active", "nationality": "DE", "club": "c_de2_10", "position": "DF", "stats": { "attack": 38, "defense": 71, "speed": 62, "gk": 5 }, "overall": 62, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 4, "portraitSeed": "p_810135" },
+    { "id": "p_810135", "name": "アモス・ピーパー", "alias": null, "category": "active", "nationality": "DE", "club": null, "position": "DF", "stats": { "attack": 38, "defense": 71, "speed": 62, "gk": 5 }, "overall": 62, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 4, "portraitSeed": "p_810135", "dexHidden": true },
     { "id": "p_810136", "name": "マイク・シュテヴェン・ベーレ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de2_10", "position": "DF", "stats": { "attack": 26, "defense": 56, "speed": 50, "gk": 5 }, "overall": 49, "rarity": 7, "cost": 7, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 5, "portraitSeed": "p_810136" },
     { "id": "p_810137", "name": "ノエル・フトケウ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de2_10", "position": "DF", "stats": { "attack": 18, "defense": 42, "speed": 39, "gk": 5 }, "overall": 36, "rarity": 4, "cost": 4, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 15, "portraitSeed": "p_810137", "dexHidden": true },
     { "id": "p_810138", "name": "ロビン・ツィーゲレ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de2_10", "position": "DF", "stats": { "attack": 18, "defense": 47, "speed": 41, "gk": 5 }, "overall": 40, "rarity": 5, "cost": 5, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 21, "portraitSeed": "p_810138" },
@@ -11066,7 +11067,7 @@
     { "id": "p_810253", "name": "マティアス・スヴァンベリ", "alias": null, "category": "active", "nationality": "SE", "club": "c_de2_16", "position": "MF", "stats": { "attack": 72, "defense": 56, "speed": 62, "gk": 5 }, "overall": 63, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 8, "portraitSeed": "p_810253" },
     { "id": "p_810254", "name": "ヤニック・ゲアハルト", "alias": null, "category": "active", "nationality": "DE", "club": "c_de2_16", "position": "MF", "stats": { "attack": 69, "defense": 54, "speed": 62, "gk": 5 }, "overall": 62, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 23, "portraitSeed": "p_810254" },
     { "id": "p_810255", "name": "マクシミリアン・アーノルト", "alias": null, "category": "active", "nationality": "DE", "club": "c_de2_16", "position": "MF", "stats": { "attack": 84, "defense": 62, "speed": 72, "gk": 5 }, "overall": 73, "rarity": 12, "cost": 12, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 27, "portraitSeed": "p_810255" },
-    { "id": "p_810256", "name": "パトリック・ヴィマー", "alias": null, "category": "active", "nationality": "AT", "club": "c_de2_16", "position": "MF", "stats": { "attack": 75, "defense": 57, "speed": 62, "gk": 5 }, "overall": 65, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 10, "portraitSeed": "p_810256" },
+    { "id": "p_810256", "name": "パトリック・ヴィマー", "alias": null, "category": "active", "nationality": "AT", "club": null, "position": "MF", "stats": { "attack": 75, "defense": 57, "speed": 62, "gk": 5 }, "overall": 65, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 10, "portraitSeed": "p_810256", "dexHidden": true },
     { "id": "p_810257", "name": "アスター・ヴランクス", "alias": null, "category": "active", "nationality": "BE", "club": "c_de2_16", "position": "MF", "stats": { "attack": 49, "defense": 41, "speed": 46, "gk": 5 }, "overall": 45, "rarity": 6, "cost": 6, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 6, "portraitSeed": "p_810257" },
     { "id": "p_810258", "name": "ロヴロ・マイェル", "alias": null, "category": "active", "nationality": "HR", "club": "c_de2_16", "position": "MF", "stats": { "attack": 73, "defense": 56, "speed": 62, "gk": 5 }, "overall": 64, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 20, "portraitSeed": "p_810258" },
     { "id": "p_810259", "name": "ヨナス・ヴィント", "alias": null, "category": "active", "nationality": "DK", "club": "c_de2_16", "position": "FW", "stats": { "attack": 83, "defense": 20, "speed": 74, "gk": 5 }, "overall": 71, "rarity": 12, "cost": 12, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 17, "portraitSeed": "p_810259" },
@@ -11084,8 +11085,8 @@
     { "id": "p_810270", "name": "コンスタンティノス・スタフィリディス", "alias": null, "category": "active", "nationality": "GR", "club": "c_de2_17", "position": "DF", "stats": { "attack": 18, "defense": 42, "speed": 39, "gk": 5 }, "overall": 36, "rarity": 4, "cost": 4, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 3, "portraitSeed": "p_810270" },
     { "id": "p_810271", "name": "ダニロ・ソアレス", "alias": null, "category": "active", "nationality": "PT", "club": "c_de2_17", "position": "DF", "stats": { "attack": 18, "defense": 43, "speed": 39, "gk": 5 }, "overall": 37, "rarity": 4, "cost": 4, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 26, "portraitSeed": "p_810271" },
     { "id": "p_810272", "name": "アンソニー・ロシラ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de2_17", "position": "MF", "stats": { "attack": 86, "defense": 63, "speed": 72, "gk": 5 }, "overall": 74, "rarity": 13, "cost": 13, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 6, "portraitSeed": "p_810272" },
-    { "id": "p_810273", "name": "ケヴィン・シュテーガー", "alias": null, "category": "active", "nationality": "AT", "club": "c_de2_17", "position": "MF", "stats": { "attack": 71, "defense": 55, "speed": 62, "gk": 5 }, "overall": 63, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 10, "portraitSeed": "p_810273" },
-    { "id": "p_810274", "name": "パトリック・オスターハーゲ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de2_17", "position": "MF", "stats": { "attack": 75, "defense": 57, "speed": 62, "gk": 5 }, "overall": 65, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 8, "portraitSeed": "p_810274" },
+    { "id": "p_810273", "name": "ケヴィン・シュテーガー", "alias": null, "category": "active", "nationality": "AT", "club": null, "position": "MF", "stats": { "attack": 71, "defense": 55, "speed": 62, "gk": 5 }, "overall": 63, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 10, "portraitSeed": "p_810273", "dexHidden": true },
+    { "id": "p_810274", "name": "パトリック・オスターハーゲ", "alias": null, "category": "active", "nationality": "DE", "club": null, "position": "MF", "stats": { "attack": 75, "defense": 57, "speed": 62, "gk": 5 }, "overall": 65, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 8, "portraitSeed": "p_810274", "dexHidden": true },
     { "id": "p_810275", "name": "クリストファー・アントヴィ・アジェイ", "alias": null, "category": "active", "nationality": "DE", "club": "c_de2_17", "position": "MF", "stats": { "attack": 47, "defense": 40, "speed": 46, "gk": 5 }, "overall": 44, "rarity": 6, "cost": 6, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 7, "portraitSeed": "p_810275" },
     { "id": "p_810276", "name": "ティム・エルマン", "alias": null, "category": "active", "nationality": "DE", "club": "c_de2_17", "position": "MF", "stats": { "attack": 34, "defense": 31, "speed": 36, "gk": 5 }, "overall": 34, "rarity": 3, "cost": 3, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 20, "portraitSeed": "p_810276", "dexHidden": true },
     { "id": "p_810277", "name": "モーリッツ・ブロシンスキー", "alias": null, "category": "active", "nationality": "DE", "club": "c_de2_17", "position": "FW", "stats": { "attack": 81, "defense": 18, "speed": 71, "gk": 5 }, "overall": 69, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 9, "portraitSeed": "p_810277" },
@@ -11909,7 +11910,7 @@
     { "id": "p_900139", "name": "アコール・アダムス", "alias": null, "category": "active", "nationality": "NG", "club": "c_it_21", "position": "FW", "stats": { "attack": 70, "defense": 34, "speed": 76, "gk": 0 }, "overall": 66, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 9, "portraitSeed": "p_900139" },
     { "id": "p_900140", "name": "ルベン・バルガス", "alias": null, "category": "active", "nationality": "CH", "club": "c_es_08", "position": "FW", "stats": { "attack": 72, "defense": 40, "speed": 78, "gk": 0 }, "overall": 69, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 11, "portraitSeed": "p_900140" },
     { "id": "p_900141", "name": "フレン・アギレサバラ", "alias": null, "category": "active", "nationality": "ES", "club": "c_es_09", "position": "GK", "stats": { "attack": 0, "defense": 22, "speed": 40, "gk": 76 }, "overall": 66, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 1, "portraitSeed": "p_900141" },
-    { "id": "p_900142", "name": "ストレ・ディミトリエフスキ", "alias": null, "category": "active", "nationality": "MK", "club": "c_es_09", "position": "GK", "stats": { "attack": 0, "defense": 20, "speed": 36, "gk": 72 }, "overall": 62, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 13, "portraitSeed": "p_900142" },
+    { "id": "p_900142", "name": "ストレ・ディミトリエフスキ", "alias": null, "category": "active", "nationality": "MK", "club": "c_es_09", "position": "GK", "stats": { "attack": 0, "defense": 20, "speed": 36, "gk": 72 }, "overall": 62, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 13, "portraitSeed": "p_900142", "dexHidden": true },
     { "id": "p_900143", "name": "クリスティアン・リベロ", "alias": null, "category": "active", "nationality": "ES", "club": null, "position": "GK", "stats": { "attack": 0, "defense": 16, "speed": 32, "gk": 48 }, "overall": 42, "rarity": 4, "cost": 4, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 25, "portraitSeed": "p_900143", "dexHidden": true },
     { "id": "p_900144", "name": "ホセ・ガヤ", "alias": null, "category": "active", "nationality": "ES", "club": "c_es_09", "position": "DF", "stats": { "attack": 55, "defense": 72, "speed": 68, "gk": 0 }, "overall": 68, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 2, "portraitSeed": "p_900144" },
     { "id": "p_900145", "name": "セサル・タレガ", "alias": null, "category": "active", "nationality": "ES", "club": "c_es_09", "position": "DF", "stats": { "attack": 32, "defense": 74, "speed": 64, "gk": 0 }, "overall": 63, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 5, "portraitSeed": "p_900145" },
@@ -11939,7 +11940,7 @@
     { "id": "p_900169", "name": "ハビ・ルエダ", "alias": null, "category": "active", "nationality": "ES", "club": "c_es_10", "position": "DF", "stats": { "attack": 48, "defense": 62, "speed": 74, "gk": 0 }, "overall": 62, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 17, "portraitSeed": "p_900169" },
     { "id": "p_900170", "name": "ミハイロ・リスティッチ", "alias": null, "category": "active", "nationality": "RS", "club": "c_es_10", "position": "DF", "stats": { "attack": 38, "defense": 66, "speed": 60, "gk": 0 }, "overall": 59, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 21, "portraitSeed": "p_900170" },
     { "id": "p_900171", "name": "イライシュ・モリバ", "alias": null, "category": "active", "nationality": "GN", "club": "c_es_10", "position": "MF", "stats": { "attack": 68, "defense": 62, "speed": 76, "gk": 0 }, "overall": 68, "rarity": 11, "cost": 11, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 6, "portraitSeed": "p_900171" },
-    { "id": "p_900172", "name": "フェル・ロペス", "alias": null, "category": "active", "nationality": "ES", "club": "c_es_10", "position": "MF", "stats": { "attack": 70, "defense": 55, "speed": 72, "gk": 0 }, "overall": 65, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 8, "portraitSeed": "p_900172" },
+    { "id": "p_900172", "name": "フェル・ロペス", "alias": null, "category": "active", "nationality": "ES", "club": "c_es_10", "position": "MF", "stats": { "attack": 70, "defense": 55, "speed": 72, "gk": 0 }, "overall": 65, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 8, "portraitSeed": "p_900172", "dexHidden": true },
     { "id": "p_900173", "name": "ウーゴ・ソテロ", "alias": null, "category": "active", "nationality": "ES", "club": "c_es_10", "position": "MF", "stats": { "attack": 52, "defense": 64, "speed": 62, "gk": 0 }, "overall": 59, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 22, "portraitSeed": "p_900173" },
     { "id": "p_900174", "name": "ミゲル・ロマン", "alias": null, "category": "active", "nationality": "ES", "club": "c_es_10", "position": "MF", "stats": { "attack": 50, "defense": 60, "speed": 64, "gk": 0 }, "overall": 58, "rarity": 9, "cost": 9, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 16, "portraitSeed": "p_900174" },
     { "id": "p_900175", "name": "マティアス・ベシーノ", "alias": null, "category": "active", "nationality": "UY", "club": "c_es_10", "position": "MF", "stats": { "attack": 58, "defense": 68, "speed": 56, "gk": 0 }, "overall": 61, "rarity": 10, "cost": 10, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 15, "portraitSeed": "p_900175" },
@@ -12956,7 +12957,7 @@
     { "id": "p_920478", "name": "ビクトル・パロウ", "alias": null, "category": "active", "nationality": "ES", "club": "c_es3_38", "position": "FW", "stats": { "attack": 36, "defense": 12, "speed": 40, "gk": 1 }, "overall": 34, "rarity": 2, "cost": 2, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 11, "portraitSeed": "p_920478", "dexHidden": true },
     { "id": "p_920479", "name": "アドリアン・アビラ", "alias": null, "category": "active", "nationality": "ES", "club": "c_es3_38", "position": "FW", "stats": { "attack": 42, "defense": 15, "speed": 42, "gk": 2 }, "overall": 38, "rarity": 3, "cost": 3, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 19, "portraitSeed": "p_920479" },
     { "id": "p_920480", "name": "ジョエル・マス", "alias": null, "category": "active", "nationality": "ES", "club": "c_es3_38", "position": "FW", "stats": { "attack": 33, "defense": 10, "speed": 35, "gk": 1 }, "overall": 30, "rarity": 2, "cost": 2, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 17, "portraitSeed": "p_920480", "dexHidden": true },
-    { "id": "p_920481", "name": "ディエゴ・コンデ", "alias": null, "category": "active", "nationality": "ES", "club": "c_es3_40", "position": "GK", "stats": { "attack": 3, "defense": 18, "speed": 16, "gk": 53 }, "overall": 46, "rarity": 6, "cost": 6, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 1, "portraitSeed": "p_920481" },
+    { "id": "p_920481", "name": "ディエゴ・コンデ", "alias": null, "category": "active", "nationality": "ES", "club": null, "position": "GK", "stats": { "attack": 3, "defense": 18, "speed": 16, "gk": 53 }, "overall": 46, "rarity": 6, "cost": 6, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 1, "portraitSeed": "p_920481", "dexHidden": true },
     { "id": "p_920482", "name": "パブロ・アヨラ", "alias": null, "category": "active", "nationality": "ES", "club": "c_es3_40", "position": "GK", "stats": { "attack": 2, "defense": 13, "speed": 12, "gk": 34 }, "overall": 30, "rarity": 2, "cost": 2, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 13, "portraitSeed": "p_920482", "dexHidden": true },
     { "id": "p_920483", "name": "ルーカス・フェレール", "alias": null, "category": "active", "nationality": "ES", "club": "c_es3_40", "position": "GK", "stats": { "attack": 4, "defense": 11, "speed": 10, "gk": 27 }, "overall": 24, "rarity": 1, "cost": 1, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 25, "portraitSeed": "p_920483", "dexHidden": true },
     { "id": "p_920484", "name": "アレックス・ロブレス", "alias": null, "category": "active", "nationality": "ES", "club": "c_es3_40", "position": "DF", "stats": { "attack": 31, "defense": 53, "speed": 43, "gk": 4 }, "overall": 46, "rarity": 6, "cost": 6, "epithetId": null, "sets": [], "exclusiveTo": null, "number": 2, "portraitSeed": "p_920484" },
@@ -15152,6 +15153,7 @@
   let formationSortMode = 'ovr';
   // 編成外候補選手・選手選択プルダウンの絞り込みキーワード
   let candidateFilterText = '';
+  let hideMaxLevelCandidates = false; // 編成の候補からレベル10(カンスト)の選手を除く
   // 現在のソートモードに従って選手配列を並べ替える（OVRは現在のレベル補正後の実効値を使う）
   function sortPlayersForFormation(list) {
     const sorted = [...list];
@@ -15420,7 +15422,85 @@
   let consumables = Object.fromEntries(CONSUMABLE_KEYS.map((k) => [k, 0])); // 保有在庫数
   let consumableArmed = Object.fromEntries(CONSUMABLE_KEYS.map((k) => [k, false])); // 次回のカップ最終週に使うか
   let transferTargetPlayerId = null; // 移籍市場チケットで指名する選手
-  let transferTargetFilterText = '';
+  // 移籍市場チケットの指名リストの絞り込み条件（セーブ対象外）
+  let transferFilter = { text: '', country: '', minRarity: 0, position: '', sort: 'overall' };
+  const TRANSFER_LIST_LIMIT = 300;
+
+  function escapeAttr(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  // 同一人物判定キー（選抜・代表・FA・レジェンド等の「別カード」は対象外にした上で、実クラブ間の重複を名寄せする）
+  function transferPersonKey(p) {
+    return `${p.name}|${p.nationality}|${p.position}`;
+  }
+
+  // 移籍市場チケットで指名できる選手の候補（絞り込み前）。
+  // ・リーグ所属の実クラブ（leagueId あり）の選手のみ＝選抜/代表/FA/レジェンド/その他の国の「別カード」は除外
+  // ・これまでに訪れた「現在地以外」の国のクラブ所属／未所持／獲得上限（hardCap）以内
+  // ・同一人物（名前＋国籍＋ポジション）は最も総合値の高い1枚に名寄せし、既に所持している人物は除外
+  function transferCandidates() {
+    const guard = currentScoutGuardrails();
+    const foreignCountries = visitedForeignCountries();
+    const clubById = new Map(data.clubs.map((c) => [c.id, c]));
+    const isRealClub = (c) => !!(c && c.leagueId);
+    const ownedKeys = new Set();
+    const pool = [];
+    data.players.forEach((p) => {
+      const club = clubById.get(p.club);
+      if (!isRealClub(club)) return;
+      const st = collectionState.players[p.id];
+      if (st && st.owned) { ownedKeys.add(transferPersonKey(p)); return; }
+      if (p.exclusiveTo || p.dexHidden || p.rarity > guard.hardCap) return;
+      if (!foreignCountries.includes(club.country)) return;
+      pool.push({ p, club });
+    });
+    const best = new Map();
+    pool.forEach((e) => {
+      const key = transferPersonKey(e.p);
+      if (ownedKeys.has(key)) return;
+      const cur = best.get(key);
+      if (!cur || e.p.overall > cur.p.overall || (e.p.overall === cur.p.overall && e.p.rarity > cur.p.rarity)) best.set(key, e);
+    });
+    return { guard, foreignCountries, candidates: [...best.values()] };
+  }
+
+  function filterTransferCandidates(candidates) {
+    const f = transferFilter;
+    const q = f.text.trim().toLowerCase();
+    const list = candidates.filter(({ p, club }) => {
+      if (f.country && club.country !== f.country) return false;
+      if (f.position && p.position !== f.position) return false;
+      if (f.minRarity && p.rarity < f.minRarity) return false;
+      if (q && !(`${displayName(p)} ${club.name}`.toLowerCase().includes(q))) return false;
+      return true;
+    });
+    const cmp = f.sort === 'rarity' ? (a, b) => b.p.rarity - a.p.rarity || b.p.overall - a.p.overall
+      : f.sort === 'name' ? (a, b) => displayName(a.p).localeCompare(displayName(b.p), 'ja')
+      : f.sort === 'attack' ? (a, b) => b.p.stats.attack - a.p.stats.attack
+      : f.sort === 'defense' ? (a, b) => b.p.stats.defense - a.p.stats.defense
+      : f.sort === 'speed' ? (a, b) => b.p.stats.speed - a.p.stats.speed
+      : f.sort === 'gk' ? (a, b) => b.p.stats.gk - a.p.stats.gk
+      : (a, b) => b.p.overall - a.p.overall || b.p.rarity - a.p.rarity;
+    return list.sort(cmp);
+  }
+
+  // 指名リストの <option> 群と件数表示のHTML（絞り込みのたびに入力欄を作り直さないよう、ここだけ差し替える）
+  function transferListHtml(candidates) {
+    const filtered = filterTransferCandidates(candidates);
+    const shown = filtered.slice(0, TRANSFER_LIST_LIMIT);
+    if (transferTargetPlayerId && !shown.some((e) => e.p.id === transferTargetPlayerId)) {
+      const sel = candidates.find((e) => e.p.id === transferTargetPlayerId);
+      if (sel) shown.unshift(sel);
+    }
+    const statKey = { attack: 'attack', defense: 'defense', speed: 'speed', gk: 'gk' }[transferFilter.sort];
+    const options = shown.map(({ p, club }) => {
+      const extra = statKey ? `・${{ attack: '攻', defense: '守', speed: '速', gk: 'GK' }[statKey]}${p.stats[statKey]}` : '';
+      return `<option value="${p.id}" ${p.id === transferTargetPlayerId ? 'selected' : ''}>★${p.rarity} ${escapeAttr(displayName(p))}（${p.position}・OVR${p.overall}${extra}・${escapeAttr(club.name)}・${COUNTRY_NAMES_ALL[club.country] || club.country}）</option>`;
+    }).join('');
+    const count = `該当 ${filtered.length}人 / 指名可能 ${candidates.length}人${filtered.length > TRANSFER_LIST_LIMIT ? `（上位${TRANSFER_LIST_LIMIT}人を表示）` : ''}`;
+    return { options, count };
+  }
 
   // 移籍市場チケットの契約金：選手のレアリティが高いほど急増する（施設アップグレードと同じ二乗カーブ）
   function transferScoutCost(rarity) {
@@ -15479,18 +15559,10 @@
     if (!box) return;
     // ガードレール：移籍市場チケットで指名できるのは現在の獲得上限（hardCap）以内の選手のみ
     // かつ、これまでに移籍で訪れたことのある「現在地以外」の国のクラブに所属する選手のみ
-    const guard = currentScoutGuardrails();
-    const foreignCountries = visitedForeignCountries();
-    const unownedPlayers = data.players.filter((p) => {
-      const st = collectionState.players[p.id];
-      return !(st && st.owned) && !p.exclusiveTo && !p.dexHidden && p.rarity <= guard.hardCap
-        && foreignCountries.includes(playerClubCountry(p));
-    });
-    const filterLower = transferTargetFilterText.trim().toLowerCase();
-    const filteredTargets = unownedPlayers
-      .filter((p) => !filterLower || displayName(p).toLowerCase().includes(filterLower))
-      .sort((a, b) => b.overall - a.overall)
-      .slice(0, 200);
+    const { guard, foreignCountries, candidates } = transferCandidates();
+    const listHtml = transferListHtml(candidates);
+    const sel = (cur, v) => (String(cur) === String(v) ? 'selected' : '');
+    const filterStyle = 'margin:0 4px 4px 0;';
 
     const contracted = consumableArmed.transferScout && consumables.transferScout > 0;
     const contractedPlayer = contracted ? data.players.find((p) => p.id === transferTargetPlayerId) : null;
@@ -15510,10 +15582,28 @@
           ${foreignCountries.length === 0 ? `
             <div style="font-size:11px; color:#f99;">まだ他の国へ移籍したことがないため、指名できる選手がいません。一度他国へ移籍すると、その国のクラブの選手を指名できるようになります。</div>
           ` : `
-            <input type="text" data-transfer-filter placeholder="選手名で検索" value="${transferTargetFilterText}" style="width:140px; margin-bottom:4px;">
-            <select data-transfer-target>
+            <div>
+              <input type="text" data-transfer-filter="text" placeholder="選手名・クラブ名で検索" value="${escapeAttr(transferFilter.text)}" style="width:150px; ${filterStyle}">
+              <select data-transfer-filter="country" style="${filterStyle}">
+                <option value="">全ての国</option>
+                ${foreignCountries.map((cc) => `<option value="${cc}" ${sel(transferFilter.country, cc)}>${COUNTRY_NAMES_ALL[cc] || cc}</option>`).join('')}
+              </select>
+              <select data-transfer-filter="minRarity" style="${filterStyle}">
+                <option value="0">★指定なし</option>
+                ${[5, 8, 10, 12, 14, 16, 18, 20].map((r) => `<option value="${r}" ${sel(transferFilter.minRarity, r)}>★${r}以上</option>`).join('')}
+              </select>
+              <select data-transfer-filter="position" style="${filterStyle}">
+                <option value="">全ポジション</option>
+                ${['GK', 'DF', 'MF', 'FW'].map((pos) => `<option value="${pos}" ${sel(transferFilter.position, pos)}>${pos}</option>`).join('')}
+              </select>
+              <select data-transfer-filter="sort" style="${filterStyle}">
+                ${[['overall', '総合値順'], ['rarity', '★順'], ['attack', '攻撃力順'], ['defense', '守備力順'], ['speed', 'スピード順'], ['gk', 'GK力順'], ['name', '名前順']].map(([v, l]) => `<option value="${v}" ${sel(transferFilter.sort, v)}>${l}</option>`).join('')}
+              </select>
+            </div>
+            <div style="font-size:11px; color:#9cf; margin-bottom:2px;" data-transfer-count>${listHtml.count}</div>
+            <select data-transfer-target size="8" style="width:100%; max-width:520px; margin-bottom:4px;">
               <option value="">－ 指名する選手を選択 －</option>
-              ${filteredTargets.map((p) => `<option value="${p.id}" ${p.id === transferTargetPlayerId ? 'selected' : ''}>★${p.rarity} ${displayName(p)}（${p.position}・OVR${p.overall}・${COUNTRY_NAMES_ALL[playerClubCountry(p)] || playerClubCountry(p)}）</option>`).join('')}
+              ${listHtml.options}
             </select>
             ${selectedPlayer ? `<div class="itemLevel">契約金: ${selectedCost.toLocaleString()}資金${gold < selectedCost ? '（資金不足）' : ''}</div>` : ''}
             <button class="action" data-transfer-contract ${selectedPlayer && gold >= selectedCost ? '' : 'disabled'}>契約する${selectedPlayer ? `（${selectedCost.toLocaleString()}資金）` : ''}</button>
@@ -15559,13 +15649,18 @@
         renderConsumables();
       });
     }
-    const targetFilter = box.querySelector('input[data-transfer-filter]');
-    if (targetFilter) {
-      targetFilter.addEventListener('input', (e) => {
-        transferTargetFilterText = e.target.value;
-        renderConsumables();
+    // 絞り込み：入力欄を作り直さない（フォーカスを失わない）よう、件数表示と選手リストだけを差し替える
+    box.querySelectorAll('[data-transfer-filter]').forEach((el) => {
+      el.addEventListener(el.tagName === 'INPUT' ? 'input' : 'change', () => {
+        const key = el.dataset.transferFilter;
+        transferFilter[key] = key === 'minRarity' ? Number(el.value) : el.value;
+        const html = transferListHtml(candidates);
+        const countEl = box.querySelector('[data-transfer-count]');
+        const listEl = box.querySelector('select[data-transfer-target]');
+        if (countEl) countEl.textContent = html.count;
+        if (listEl) listEl.innerHTML = `<option value="">－ 指名する選手を選択 －</option>${html.options}`;
       });
-    }
+    });
   }
 
   // シーズン通算の個人成績（得点・アシスト）。新シーズンでリセットされる
@@ -15637,6 +15732,8 @@
   let cupChampionCount = {};
   // legendLadderTier[country] = レジェンドカップ(クラス別ラダー)の現在tier（1が最上位）。未設定なら最下位から
   let legendLadderTier = {};
+  // legendTopClears[country] = レジェンドカップ最上位tier(Tier 1)での優勝回数。レジェンドハントカップの解放に使う
+  let legendTopClears = {};
   // 通算優勝回数がこの値以上になると、そのカップの対戦相手クラブの選び方を固定で選択できるようになる
   const CUP_CLUB_SELECTION_UNLOCK_WINS = 10;
   // 章制カップ（第1章→第2章…／予選→最終予選など）で次の章を解放するのに必要な、前章の通算優勝回数
@@ -15706,61 +15803,24 @@
   }
 
   // 新しい国へ初めて移籍する際の初期スタメン確保：
-  // ①移籍先の最下部ディビジョンに実在する（入手可能な）所持選手を第一候補とする
-  //   （イングランドは最下部リーグの選手がNPC専用＝入手不可能なため、代わりに日本のJリーグ所持選手を使う）
-  // ②移籍元の国で使っていたセット（originSquadIds）は除外し、必ず別の顔ぶれにする
-  // ③レアリティ上限（最下部ディビジョンの目安）以内・比較的レアリティの低い側から、ポジションを考慮しつつランダムに20人選ぶ
+  // 他国の編成に入っていない所持選手のうち一番弱い（総合値が低い）選手を、3-4-3の内訳（GK3・DF5・MF7・FW5）で20人割り当てる。
+  // 訪問済みの国で使っているセット（originSquadIds）は除外し、必ず別の顔ぶれにする（足りない時のみ最後の手段で重複を許容）
   function seedInitialSquadForCountry(countryCode, originSquadIds) {
     const excludeIds = originSquadIds || new Set();
-    const pyramid = COUNTRY_PYRAMIDS[countryCode];
-    const bottomDivision = pyramid.leagues[0];
-    const cap = rarityCapForLeague(bottomDivision);
     const owned = ownedPlayers();
-    const clubById = Object.fromEntries(data.clubs.map((c) => [c.id, c]));
-    const inLeague = (p, leagueId) => { const c = clubById[p.club]; return !!c && c.leagueId === leagueId; };
 
-    // ① 移籍先の最下部リーグに実在する所持選手
-    let primaryPool = owned.filter((p) => inLeague(p, bottomDivision) && !excludeIds.has(p.id));
-    // イングランドなど、最下部リーグの選手データが入手不可能（NPC専用）な国は日本のJリーグ勢で代替する
-    if (primaryPool.length === 0) {
-      const jpLeagues = ['l_jp1', 'l_jp2', 'l_jp3'];
-      primaryPool = owned.filter((p) => jpLeagues.some((lg) => inLeague(p, lg)) && !excludeIds.has(p.id));
-    }
+    // 他国で使っていない所持選手のうち、総合値が低い（＝一番弱い）順に、3-4-3の内訳（GK3・DF5・MF7・FW5）で20人選ぶ。
+    // 国籍・所属リーグ・レアリティ上限は問わない（日本の初期メンバーに引きずられないよう、弱さだけで決める）
+    const weakness = (a, b) => (a.overall - b.overall) || (a.rarity - b.rarity) || String(a.id).localeCompare(String(b.id));
+    const freePool = owned.filter((p) => !excludeIds.has(p.id)).sort(weakness);
 
-    // ② レアリティ上限で絞り込み、③ 不足時は条件を段階的に緩めて必要人数を確保する
-    // （移籍元の国で使っていた選手＝excludeIdsとの重複だけは、本当に他に選手がいない場合の最後の手段になるまで避ける）
-    let eligible = primaryPool.filter((p) => p.rarity <= cap);
-    if (eligible.length < 20) {
-      const extra = owned.filter((p) => p.rarity <= cap && !excludeIds.has(p.id) && !eligible.includes(p));
-      eligible = eligible.concat(extra);
-    }
-    if (eligible.length < 11) {
-      // レアリティ上限を緩める（まだ移籍元との重複は避ける）
-      const rest = owned.filter((p) => !excludeIds.has(p.id) && !eligible.includes(p));
-      eligible = eligible.concat(rest);
-    }
-    if (eligible.length < 11) {
-      // 所持選手そのものが足りない場合のみ、やむを得ず移籍元と重複させる
-      const lastResort = owned.filter((p) => !eligible.includes(p));
-      eligible = eligible.concat(lastResort);
-    }
-
-    // 「比較的弱いメンバー」を優先しつつランダム性を持たせる：レアリティが低い側を優先母集団にしてシャッフルする
-    const sortedAsc = [...eligible].sort((a, b) => a.rarity - b.rarity);
-    const weakPoolSize = Math.max(Math.min(20, sortedAsc.length), Math.ceil(sortedAsc.length * 0.7));
-    const weakPool = sortedAsc.slice(0, weakPoolSize);
-    shuffleArray(weakPool);
-
-    // ポジションを考慮しつつランダムに20人選出（442フォーメーションのスタメン+ベンチ内訳と一致させる：GK3・DF7・MF7・FW3）
-    const targetByPos = { GK: 3, DF: 7, MF: 7, FW: 3 };
+    const targetByPos = { GK: 3, DF: 5, MF: 7, FW: 5 };
     let squad = [];
     ['GK', 'DF', 'MF', 'FW'].forEach((pos) => {
-      const picks = weakPool.filter((p) => p.position === pos && !squad.includes(p)).slice(0, targetByPos[pos]);
-      squad.push(...picks);
+      squad.push(...freePool.filter((p) => p.position === pos).slice(0, targetByPos[pos]));
     });
     if (squad.length < 20) {
-      const rest = weakPool.filter((p) => !squad.includes(p));
-      squad.push(...rest.slice(0, 20 - squad.length));
+      squad.push(...freePool.filter((p) => !squad.includes(p)).slice(0, 20 - squad.length));
     }
     squad = squad.slice(0, 20);
 
@@ -15926,7 +15986,7 @@
       const pyramid = COUNTRY_PYRAMIDS[countryCode];
       const bottomDivision = pyramid.leagues[0];
       facilities = initialFacilityLevelsForCountry(countryCode);
-      currentFormationKey = { league: '442', cup: '442' };
+      currentFormationKey = { league: '343', cup: '343' };
       season = { year: 1, month: 1, week: 1, country: countryCode, division: bottomDivision, standings: {}, activeCupId: null };
       season.standings[bottomDivision] = freshStandingsFor(bottomDivision);
       season.leagueSchedule = buildLeagueSchedule(bottomDivision);
@@ -16144,10 +16204,19 @@
 
   let season = null; // 初期化は ensureSeason() で行う
 
+  // セーブ保護（スマホ再起動で選手・編成が消える事故の対策）
+  // - saveLoadFailed: セーブが存在するのに読み込みで例外が出た状態。この間は上書き保存を止め、
+  //   中途半端な（空に近い）メモリ状態で正常なセーブを潰さないようにする
+  // - loadedSaveAt: このページが最後に読み書きしたセーブの savedAt。ストレージ側がこれより新しければ
+  //   別のページ（バックグラウンドから復帰した古いタブ等）が先に更新したと判断し、古い状態での上書きを避ける
+  let saveLoadFailed = false;
+  let loadedSaveAt = 0;
+
   function loadSave() {
     try {
       const raw = localStorage.getItem(SAVE_KEY);
       if (raw) {
+        loadedSaveAt = (JSON.parse(raw) || {}).savedAt || 0;
         const parsed = JSON.parse(raw);
         collectionState = parsed.collectionState || { players: {} };
         gold = parsed.gold || 0;
@@ -16226,6 +16295,7 @@
         cupClubSelectionMode = parsed.cupClubSelectionMode || {};
         cupClubManualPick = parsed.cupClubManualPick || {};
         legendLadderTier = parsed.legendLadderTier || {};
+        legendTopClears = parsed.legendTopClears || {};
         divisionChampionEver = parsed.divisionChampionEver || {};
         divisionChampionLastYear = parsed.divisionChampionLastYear || {};
         divisionPromotedEver = parsed.divisionPromotedEver || {};
@@ -16236,14 +16306,33 @@
         matchSpeed = parsed.matchSpeed || '1';
         noDupBetweenContexts = !!parsed.noDupBetweenContexts;
       }
-    } catch (e) { console.warn('save load failed', e); }
+    } catch (e) {
+      console.warn('save load failed', e);
+      saveLoadFailed = true;
+      setTimeout(() => alert('セーブデータの読み込みに失敗しました。データ保護のため、再読み込みするまで保存を停止します。\n改善しない場合は画面最下部の「セーブ管理」からバックアップを復元してください。'), 0);
+    }
   }
 
   // skipAchievementCheck: 結果確定直後（演出前）に呼ぶ場合はtrueを渡し、実績トーストの表示を演出完了後まで遅らせる
   function persistSave(skipAchievementCheck) {
+    if (saveLoadFailed) return;
+    // 別ページ（復帰した古いタブ等）が既に新しいセーブを書いていたら、古いメモリ状態で上書きせず読み直す
+    try {
+      const cur = localStorage.getItem(SAVE_KEY);
+      if (cur && loadedSaveAt) {
+        const curAt = (JSON.parse(cur) || {}).savedAt || 0;
+        if (curAt > loadedSaveAt) {
+          saveLoadFailed = true;
+          location.reload();
+          return;
+        }
+      }
+    } catch (e) { /* 判定できなければ通常保存 */ }
+    const savedAtNow = Date.now();
+    try {
     localStorage.setItem(SAVE_KEY, JSON.stringify({
       schemaVersion: 1,
-      savedAt: Date.now(), // スロット選択UIの最終セーブ日時表示用
+      savedAt: savedAtNow, // スロット選択UIの最終セーブ日時表示用／古いページによる上書き検知用
       gold,
       collectionState,
       formation,
@@ -16268,6 +16357,7 @@
       cupChampionLastMonth,
       cupChampionCount,
       legendLadderTier,
+      legendTopClears,
       cupClubSelectionMode,
       cupClubManualPick,
       divisionChampionEver,
@@ -16282,6 +16372,15 @@
       promotionDroughtSeasons,
       playRecord,
     }));
+    loadedSaveAt = savedAtNow;
+    } catch (e) {
+      // 容量超過などで書き込めない場合も、操作は止めずに警告のみ（JSONエクスポートでの退避を促す）
+      console.warn('save write failed', e);
+      if (!persistSave._warned) {
+        persistSave._warned = true;
+        alert('セーブの書き込みに失敗しました（端末の保存容量不足の可能性）。「セーブ管理」からJSONエクスポートで退避してください。');
+      }
+    }
     // セーブが走るたびに実績の新規解除をチェックし、達成していればトーストで知らせる
     // （どのタブを見ていても実績解除に気づけるように、特定タブの描画ではなくセーブの共通経路にフックしている）
     // ただし試合結果確定直後（演出前）のセーブはskipAchievementCheckで見送り、演出完了後に呼び出し側から明示的にチェックする
@@ -16404,6 +16503,7 @@
     if (!confirm(`${sourceLabel}のセーブで現在のデータを置き換えます。現在のデータは自動でバックアップに退避されます。よろしいですか？`)) return;
     pushSaveBackup('restore');
     localStorage.setItem(SAVE_KEY, raw);
+    saveLoadFailed = true; // 再読み込み中にpagehide等の自動保存で、置き換えたセーブを古いメモリ状態で潰さない
     location.reload();
   }
 
@@ -16480,16 +16580,15 @@
   //
   // 注意：buildAchievements()は「施設レベル到達系」の判定にcomputeClubRank()を呼ぶため、
   // このボーナス計算をcomputeClubRank()の戦力スコアから参照すると循環呼び出しになる。
-  // そのため戦力ボーナスはcomputeClubRank()が使わない側（実際の試合戦力側）にだけ掛ける。
+  // 戦力への実績ボーナスは廃止済み（試合の強さは選手・シナジー・施設のみで決まる）。
   const ACHIEVEMENT_BONUS_CATEGORIES = {
     // 収集系実績 → チームコスト上限（集めるほど編成の枠が増える）
     cost: ['図鑑コンプ系', 'リーグ図鑑コンプ系', '主要クラブ図鑑コンプ系', '選手セット収集系', '二つ名コンプ系'],
-    // 大会制覇・個人表彰・施設極め系実績 → チーム戦力（積み上げた実績が地力になる）
-    power: ['大会制覇・連覇系', 'シーズン表彰', '施設レベル到達系'],
     // レア帯到達系実績 → スカウトの高レア・未所持優先バイアス（見る目が肥える）
     scout: ['レア帯到達系'],
-    // プレイ記録系実績 → 試合収入（実績＝人気・動員力とみなす）
-    income: ['プレイ記録系'],
+    // プレイ記録系・大会制覇・個人表彰・施設極め系実績 → 試合収入（実績＝人気・動員力とみなす）
+    // ※旧「戦力」バケットは廃止し、収入側へ振り替えた（実績で試合の強さは変わらない）
+    income: ['プレイ記録系', '大会制覇・連覇系', 'シーズン表彰', '施設レベル到達系'],
   };
   function achievementBucketRate(bucketKey) {
     const cats = ACHIEVEMENT_BONUS_CATEGORIES[bucketKey];
@@ -16499,23 +16598,19 @@
   }
 
   const ACH_COST_CAP_MAX = 90;    // コスト上限：達成率100%で+90（施設投資と同程度の伸び幅）
-  const ACH_POWER_BONUS_MAX = 0.15; // 戦力：達成率100%で総合値+15%
   const ACH_SCOUT_BIAS_MAX = 10;  // スカウト：達成率100%で監督レベル換算+10相当の未所持・高レア優先バイアス
-  const ACH_INCOME_BONUS_MAX = 0.30; // 収益：達成率100%で試合収入+30%
+  const ACH_INCOME_BONUS_MAX = 0.60; // 収益：達成率100%で試合収入+60%（旧戦力ボーナスの振替分を含む）
 
   // 「満額に達する達成率」：大会・表彰・図鑑には1000回級や全国制覇など到達しにくい実績が多く含まれるため、
   // 100%を要求するとボーナスが事実上上限に届かない。この達成率で満額（それ以降は頭打ち）とし、残りは勲章として楽しむ位置づけにする。
-  // 分母（実績数）：cost≈158 / power≈234 / scout=25 / income=22（2026-10時点）。実績を増減したら見直すこと
-  const ACH_FULL_RATE = { cost: 0.60, power: 0.45, scout: 0.80, income: 0.70 };
+  // 分母（実績数）：cost≈158 / scout=25 / income≈256（旧power≈234を統合）（2026-10時点）。実績を増減したら見直すこと
+  const ACH_FULL_RATE = { cost: 0.60, scout: 0.80, income: 0.45 };
   function achievementEffectiveRate(bucketKey) {
     return Math.min(1, achievementBucketRate(bucketKey) / ACH_FULL_RATE[bucketKey]);
   }
 
   function achievementCostCapBonus() {
     return Math.round(ACH_COST_CAP_MAX * achievementEffectiveRate('cost'));
-  }
-  function achievementPowerMultiplier() {
-    return 1 + ACH_POWER_BONUS_MAX * achievementEffectiveRate('power');
   }
   function achievementScoutBiasBonus() {
     return ACH_SCOUT_BIAS_MAX * achievementEffectiveRate('scout');
@@ -16560,7 +16655,7 @@
   // 戦力（チーム総合力・実績ボーナス込み）／施設（他施設の平均レベル）／通算成績（カップ戦・リーグ戦の優勝・昇格などの実績）の
   // 4要素を総合して自動算出する。購入はできず、プレーの結果として自然に上がっていく
   // ※powerScoreはcomputeTeamStatsRaw（実績ボーナス適用前）を使う。実績ボーナス込みのcomputeTeamPowerを使うと
-  //   buildAchievements()→computeClubRank()→achievementPowerMultiplier()→buildAchievements()の循環呼び出しになるため。
+  //   （旧：戦力ボーナスは廃止済み。実績ボーナスを戦力に掛けると循環呼び出しになる点に注意）
   function computeClubRank() {
     const power = computeTeamStatsRaw('league').power;
     const powerScore = clamp(power / 5, 1, CLUB_RANK_MAX);
@@ -16580,11 +16675,13 @@
   }
 
   // ゲーム開始時に必ず持っている初期スタメン20人を所持済みにする
+  // 状態レコードが無い（＝新規ゲーム・リセット直後）選手にだけ付与する。
+  // レコードがあるのに owned:false の選手はリリース／自動売却済みなので、起動のたびに復活させない
   function ensureStartingRoster() {
     (data.startingRosterIds || []).forEach((id) => {
       const st = collectionState.players[id];
-      if (!st || !st.owned) {
-        collectionState.players[id] = { owned: true, everOwned: true, dupes: (st && st.dupes) || 0, level: 1, xp: 0, fatigue: 0 };
+      if (!st) {
+        collectionState.players[id] = { owned: true, everOwned: true, dupes: 0, level: 1, xp: 0, fatigue: 0 };
       }
     });
   }
@@ -16751,8 +16848,7 @@
   // 表示・実戦力用：実績ボーナス（戦力バケット）を掛けた値。UIやマッチ前計算はこちらを使う
   function computeTeamStats(context) {
     const raw = computeTeamStatsRaw(context);
-    const mult = achievementPowerMultiplier();
-    return { power: raw.power * mult, attack: raw.attack * mult, defense: raw.defense * mult };
+    return { power: raw.power, attack: raw.attack, defense: raw.defense };
   }
   function computeTeamPower(context) { return computeTeamStats(context).power; }
 
@@ -16902,18 +16998,16 @@
     });
 
     if (weightTotal <= 0) return { power: 0, attack: 0, defense: 0 };
-    const mult = achievementPowerMultiplier();
     return {
-      power: (totals.power / weightTotal) * mult,
-      attack: (totals.attack / weightTotal) * mult,
-      defense: (totals.defense / weightTotal) * mult,
+      power: totals.power / weightTotal,
+      attack: totals.attack / weightTotal,
+      defense: totals.defense / weightTotal,
     };
   }
   function computeMatchPower(context) { return computeMatchTeamStats(context).power; }
 
-  // チーム評価：90を超えたら90-94/95+の2段でさらに細分化。Gより下は35以下を最低として5刻みでH・Iまで細分化
+  // チーム評価：90-94はSSS、95以上はSSS★〜（下のgradeOf参照）。Gより下は35以下を最低として5刻みでH・Iまで細分化
   const TEAM_GRADE_THRESHOLDS = [
-    { grade: 'SSS+', min: 95 },
     { grade: 'SSS', min: 90 },
     { grade: 'SS', min: 85 },
     { grade: 'S', min: 80 },
@@ -16929,7 +17023,13 @@
     { grade: 'I-', min: 20 },
     { grade: 'I--', min: 0 }, // 20未満（下限なし）
   ];
+  // 95以上は90台のSSSに★を付与（95=★、96=★★…、理論値＝最高総合値99で★5まで）
+  const GRADE_STAR_MIN = 95;
+  const GRADE_STAR_MAX = 19;
   function gradeOf(power) {
+    if (power >= GRADE_STAR_MIN) {
+      return 'SSS' + '★'.repeat(Math.min(GRADE_STAR_MAX, Math.floor(power) - GRADE_STAR_MIN + 1));
+    }
     const t = TEAM_GRADE_THRESHOLDS.find((t) => power >= t.min);
     return t ? t.grade : TEAM_GRADE_THRESHOLDS[TEAM_GRADE_THRESHOLDS.length - 1].grade;
   }
@@ -17440,16 +17540,16 @@
       ['c_leg_madrid', 'c_leg_world', 'c_fr_01', 'c_sel_es_all'],
       ['c_sel_gb_all', 'c_sel_it_all', 'c_leg_nt_brazil', 'c_leg_arsenal'],
       ['c_leg_milan', 'c_leg_nt_portugal', 'c_leg_inter', 'c_leg_barcelona'],
-      ['c_madrid', 'c_en_02', 'c_fa_a', 'c_leg_africa'],
+      ['c_madrid', 'c_leg_bayern', 'c_fa_a', 'c_leg_africa'],
       ['c_leg_chelsea', 'sel_gb_3', 'sel_gb_1', 'c_leg_nt_germany'],
-      ['sel_it_1', 'c_en_05', 'c_other_001', 'c_it_02'],
-      ['c_leg_atletico', 'c_en_03', 'c_en_04', 'c_other_009'],
-      ['c_leg_nt_croatia', 'c_other_007', 'c_it_04', 'c_other_005'],
-      ['c_other_008', 'c_sel_de_all', 'c_leg_lazio', 'c_es_03'],
+      ['sel_it_1', 'c_leg_nt_argentina', 'c_leg_juventus', 'c_leg_nt_france'],
+      ['c_leg_atletico', 'nt_3', 'c_leg_liverpool', 'c_leg_roma'],
+      ['c_leg_nt_croatia', 'c_leg_monaco', 'nt_1', 'nt_32'],
+      ['c_other_008', 'c_sel_de_all', 'c_leg_lazio', 'c_leg_parma'],
       ['c_other_006', 'c_en_16', 'c_it_03', 'c_en_11'],
       ['c_en_15', 'c_other_012', 'c_es_04', 'c_other_013'],
       ['c_es_06', 'c_en_20', 'c_it_19', 'sel_es_1'],
-      ['c_other_003', 'sel_es_2', 'c_de_01', 'c_en_08'],
+      ['c_other_003', 'sel_es_2', 'c_leg_nt_japan', 'c_en_08'],
       ['c_en_07', 'c_it_05', 'c_en_17', 'c_en_13'],
       ['c_other_015', 'c_leg_ajax', 'c_fa_b', 'c_it_07'],
       ['c_fr_02', 'c_it_08', 'c_es_05', 'c_other_019'],
@@ -17458,7 +17558,7 @@
       ['c_en_18', 'c_es_08', 'c_other_020', 'c_de_08'],
       ['c_fr_08', 'c_fr_04', 'c_de_05', 'c_en_10'],
       ['c_es_09', 'c_other_031', 'c_en_19', 'c_fr_07'],
-      ['c_other_034', 'c_it_21', 'c_other_024', 'c_it_09'],
+      ['c_other_034', 'c_it_21', 'c_leg_kashima', 'c_it_09'],
       ['c_de_06', 'c_other_026', 'c_other_021', 'c_other_030'],
       ['c_it_10', 'c_other_033', 'c_other_032', 'c_other_022'],
       ['c_it_17', 'c_fr_18', 'c_other_055', 'c_de2_18'],
@@ -17466,14 +17566,14 @@
       ['c_other_049', 'c_other_044', 'c_other_045', 'c_de_09'],
       ['c_other_061', 'c_other_048', 'c_other_052', 'c_other_062'],
       ['c_de_10', 'c_other_050', 'c_it_15', 'c_other_059'],
-      ['c_other_051', 'c_de_13', 'c_other_053', 'c_other_056'],
+      ['c_leg_visselkobe', 'c_de_13', 'c_other_053', 'c_other_056'],
       ['c_other_057', 'c_fr_05', 'c_de_11', 'c_it_12'],
       ['c_other_037', 'c_other_065', 'c_other_039', 'c_de_14'],
       ['c_leg_jubilo', 'c_de_21', 'c_fr_13', 'c_de2_17'],
       ['c_other_067', 'c_other_066', 'c_other_068', 'c_other_069'],
       ['c_de2_19', 'c_other_072', 'c_other_038', 'c_it_18'],
       ['c_it_22', 'c_en2_05', 'c_fr_14', 'c_other_074'],
-      ['c_de_24', 'c_other_073', 'c_fr_09', 'c_other_075'],
+      ['c_de_24', 'c_other_073', 'c_fr_09', 'c_leg_yokohamafm'],
       ['c_es_12', 'c_en4_21', 'c_de_23', 'c_other_077'],
       ['c_other_076', 'c_de2_03', 'c_de2_05', 'c_it2_12'],
       ['c_de_25', 'c_en4_03', 'c_other_078', 'c_es_15'],
@@ -17488,11 +17588,11 @@
       ['c_it2_02', 'c_es2_06', 'c_es2_04', 'c_en5_18'],
       ['c_it2_19', 'c_en5_07', 'c_en2_06', 'c_es2_19'],
     ],    ES: [
-      ['c_sel_free', 'c_en_02', 'c_leg_chelsea', 'c_leg_manutd'],
-      ['sel_gb_1', 'sel_it_1', 'c_en_01', 'c_it_02'],
-      ['c_other_001', 'c_en_03', 'c_other_009', 'c_other_007'],
-      ['c_it_04', 'c_en_06', 'c_other_011', 'c_sel_de_all'],
-      ['c_es_03', 'c_other_006', 'sel_es_2', 'c_en_08'],
+      ['c_sel_free', 'c_leg_bayern', 'c_leg_chelsea', 'c_leg_manutd'],
+      ['sel_gb_1', 'sel_it_1', 'c_en_01', 'c_leg_juventus'],
+      ['c_other_001', 'nt_6', 'nt_8', 'c_other_007'],
+      ['nt_9', 'c_en_06', 'c_leg_roma', 'c_sel_de_all'],
+      ['c_es_03', 'c_leg_nt_japan', 'sel_es_2', 'c_en_08'],
       ['c_en_07', 'c_it_05', 'c_en_13', 'c_en_11'],
       ['c_other_015', 'c_fr_06', 'c_it_07', 'c_en_12'],
       ['c_fr_03', 'c_it_06', 'c_it_08', 'c_other_019'],
@@ -17500,10 +17600,10 @@
       ['c_de_04', 'c_it_10', 'c_other_020', 'c_fr_08'],
       ['c_de_05', 'c_other_029', 'c_fa_c', 'c_fr_04'],
       ['c_en_19', 'c_fr_12', 'c_it_21', 'c_it_09'],
-      ['c_other_026', 'c_other_021', 'c_other_030', 'c_other_022'],
+      ['c_other_026', 'c_other_021', 'c_other_030', 'nt_22'],
       ['c_fr_18', 'c_other_063', 'c_other_046', 'c_other_043'],
       ['c_other_041', 'c_other_042', 'c_other_049', 'c_de_09'],
-      ['c_other_048', 'c_other_047', 'c_other_050', 'c_other_051'],
+      ['c_other_048', 'c_other_047', 'c_other_050', 'c_leg_visselkobe'],
       ['c_other_059', 'c_de_13', 'c_en2_22', 'c_other_057'],
       ['c_other_064', 'c_other_037', 'c_other_039', 'c_leg_jubilo'],
       ['c_de_21', 'c_other_066', 'c_de2_19', 'c_jleaguesel'],
@@ -17520,11 +17620,11 @@
       ['c_en5_13', 'c_en4_14', 'c_en4_11', 'c_es_25'],
     ],    IT: [
       ['c_sel_free', 'c_fa_a', 'c_leg_africa', 'c_leg_manutd'],
-      ['sel_gb_1', 'c_en_01', 'sel_it_1', 'c_other_001'],
-      ['c_leg_atletico', 'c_en_04', 'c_other_009', 'c_other_002'],
-      ['c_it_04', 'c_en_06', 'c_other_011', 'c_leg_lazio'],
-      ['c_it_05', 'c_en_15', 'c_other_013', 'c_fr_03'],
-      ['sel_es_1', 'c_other_006', 'sel_es_2', 'c_en_08'],
+      ['sel_gb_1', 'c_leg_bayern', 'sel_it_1', 'c_leg_juventus'],
+      ['c_leg_atletico', 'nt_2', 'nt_4', 'c_other_002'],
+      ['c_it_04', 'c_en_06', 'c_leg_roma', 'nt_19'],
+      ['c_it_05', 'nt_24', 'c_other_013', 'c_fr_03'],
+      ['sel_es_1', 'c_leg_nt_japan', 'sel_es_2', 'c_en_08'],
       ['c_en_07', 'c_en_17', 'c_en_11', 'c_other_015'],
       ['c_it_07', 'c_it_06', 'c_es_05', 'c_es_07'],
       ['c_en_20', 'c_other_017', 'c_other_016', 'c_other_023'],
@@ -17534,7 +17634,7 @@
       ['c_other_033', 'c_other_022', 'c_fr_18', 'c_de2_18'],
       ['c_other_040', 'c_other_041', 'c_other_049', 'c_it_16'],
       ['c_other_042', 'c_de_09', 'c_other_048', 'c_other_047'],
-      ['c_other_050', 'c_other_051', 'c_other_053', 'c_other_056'],
+      ['c_other_050', 'c_leg_visselkobe', 'c_other_053', 'c_other_056'],
       ['c_de_11', 'c_it_12', 'c_other_064', 'c_other_039'],
       ['c_leg_jubilo', 'c_de_21', 'c_fr_13', 'c_other_067'],
       ['c_other_068', 'c_it_20', 'c_it_18', 'c_other_038'],
@@ -17551,16 +17651,16 @@
       ['c_en2_08', 'c_it2_20', 'c_it2_18', 'c_en4_10'],
     ],    DE: [
       ['c_sel_free', 'c_fa_a', 'c_leg_africa', 'sel_gb_3'],
-      ['c_leg_nt_germany', 'c_en_01', 'c_en_05', 'c_other_001'],
-      ['c_leg_atletico', 'c_en_04', 'c_other_002', 'c_leg_nt_croatia'],
-      ['c_en_06', 'c_other_011', 'c_leg_lazio', 'c_en_14'],
+      ['c_leg_nt_germany', 'c_leg_nt_france', 'nt_0', 'c_leg_nt_argentina'],
+      ['c_leg_atletico', 'c_leg_liverpool', 'nt_11', 'c_leg_nt_croatia'],
+      ['c_leg_parma', 'c_other_011', 'nt_12', 'c_en_14'],
       ['c_other_018', 'c_it_07', 'c_es_06', 'c_it_19'],
       ['sel_es_1', 'c_other_003', 'c_de_01', 'c_en_07'],
       ['c_en_17', 'c_en_11', 'c_leg_ajax', 'c_fa_b'],
       ['c_fr_02', 'c_it_06', 'c_es_05', 'c_es_07'],
       ['sel_de_3', 'c_en_09', 'c_de_04', 'c_other_036'],
       ['c_en_18', 'c_de_08', 'c_de2_16', 'c_other_029'],
-      ['c_fa_c', 'c_en_19', 'c_other_031', 'c_fr_07'],
+      ['c_fa_c', 'c_leg_kashima', 'c_other_031', 'c_fr_07'],
       ['c_it_21', 'c_it_09', 'c_de_06', 'c_other_030'],
       ['c_it_10', 'c_other_033', 'c_fr_18', 'c_other_055'],
       ['c_other_040', 'c_other_043', 'c_other_049', 'c_it_16'],
@@ -17570,7 +17670,7 @@
       ['c_de_14', 'c_nl_01', 'c_jleaguesel', 'c_fr_13'],
       ['c_other_068', 'c_it_20', 'c_it_18', 'c_fr_14'],
       ['c_other_074', 'c_other_073', 'c_fr_19', 'c_de2_07'],
-      ['c_de_23', 'c_other_077', 'c_de_25', 'c_fr_10'],
+      ['c_de_23', 'c_other_077', 'c_de_25', 'c_leg_yokohamafm'],
       ['c_es_15', 'c_fr_15', 'c_es2_22', 'c_es2_05'],
       ['c_es_21', 'c_es2_17', 'c_en4_09', 'c_it2_01'],
       ['c_en2_04', 'c_es2_03', 'c_en5_07', 'c_en4_14'],
@@ -17582,16 +17682,16 @@
       ['c_it2_11', 'c_en2_12', 'c_en2_14', 'c_es2_14'],
     ],    FR: [
       ['c_en_02', 'c_leg_chelsea', 'c_leg_manutd', 'sel_gb_3'],
-      ['c_leg_nt_germany', 'c_en_01', 'c_it_02', 'c_other_001'],
-      ['c_en_03', 'c_en_04', 'c_leg_nt_croatia', 'c_it_01'],
-      ['c_sel_de_all', 'c_es_03', 'c_other_006', 'c_other_003'],
-      ['c_de_01', 'c_en_08', 'c_it_05', 'c_other_014'],
-      ['c_en_13', 'c_en_11', 'c_leg_ajax', 'c_other_012'],
+      ['c_leg_nt_germany', 'c_leg_nt_france', 'c_it_02', 'c_leg_nt_argentina'],
+      ['c_en_03', 'nt_5', 'c_leg_nt_croatia', 'c_it_01'],
+      ['c_sel_de_all', 'c_leg_liverpool', 'c_leg_parma', 'sel_fr_1'],
+      ['c_es_02', 'c_en_08', 'c_it_05', 'c_other_014'],
+      ['c_en_13', 'c_en_11', 'nt_25', 'c_other_012'],
       ['c_fa_b', 'c_fr_02', 'c_es_05', 'c_it_08'],
       ['c_other_019', 'c_en_20', 'sel_de_3', 'c_other_017'],
       ['c_en_09', 'c_de_03', 'c_de_04', 'c_other_020'],
       ['c_fr_08', 'c_de2_16', 'c_other_029', 'c_es_09'],
-      ['c_fa_c', 'c_other_031', 'c_fr_07', 'c_other_025'],
+      ['c_fa_c', 'c_other_031', 'c_fr_07', 'c_leg_kashima'],
       ['c_it_09', 'c_other_021', 'c_other_032', 'c_other_022'],
       ['c_it_10', 'c_fr_18', 'c_other_055', 'c_other_046'],
       ['c_other_043', 'c_other_049', 'c_de_09', 'c_it_16'],
@@ -17600,7 +17700,7 @@
       ['c_other_064', 'c_other_037', 'c_de_22', 'c_de_14'],
       ['c_other_066', 'c_jleaguesel', 'c_other_067', 'c_other_072'],
       ['c_it_20', 'c_it_18', 'c_fr_14', 'c_de_24'],
-      ['c_other_073', 'c_es_12', 'c_de2_07', 'c_other_077'],
+      ['c_other_073', 'c_leg_yokohamafm', 'c_de2_07', 'c_other_077'],
       ['c_de2_03', 'c_de_25', 'c_leg_urawa', 'c_es_15'],
       ['c_de2_13', 'c_es2_22', 'c_de2_08', 'c_es_21'],
       ['c_es2_17', 'c_en4_09', 'c_it2_01', 'c_it2_05'],
@@ -17612,8 +17712,8 @@
       ['c_es2_14', 'c_fr2_17', 'c_en5_10', 'c_be_11'],
       ['c_fr2_04', 'c_en2_07', 'c_fr2_08', 'c_fr2_13'],
     ],    JP: [
-      ['c_it_03', 'c_other_014', 'c_en_11', 'c_other_018'],
-      ['c_it_05', 'c_fr_06', 'c_es_04', 'c_other_012'],
+      ['nt_10', 'c_other_014', 'nt_34', 'c_other_018'],
+      ['nt_13', 'c_fr_06', 'c_es_04', 'c_other_012'],
       ['c_it_07', 'c_other_013', 'c_other_019', 'c_en_12'],
       ['c_fr_03', 'c_es_06', 'c_en_20', 'c_other_016'],
       ['c_other_036', 'c_it_19', 'c_other_023', 'c_other_028'],
@@ -17682,24 +17782,24 @@
   //   戦力≈84）を GB ISC 第1章に追加してコンプ保証を維持。
   const FOREIGN_SUPERCLUB_CHAPTER_CLUB_IDS_BY_COUNTRY = {
     GB: {
-      ch1: ['c_other_006', 'c_other_003', 'c_other_004', 'c_other_005', 'c_leg_roma', 'c_leg_lazio', 'sel_gb_2', 'sel_gb_4'],
-      ch2: ['c_leg_atletico', 'c_other_007', 'c_other_009', 'c_other_001', 'c_other_002', 'c_leg_nt_netherlands'],
-      ch3: ['c_sel_fr_all', 'c_sel_free', 'c_madrid', 'c_leg_nt_france', 'c_leg_liverpool', 'c_leg_nt_germany'],
+      ch1: ['c_other_006', 'c_other_003', 'c_other_004', 'c_other_005', 'sel_gb_2', 'sel_gb_4', 'c_other_017', 'c_other_014'],
+      ch2: ['c_other_007', 'c_other_009', 'c_other_001', 'c_other_002', 'c_other_011', 'c_other_012'],
+      ch3: ['c_sel_fr_all', 'c_sel_free', 'c_madrid', 'c_other_008', 'c_other_021', 'c_other_030'],
     },
     IT: {
       ch1: ['c_other_017', 'c_other_004', 'c_other_019', 'c_other_014', 'c_other_042', 'c_other_030'],
-      ch2: ['c_other_006', 'c_other_003', 'c_leg_roma', 'c_other_011', 'c_other_007', 'c_other_009'],
-      ch3: ['c_leg_liverpool', 'c_leg_nt_germany', 'c_other_001', 'c_leg_nt_netherlands', 'c_other_002', 'c_other_005'],
+      ch2: ['c_other_006', 'c_other_003', 'c_other_011', 'c_other_007', 'c_other_009', 'c_other_012'],
+      ch3: ['c_other_001', 'c_other_002', 'c_other_005', 'c_other_008', 'c_other_021', 'c_other_018'],
     },
     ES: {
       ch1: ['c_other_028', 'c_other_023', 'c_other_029', 'c_other_036', 'c_other_047', 'c_other_054', 'c_other_059'],
       ch2: ['c_other_012', 'c_other_013', 'c_other_015', 'c_other_018', 'c_other_027', 'c_other_032', 'c_other_033'],
-      ch3: ['c_leg_nt_croatia', 'c_leg_monaco', 'c_other_005', 'c_other_002', 'c_other_001', 'c_other_004'],
+      ch3: ['c_other_005', 'c_other_002', 'c_other_001', 'c_other_004', 'c_other_008', 'c_other_011'],
     },
     FR: {
       ch1: ['c_other_031', 'c_other_034', 'c_other_020', 'c_other_025', 'c_other_056', 'c_other_059'],
       ch2: ['c_other_019', 'c_other_012', 'c_other_013', 'c_other_016', 'c_other_042', 'c_other_047'],
-      ch3: ['c_sel_de_all', 'c_other_008', 'c_other_011', 'c_leg_lazio', 'c_other_021', 'c_other_030'],
+      ch3: ['c_sel_de_all', 'c_other_008', 'c_other_011', 'c_other_021', 'c_other_030', 'c_other_007'],
     },
     DE: {
       ch1: ['c_other_050', 'c_other_058', 'c_other_060', 'c_other_052', 'c_other_053', 'c_other_055'],
@@ -17739,6 +17839,8 @@
   //    ただしスカウトの獲得上限（収集ペースのガードレール）は越えられない。
   //  - 解放：カップ通算優勝回数・図鑑コンプ率・スカウト獲得上限＋（★16以降は）一つ下の★帯のカップ優勝。
   //  - 毎月の自動踏襲はしない（終了後は選択解除）。勝手に参加費が引かれ続けないようにするため。
+  // ★18以上の選手はレジェンドカップ（legendLadder）専用の入手源。他のカップ・移籍市場チケットでは獲得できない
+  const LEGEND_ONLY_MIN_RARITY = 18;
   const TARGET_CUP_TIERS = [
     { n: 21, band: 15, minRarity: 1,  maxRarity: 15, fee: 60000,  titles: 30,  comp: 0.30, minCap: 13, prevN: null },
     { n: 22, band: 16, minRarity: 16, maxRarity: 16, fee: 90000,  titles: 50,  comp: 0.40, minCap: 16, prevN: 21 },
@@ -17756,9 +17858,50 @@
   function isTargetCupDef(def) {
     return !!(def && def.pool && def.pool.type === 'targetUnowned');
   }
-  // 実績・コスト上限の分母（全カップ種類数など）はターゲットカップを含めない（既存バランスを変えないため）
+  // レジェンドハントカップ（レジェンドカップ最上位tierを LEGEND_HUNT_UNLOCK_TOP_CLEARS 回制覇で解放）。
+  //  - 相手プール：全6ヶ国のレジェンドカップ（ラダー全tier）に登場するクラブのうち、未入手選手が最も多い上位 LEGEND_HUNT_POOL_SIZE クラブ。
+  //    その10クラブから毎月ランダムに3クラブが相手になる（通常カップと同じ「3クラブ＋自チーム」リーグ戦）。
+  //  - 報酬：ターゲットカップと同様、倒したクラブの未入手選手（全★帯）から優先してスカウト。獲得上限(hardCap)は越えられない。
+  //  - 参加費なし。★18以上もレジェンドカップ系として排出対象（LEGEND_ONLY_MIN_RARITY の絞り込みはtargetPool付きカップでは無効）。
+  const LEGEND_HUNT_UNLOCK_TOP_CLEARS = 10;
+  const LEGEND_HUNT_POOL_SIZE = 10;
+  const LEGEND_HUNT_CUP_DEF = {
+    n: 30,
+    name: 'レジェンドハントカップ',
+    pool: { type: 'legendHunt', minRarity: 1, maxRarity: 20, poolSize: LEGEND_HUNT_POOL_SIZE },
+    cond: { type: 'legendTop', clears: LEGEND_HUNT_UNLOCK_TOP_CLEARS },
+  };
+  function isLegendHuntDef(def) {
+    return !!(def && def.pool && def.pool.type === 'legendHunt');
+  }
+  function legendTopClearsTotal() {
+    return Object.values(legendTopClears || {}).reduce((s, v) => s + (v || 0), 0);
+  }
+  function legendHuntRequirementLines(cond) {
+    const total = legendTopClearsTotal();
+    return [{ ok: total >= cond.clears, text: `レジェンドカップ Tier 1 優勝 ${total}/${cond.clears}回（全ヶ国通算）` }];
+  }
+  // 全ヶ国のレジェンドカップ・ラダーに登場するクラブ（重複なし）
+  function legendLadderAllClubIds() {
+    const set = new Set();
+    Object.values(LEGEND_LADDER_TIERS_BY_COUNTRY).forEach((tiers) => tiers.forEach((ids) => ids.forEach((id) => set.add(id))));
+    return [...set];
+  }
+  // 未入手選手が多いクラブ上位N（同数は戦力順でなくランダム）。ハントカップの候補10クラブ
+  function legendHuntTopClubs(poolSize) {
+    const cnt = {};
+    data.players.forEach((p) => {
+      if (!p.dexHidden && !isDexOwned(p.id)) cnt[p.club] = (cnt[p.club] || 0) + 1;
+    });
+    const rows = legendLadderAllClubIds()
+      .filter((id) => id !== MY_CLUB_ID && cnt[id] > 0)
+      .map((id) => ({ id, n: cnt[id], r: Math.random() }));
+    rows.sort((a, b) => (b.n - a.n) || (a.r - b.r));
+    return rows.slice(0, poolSize).map((r) => data.clubs.find((c) => c.id === r.id)).filter(Boolean);
+  }
+  // 実績・コスト上限の分母（全カップ種類数など）はターゲットカップ／レジェンドハントカップを含めない（既存バランスを変えないため）
   function coreCupDefsForCountry(countryCode) {
-    return cupDefsForCountry(countryCode).filter((d) => !isTargetCupDef(d));
+    return cupDefsForCountry(countryCode).filter((d) => !isTargetCupDef(d) && !isLegendHuntDef(d));
   }
   // 解放条件の各項目（達成状況つき）。表示とisCupUnlockedの両方で使う
   function targetCupRequirementLines(cond) {
@@ -17824,6 +17967,7 @@
       { n: 12, name: 'インターナショナルスーパーカップ 第3章', pool: { type: 'foreignSuper', chapter: 'ch3' }, cond: { type: 'wonCupLastMonth', n: 11 } },
       // レジェンドカップ＝クラス別ラダー。いつでも挑戦可（cond: null）。ES/IT/DE/FRは15 tier。
       { n: 16, name: 'レジェンドカップ', pool: { type: 'legendLadder' }, cond: null },
+      LEGEND_HUNT_CUP_DEF,
       ...TARGET_CUP_DEFS,
     ];
   }
@@ -17847,6 +17991,7 @@
     { n: 13, name: 'レジェンド＆リーグ選抜カップ', pool: { type: 'legend' }, cond: { type: 'wonAllUpTo', n: 12 } },
     // 2026-09-02：JP専用レジェンドカップ・ラダー（15 tier）。相手プールは LEGEND_LADDER_TIERS_BY_COUNTRY.JP。
     { n: 15, name: 'レジェンドカップ', pool: { type: 'legendLadder' }, cond: null },
+    LEGEND_HUNT_CUP_DEF,
     // インターナショナルスーパーカップ（日本戦力向け・海外2部下部中心）。スロット1〜12を全制覇で解放。
     { n: 16, name: 'インターナショナルスーパーカップ 第1章', pool: { type: 'foreignSuper', chapter: 'ch1' }, cond: { type: 'wonAllUpTo', n: 12 } },
     { n: 17, name: 'インターナショナルスーパーカップ 第2章', pool: { type: 'foreignSuper', chapter: 'ch2' }, cond: { type: 'wonCupLastMonth', n: 16 } },
@@ -17878,6 +18023,7 @@
     { n: 16, name: 'インターナショナルスーパーカップ 第3章', pool: { type: 'foreignSuper', chapter: 'ch3' }, cond: { type: 'wonCupLastMonth', n: 15 } },
     // レジェンドカップ＝クラス別ラダー。いつでも挑戦可。GBは25 tier（最深）。
     { n: 20, name: 'レジェンドカップ', pool: { type: 'legendLadder' }, cond: null },
+    LEGEND_HUNT_CUP_DEF,
     ...TARGET_CUP_DEFS,
   ];
 
@@ -17933,6 +18079,7 @@
       return true;
     }
     if (cond.type === 'targetCup') return targetCupRequirementLines(cond).every((l) => l.ok);
+    if (cond.type === 'legendTop') return legendHuntRequirementLines(cond).every((l) => l.ok);
     return false;
   }
 
@@ -17989,6 +18136,10 @@
       });
       return data.clubs.filter((c) => c.id !== MY_CLUB_ID && clubIds.has(c.id));
     }
+    if (pool.type === 'legendHunt') {
+      // レジェンドハントカップ：全ヶ国のレジェンドカップ登場クラブのうち、未入手選手が多い上位N（実際の3クラブはselectCupClubsが抽選）
+      return legendHuntTopClubs(pool.poolSize || LEGEND_HUNT_POOL_SIZE);
+    }
     if (pool.type === 'legendLadder') {
       // レジェンドカップ＝クラス別ラダー。現在tierの4クラブ（自クラブ＋この4＝5チーム）
       const tiers = LEGEND_LADDER_TIERS_BY_COUNTRY[countryCode] || [];
@@ -18031,6 +18182,12 @@
   // （レジェンドカップ・ラダーだけは例外：現在tierの4クラブをそのまま返す＝自クラブと合わせて5チーム）
   function selectCupClubs(countryCode, def, candidates) {
     if (def.pool && def.pool.type === 'legendLadder') return candidates.slice(0, 4);
+    // レジェンドハントカップ：未入手が多い上位10クラブからランダムに3クラブ（選び方モードは使わない）
+    if (isLegendHuntDef(def)) {
+      const shuffled = [...candidates];
+      shuffleArray(shuffled);
+      return shuffled.slice(0, 3);
+    }
     const mode = cupClubSelectionModeFor(countryCode, def.n);
     if (mode === 'manual') {
       const pickedIds = (cupClubManualPick[countryCode] && cupClubManualPick[countryCode][def.n]) || [];
@@ -18086,8 +18243,10 @@
         : isTarget ? `${def.name}（参加費 ${entryFee.toLocaleString()}）`
           : def.name;
       // ターゲットカップは対戦相手が3クラブ揃わない（未入手選手の在籍クラブ不足）場合は選べない
-      const requirementLines = isTarget ? targetCupRequirementLines(def.cond) : null;
-      const enoughClubs = !isTarget || (clubs || []).filter(Boolean).length >= 3;
+      const isHunt = isLegendHuntDef(def);
+      const requirementLines = isTarget ? targetCupRequirementLines(def.cond)
+        : isHunt ? legendHuntRequirementLines(def.cond) : null;
+      const enoughClubs = !(isTarget || isHunt) || (clubs || []).filter(Boolean).length >= 3;
       return {
         id: `cup_${countryCode}_${def.n}`,
         name: `${slot}. ${displayName}`,
@@ -18096,7 +18255,7 @@
         poolType,
         type: 'league',
         entryFee,
-        targetPool: isTarget ? def.pool : null,
+        targetPool: (isTarget || isHunt) ? def.pool : null,
         requirementLines,
         enoughClubs,
         clubs: (clubs || []).filter(Boolean),
@@ -18121,7 +18280,7 @@
       const winCount = (cupChampionCount[countryCode] || {})[c.n] || 0;
       const mode = cupClubSelectionModeFor(countryCode, c.n);
       let selectionHtml = '';
-      if (c.unlocked || won) {
+      if ((c.unlocked || won) && c.poolType !== 'legendHunt') {
         if (isCupClubSelectionUnlocked(countryCode, c.n)) {
           selectionHtml = `
             <div class="cupMeta" style="margin-top:4px;">対戦相手の選び方:
@@ -18142,7 +18301,7 @@
           <div class="cupMeta">リーグ戦 ／ ${c.clubs.filter(Boolean).length}クラブ</div>
           <div class="cupMeta" style="font-size:11px;">${clubNames}</div>
           <div class="cupPrize">優勝賞金目安: ${c.prizeLabel}（+${c.prize}）</div>
-          ${c.requirementLines ? `<div class="cupMeta" style="font-size:11px;">参加費 ${c.entryFee.toLocaleString()}資金（選択時に支払い。月初に別カップへ変更すれば返金）／ 解放条件:<br>${c.requirementLines.map((l) => `${l.ok ? '✅' : '❌'} ${l.text}`).join('<br>')}${c.enoughClubs ? '' : '<br>❌ 対象の未入手選手が在籍するクラブが3つ未満'}</div>` : ''}
+          ${c.requirementLines ? `<div class="cupMeta" style="font-size:11px;">${c.poolType === 'legendHunt' ? '相手＝全レジェンドカップ登場クラブのうち未入手選手が多い上位10クラブから毎月ランダム3クラブ（参加費なし）' : `参加費 ${c.entryFee.toLocaleString()}資金（選択時に支払い。月初に別カップへ変更すれば返金）`} ／ 解放条件:<br>${c.requirementLines.map((l) => `${l.ok ? '✅' : '❌'} ${l.text}`).join('<br>')}${c.enoughClubs ? '' : '<br>❌ 対象の未入手選手が在籍するクラブが3つ未満'}</div>` : ''}
           <div class="cupLock">${c.unlocked ? '✅ 参加可能（リーグ戦タブから選択）' : c.chapterPrev != null ? `🔒 未解放（前の章をあと${Math.max(0, CHAPTER_UNLOCK_WINS - ((cupChampionCount[countryCode] || {})[c.chapterPrev] || 0))}回優勝で解放）` : '🔒 未解放'}</div>
           ${selectionHtml}
         </div>
@@ -18709,7 +18868,7 @@
       </div>
       <div class="achOverviewBarOuter"><div class="achOverviewBarInner" style="width:${totalPct}%;"></div></div>
       <div class="summary" style="margin:6px 0 10px;">
-        実績ボーナス：コスト上限 +${achievementCostCapBonus()} ／ 戦力 ×${achievementPowerMultiplier().toFixed(2)}
+        実績ボーナス：コスト上限 +${achievementCostCapBonus()}
         ／ スカウト優先度 +${Math.round(achievementScoutBiasBonus() / FACILITY_MAX_LEVEL * 100)}% ／ 試合収入 ×${achievementIncomeMultiplier().toFixed(2)}
       </div>
       <div class="achCategoryGrid">${chips}</div>
@@ -20199,6 +20358,8 @@
       if (rank === 1) nextTier = Math.max(1, curTier - 1);
       else if (rank >= 4) nextTier = Math.min(maxTier, curTier + 1);
       legendLadderTier[cc] = nextTier;
+      // 最上位tier(Tier 1)での優勝＝「トップレイヤー制覇」。レジェンドハントカップの解放カウント
+      if (rank === 1 && curTier === 1) legendTopClears[cc] = (legendTopClears[cc] || 0) + 1;
       legendLadderMoveHtml = nextTier < curTier
         ? `<div class="summary"><b>昇格！</b> レジェンドカップ Tier ${curTier} → Tier ${nextTier}</div>`
         : nextTier > curTier
@@ -20245,17 +20406,9 @@
     resetItemActivation();
     // activeCupIdはここでリセットしない：カップ解放条件は恒久フラグのみのため、
     // 来月も同じカップを選べる状態なら自動的に「前回踏襲」で継続する（setActiveCupSelectionで明示的に変えるまで維持）
-    // 章制カップ（例：ワールドツアーカップ 第1〜3章）：優勝したら同じ章が選択されたまま。
-    // 優勝できなかった場合は、同シリーズの第1章に戻す（第2章で負けたら第1章が選択される）。
+    // 章制カップ（例：ワールドツアーカップ 第1〜3章）：勝敗に関わらず同じ章が選択されたまま
+    // （負けてもすぐ再参加できるなら、第1章に戻さず前回踏襲）。
     // 次の章は前章を通算CHAPTER_UNLOCK_WINS回優勝すると恒久解放され、プルダウンから選べる。
-    if (placement !== 'champion') {
-      const curDef = cupDefsForCountry(country).find((d) => d.n === cs.cupNumber);
-      if (curDef) {
-        const head = chapterHeadDef(country, curDef);
-        const headCup = head.n !== curDef.n ? availableCups().find((c) => c.n === head.n) : null;
-        if (headCup) season.activeCupId = headCup.id;
-      }
-    }
     season.cupState = null;
     // 有料カップは毎月の自動踏襲をしない（選択を外し、次月は先頭の通常カップから選び直し）
     if (cs.entryFee) season.activeCupId = null;
@@ -20279,14 +20432,48 @@
   // のクラブだと排出対象が0人になり「勝っても誰も獲れない」状態になるため、
   // そのクラブの選手のレアリティ帯（NPC選手を含めた最小〜最大）と同じ帯の、他クラブの実在選手から
   // ランダムに代役プールを組む（＝弱いクラブに勝てば弱め、強いクラブに勝てば強めの現行バランスを維持）
-  function realPlayerPoolForClub(clubId) {
+  // 同一人物が複数チーム（所属クラブ／代表／選抜／レジェンズ等）に別IDで登録されている場合、
+  // 通常カップのスカウトでは「最も強いチームに在籍するレコード」だけを排出対象にする
+  // （レジェンドカップ・ターゲットカップは対象外＝全レコードが対象）。
+  // 強さ＝clubStat(club,10,'overall')。同名レコードが1つだけの選手は常に対象。キャッシュは選手数が変わったら作り直す
+  let strongestTeamRecordCache = null;
+  function strongestTeamRecordIds() {
+    if (strongestTeamRecordCache && strongestTeamRecordCache.n === data.players.length) return strongestTeamRecordCache.ids;
+    const powerOf = new Map();
+    const teamPower = (cid) => {
+      if (!powerOf.has(cid)) powerOf.set(cid, clubStat(cid, 10, 'overall'));
+      return powerOf.get(cid);
+    };
+    const byName = new Map();
+    data.players.forEach((p) => {
+      if (p.dexHidden) return;
+      if (!byName.has(p.name)) byName.set(p.name, []);
+      byName.get(p.name).push(p);
+    });
+    const ids = new Set();
+    byName.forEach((list) => {
+      if (list.length === 1) { ids.add(list[0].id); return; }
+      let best = list[0];
+      let bestPow = teamPower(best.club);
+      for (let i = 1; i < list.length; i++) {
+        const pw = teamPower(list[i].club);
+        if (pw > bestPow) { best = list[i]; bestPow = pw; }
+      }
+      ids.add(best.id);
+    });
+    strongestTeamRecordCache = { n: data.players.length, ids };
+    return ids;
+  }
+  function realPlayerPoolForClub(clubId, restrictToStrongest) {
+    const allowed = restrictToStrongest ? strongestTeamRecordIds() : null;
+    const ok = (p) => !p.dexHidden && (!allowed || allowed.has(p.id));
     const clubPlayers = data.players.filter((p) => p.club === clubId);
-    const real = clubPlayers.filter((p) => !p.dexHidden);
+    const real = clubPlayers.filter(ok);
     if (real.length > 0 || clubPlayers.length === 0) return real;
     const rarities = clubPlayers.map((p) => p.rarity);
     const minR = Math.min(...rarities);
     const maxR = Math.max(...rarities);
-    return data.players.filter((p) => !p.dexHidden && p.rarity >= minR && p.rarity <= maxR);
+    return data.players.filter((p) => ok(p) && p.rarity >= minR && p.rarity <= maxR);
   }
 
   // 勝てば対戦した相手クラブの選手、無敗0勝なら参加クラブ全体の下位3割からスカウト
@@ -20306,11 +20493,13 @@
     const frac = rawCount - flo;
     const baseCount = Math.max(1, frac > 1e-9 ? flo + (Math.random() < 0.5 ? 0 : 1) : flo);
 
+    // レジェンドカップ・ターゲットカップ以外は、複数チーム所属の選手を最強チームのレコードに限定する
+    const restrictStrongest = cs.poolType !== 'legendLadder' && !cs.targetPool;
     let pool = [];
     let scoutedFromSubstitute = false;
     let scoutedFromBeatenUnion = false;
     if (cs.wins >= 1) {
-      pool = realPlayerPoolForClub(cs.lastBeatenClubId);
+      pool = realPlayerPoolForClub(cs.lastBeatenClubId, restrictStrongest);
       scoutedFromSubstitute = pool.length > 0 && pool[0].club !== cs.lastBeatenClubId;
       // ターゲットカップ：倒したクラブ全ての「その★帯の未入手選手」をまとめてスカウト対象にする（どのクラブからかはランダム）
       if (cs.targetPool) {
@@ -20320,14 +20509,25 @@
       }
     } else {
       const poolClubIds = cs.participants.filter((id) => id !== MY_CLUB_ID);
-      const wholePool = poolClubIds.flatMap((cid) => realPlayerPoolForClub(cid));
+      const wholePool = poolClubIds.flatMap((cid) => realPlayerPoolForClub(cid, restrictStrongest));
       const sorted = [...wholePool].sort((a, b) => a.overall - b.overall);
       const bottomCount = Math.max(1, Math.ceil(sorted.length * 0.3));
       pool = sorted.slice(0, bottomCount);
     }
 
+    // ★18以上の選手はレジェンドカップ（legendLadder）でしか獲得できない。他のカップ・スカウトでは抽選対象から外す
+    // （ターゲットカップは例外：★18〜20の各段が★指定で未入手選手を狙うカップのため、従来どおり排出可能）
+    if (cs.poolType !== 'legendLadder' && !cs.targetPool) pool = pool.filter((p) => p.rarity < LEGEND_ONLY_MIN_RARITY);
+
     // 収集ペースのガードレール（scout.js参照）。チケット類も hardCap は越えられない
     const guard = currentScoutGuardrails();
+
+    // G6 カップ強度上限／G7 高レア希少化：通常カップのみ。参加クラブの戦力が低いカップほど★上限が下がり、
+    // 強いカップでも★15以上は重みを絞る（★16〜17が「ほんの少し」出る程度）。レジェンドカップ・ターゲットカップは対象外
+    const isNormalCup = cs.poolType !== 'legendLadder' && !cs.targetPool;
+    const cupCap = isNormalCup
+      ? cupRarityCap((cs.participants || []).filter((id) => id !== MY_CLUB_ID).map((id) => clubPower(id, PLAYER_MAX_LEVEL)), data.levelTiers)
+      : 20;
 
     // スカウト強化チケット：使用時はこの1回だけ施設のレア上限を無視・未所持優先を最大化
     // （キャリア天井・ステップアップ上限＝hardCapは適用されたまま）
@@ -20351,8 +20551,9 @@
       effectiveMaxRarity = scoutBoostUsed
         ? guard.hardCap
         : Math.min(guard.hardCap, maxRarityForScoutLevel(scoutLevel) + fx.rareBoostLevel);
+      effectiveMaxRarity = Math.min(effectiveMaxRarity, cupCap);
 
-      chosen = pickWeightedCandidates(pool, count, effectiveMaxRarity, effectiveManagerLevel);
+      chosen = pickWeightedCandidates(pool, count, effectiveMaxRarity, effectiveManagerLevel, isNormalCup);
 
       if (fx.positionLock) {
         const forced = pool.find((p) => p.position === fx.positionLockPosition
@@ -20435,7 +20636,7 @@
   }
 
   // レアリティ上限・監督補正（未所持優先）をかけた重み付き抽選でcount人選ぶ
-  function pickWeightedCandidates(pool, count, maxRarity, managerLevel) {
+  function pickWeightedCandidates(pool, count, maxRarity, managerLevel, softenHighRarity) {
     let eligible = pool.filter((p) => p.rarity <= maxRarity);
     if (eligible.length === 0) {
       // キャップ内の候補が1人もいない場合の救済：空振りにはせず、プール内の最弱帯だけ許可する
@@ -20463,6 +20664,7 @@
         const owned = collectionState.players[p.id] && collectionState.players[p.id].owned;
         let w = p.rarity;
         if (p.rarity <= GUARDRAILS.lowRaritySuppressMax) w *= lowRaritySuppress;
+        if (softenHighRarity && GUARDRAILS.softRarityWeights[p.rarity] != null) w *= GUARDRAILS.softRarityWeights[p.rarity];
         if (!owned) w *= 1 + managerLevel / 10;
         return w;
       });
@@ -21212,7 +21414,7 @@
     const wins = winsByPlacement[placement] ?? 0;
     const participantIds = cup.clubs.filter(Boolean).map((c) => c.id);
     const lastBeatenClubId = wins >= 1 ? participantIds[Math.floor(Math.random() * participantIds.length)] : null;
-    const scoutInfo = runCupScout({ wins, lastBeatenClubId, participants: participantIds });
+    const scoutInfo = runCupScout({ wins, lastBeatenClubId, participants: participantIds, poolType: cup.poolType || null, targetPool: cup.targetPool || null });
 
     persistSave();
     renderGold();
@@ -21338,8 +21540,12 @@
     }
 
     // 所持から外れた選手が編成に残っていたら取り除く
-    f.starters = f.starters.map((id) => (id && byId[id] ? id : null));
-    f.bench = f.bench.map((id) => (id && byId[id] ? id : null));
+    // ただし選手データ(data.players)に存在しないIDは「データ側が古い／読み込み不全」の可能性があるため消さずに残す
+    // （スマホ再起動でfetch失敗→古い埋め込みデータになった際に、編成が永久に空になるのを防ぐ）
+    const knownIds = new Set(data.players.map((p) => p.id));
+    const keepSlot = (id) => (id && (byId[id] || !knownIds.has(id)) ? id : null);
+    f.starters = f.starters.map(keepSlot);
+    f.bench = f.bench.map(keepSlot);
 
     const starterBox = document.getElementById('starterSlots');
     starterBox.innerHTML = '';
@@ -21347,7 +21553,8 @@
       const used = usedIdsExcept('starter', i);
       const current = f.starters[i];
       const candidates = sortPlayersForFormation(owned.filter((p) => p.position === pos && (p.id === current || !used.has(p.id))
-        && (p.id === current || !filterLower || displayName(p).toLowerCase().includes(filterLower))));
+        && (p.id === current || !filterLower || displayName(p).toLowerCase().includes(filterLower))
+        && (p.id === current || !hideMaxLevelCandidates || currentLevelOf(p.id) < PLAYER_MAX_LEVEL)));
       const currentPlayer = current && byId[current];
       const currentLevel = current ? currentLevelOf(current) : 1;
 
@@ -21376,7 +21583,8 @@
       const current = f.bench[i];
       const candidates = sortPlayersForFormation(owned.filter((p) => (p.id === current || !used.has(p.id))
         && (p.id === current || p.position === benchPos)
-        && (p.id === current || !filterLower || displayName(p).toLowerCase().includes(filterLower))));
+        && (p.id === current || !filterLower || displayName(p).toLowerCase().includes(filterLower))
+        && (p.id === current || !hideMaxLevelCandidates || currentLevelOf(p.id) < PLAYER_MAX_LEVEL)));
       const currentPlayer = current && byId[current];
       const currentLevel = current ? currentLevelOf(current) : 1;
 
@@ -21441,7 +21649,8 @@
     const otherIds = otherContextUsedIds();
     const hiddenIds = otherStarterIdsToHide();
     const filterLower = candidateFilterText.trim().toLowerCase();
-    const remaining = owned.filter((p) => !usedIds.has(p.id) && !hiddenIds.has(p.id) && (!filterLower || displayName(p).toLowerCase().includes(filterLower)));
+    const remaining = owned.filter((p) => !usedIds.has(p.id) && !hiddenIds.has(p.id) && (!filterLower || displayName(p).toLowerCase().includes(filterLower))
+      && (!hideMaxLevelCandidates || currentLevelOf(p.id) < PLAYER_MAX_LEVEL));
     const order = ['GK', 'DF', 'MF', 'FW'];
     const box = document.getElementById('candidatesList');
 
@@ -21651,6 +21860,14 @@
         renderFormation();
       });
     }
+    const hideMaxChk = document.getElementById('hideMaxLevelChk');
+    if (hideMaxChk) {
+      hideMaxChk.checked = hideMaxLevelCandidates;
+      hideMaxChk.addEventListener('change', (e) => {
+        hideMaxLevelCandidates = e.target.checked;
+        renderFormation();
+      });
+    }
   }
 
   function setupReset() {
@@ -21686,6 +21903,7 @@
       cupChampionLastMonth = {};
       cupChampionCount = {};
       legendLadderTier = {};
+      legendTopClears = {};
       cupClubSelectionMode = {};
       cupClubManualPick = {};
       cupClubSelectionCache = {};
@@ -21714,6 +21932,21 @@
       document.getElementById('scoutResult').innerHTML = '';
     });
   }
+
+  // バックグラウンド遷移時に確実に保存し、復帰時に他ページが新しいセーブを書いていたら読み直す
+  document.addEventListener('visibilitychange', () => {
+    if (!data || saveLoadFailed) return;
+    if (document.visibilityState === 'hidden') {
+      persistSave(true);
+    } else {
+      try {
+        const cur = localStorage.getItem(SAVE_KEY);
+        const curAt = cur ? ((JSON.parse(cur) || {}).savedAt || 0) : 0;
+        if (loadedSaveAt && curAt > loadedSaveAt) { saveLoadFailed = true; location.reload(); }
+      } catch (e) { /* ignore */ }
+    }
+  });
+  window.addEventListener('pagehide', () => { if (data && !saveLoadFailed) persistSave(true); });
 
   pushSaveBackup('startup'); // S1: この起動でセーブが壊れても直前の世代に戻せるようにする
   try {

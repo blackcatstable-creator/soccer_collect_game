@@ -93,7 +93,20 @@ const GUARDRAILS = {
   ceilingPerCountryCleared: 2,  // 国制覇（その国の1部優勝）1回ごとに +2
   cupTitlesPerCeilingStep: 3,   // カップ優勝この回数ごとに +1
   // G2 ステップアップ上限：所持している最高レアリティ + margin までしか新規排出しない
-  stepUpMargin: 2,
+  stepUpMargin: 1,
+  // G2拡張：★N（キーの値）を新規に出すには、★(N-1)以上を所持している必要人数。
+  // 1人引いただけで連鎖的に上へ跳ねないようにする（★12以下は対象外）
+  stepUpOwnedRequired: { 13: 3, 14: 3, 15: 4, 16: 4, 17: 4 },
+  // G6 カップ強度上限：通常カップ（レジェンドカップ・ターゲットカップ以外）の排出上限。
+  // 参加クラブの戦力（上位cupPowerTopN クラブの平均）を levelTiers に通した★帯が、そのカップの上限になる
+  cupPowerTopN: 3,
+  // クラブ戦力（先発平均）は個々の看板選手より低く出るため、levelTiers に通す前にこの値を足す
+  // （計測：0だと自リーグのカップでは出られない選手が577人、+10で30人まで減る）
+  cupPowerOffset: 10,
+  normalCupMaxRarity: 17,
+  // G7 高レア希少化：通常カップでは該当レアの抽選重みをこの倍率に減衰（強いカップでも「ほんの少し」だけ出る）。
+  // ★18以上はレジェンドカップ専用（index.html の LEGEND_ONLY_MIN_RARITY）
+  softRarityWeights: { 15: 0.15, 16: 0.07, 17: 0.03 },
   // G3 大物制限：実効上限に近いレア帯（上限 - topBandWidth + 1 以上）は
   // 1回のスカウトで topBandPerScout 人まで
   topBandWidth: 2,
@@ -139,7 +152,30 @@ function stepUpMaxRarity(players, collectionState) {
     const st = collectionState.players[p.id];
     if (st && st.owned && p.rarity > maxOwned) maxOwned = p.rarity;
   }
-  return clamp(maxOwned + GUARDRAILS.stepUpMargin, GUARDRAILS.stepUpMargin, 20);
+  let cap = clamp(maxOwned + GUARDRAILS.stepUpMargin, GUARDRAILS.stepUpMargin, 20);
+  // ★(N-1)以上の所持数が足りない間は上限を1段ずつ下げる
+  const req = GUARDRAILS.stepUpOwnedRequired || {};
+  while (cap > 1 && req[cap]) {
+    let n = 0;
+    for (const p of players) {
+      if (p.dexHidden || p.rarity < cap - 1) continue;
+      const st = collectionState.players[p.id];
+      if (st && st.owned) n++;
+    }
+    if (n >= req[cap]) break;
+    cap--;
+  }
+  return cap;
+}
+
+// G6: 参加クラブの戦力（上位N件の平均）から通常カップの★上限を決める。tiers は data.levelTiers
+function cupRarityCap(clubPowers, tiers) {
+  const g = GUARDRAILS;
+  const top = [...clubPowers].sort((a, b) => b - a).slice(0, g.cupPowerTopN);
+  if (top.length === 0) return g.normalCupMaxRarity;
+  const power = top.reduce((s, x) => s + x, 0) / top.length + g.cupPowerOffset;
+  const tier = (tiers || []).find((t) => power >= t.minOverall);
+  return clamp(tier ? tier.maxRarity : 5, 1, g.normalCupMaxRarity);
 }
 
 // 実効キャップ一式を返す。
@@ -248,6 +284,6 @@ function scout(competitionId, placement, scoutLevel, managerLevel, data, collect
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     scout, buildPool, computeQuality, drawRarity, bandOf, maxRarityForScoutLevel, TUNING,
-    GUARDRAILS, progressionMaxRarity, stepUpMaxRarity, effectiveScoutCaps,
+    GUARDRAILS, progressionMaxRarity, stepUpMaxRarity, cupRarityCap, effectiveScoutCaps,
   };
 }
