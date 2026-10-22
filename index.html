@@ -49,6 +49,64 @@
   .homeWeekRow .weekKind.league { color: #7fd0ff; }
   .homeWeekRow .weekKind.cup { color: #ffbf6b; }
 
+  /* ==== ホーム画面：リーグ／カップを色分けしたカードで整理 ==== */
+  .homeHeader {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px 16px; flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  .homeHeader .summary { margin: 0; font-size: 16px; color: #fff; font-weight: bold; }
+  .homeHeaderStats { display: flex; align-items: center; gap: 6px 14px; flex-wrap: wrap; font-size: 12px; color: #9aa0a6; }
+  .homeHeaderStats b { color: #fff; font-size: 14px; }
+  .homeHeaderStats button.action { padding: 2px 10px; font-size: 12px; }
+
+  .homeCard {
+    background: #1b1e26; border: 1px solid #2e323c; border-top-width: 3px; border-radius: 8px;
+    padding: 12px 14px; margin-bottom: 14px; min-width: 0;
+  }
+  .homeCard.progress { border-top-color: #6b7280; }
+  .homeCard.league { border-top-color: #4aa8ff; }
+  .homeCard.cup { border-top-color: #ffb347; }
+  .homeCardHead { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .homeCardHead h3 { margin: 0; font-size: 15px; color: #fff; }
+  .homeCard.league .homeCardHead h3 { color: #7fd0ff; }
+  .homeCard.cup .homeCardHead h3 { color: #ffbf6b; }
+  .homeCardSub { font-size: 12px; color: #9aa0a6; }
+  .homeCardSub b { color: #fff; font-size: 13px; }
+
+  .homeModeGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; margin-bottom: 4px; }
+  .homeKpiGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin-bottom: 10px; }
+  .homeKpi { background: #14171d; border: 1px solid #2a2e37; border-radius: 6px; padding: 6px 10px; min-width: 0; }
+  .homeKpi .k { display: block; font-size: 11px; color: #9aa0a6; line-height: 1.4; }
+  .homeKpi .v { display: block; font-size: 15px; color: #fff; font-weight: bold; margin-top: 1px; }
+  .homeKpi .v small { font-size: 11px; color: #9aa0a6; font-weight: normal; }
+  .homeKpi.main { grid-column: 1 / -1; }
+
+  .homeSubTabs { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
+  .homeSubTabs button {
+    background: #262a33; color: #ccc; border: 1px solid #3a3f4b; border-radius: 14px;
+    padding: 4px 11px; font-size: 12px; cursor: pointer;
+  }
+  .homeCard.league .homeSubTabs button.active { background: #1f4f80; border-color: #4aa8ff; color: #fff; }
+  .homeCard.cup .homeSubTabs button.active { background: #7a4a12; border-color: #ffb347; color: #fff; }
+  .homeViewNote { font-size: 12px; color: #9aa0a6; margin: 0 0 6px; line-height: 1.5; }
+
+  .rankScroll { position: relative; max-height: 340px; overflow: auto; border: 1px solid #2a2e37; border-radius: 6px; }
+  .rankTable { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .rankTable th, .rankTable td { padding: 4px 6px; text-align: center; border-bottom: 1px solid #2e323c; white-space: nowrap; }
+  .rankTable th { color: #9cf; font-weight: bold; position: sticky; top: 0; background: #1b1e26; z-index: 1; }
+  .rankTable td.clubNameCell { text-align: left; color: #eee; white-space: normal; word-break: break-all; }
+  .rankTable td.clubNameCell small { display: block; color: #8a909a; font-size: 10px; }
+  .rankTable tr.me { background: #1e2e3a; }
+  .rankTable tr.me td.clubNameCell { color: #9cf; font-weight: bold; }
+  .rankTable tr.promotion td.clubNameCell { color: #2ecc71; }
+  .rankTable tr.relegation td.clubNameCell { color: #f66; }
+  .rankTable tr.champion td.clubNameCell { color: #ffd24a; }
+  .rankTable tr.gap td { color: #666; padding: 0 6px; line-height: 1.2; }
+  .rankLegend { font-size: 11px; color: #9aa0a6; margin-top: 4px; }
+  .rankLegend .up { color: #2ecc71; }
+  .rankLegend .down { color: #f66; }
+  .homeRankToggle { margin-top: 6px; padding: 4px 12px !important; font-size: 12px !important; }
+
   .matchSplitLayout { display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 12px; }
   .matchSplitCol { flex: 1; min-width: 260px; }
   .matchSplitCol h3, .matchSplitCol h4 { font-size: 14px; margin: 0 0 8px; color: #ddd; }
@@ -740,6 +798,12 @@
     }
     #homeCupSelect { width: 100%; margin-top: 4px; }
     .homeWeekRow { padding: 10px 12px; }
+    .homeModeGrid { grid-template-columns: 1fr; }
+    .homeCard { padding: 12px 10px; }
+    .homeSubTabs button { padding: 7px 12px; font-size: 13px; }
+    .rankScroll { max-height: 55vh; }
+    .rankTable th, .rankTable td { padding: 6px 4px; }
+    .homeHeaderStats button.action { width: 100%; }
     .matchSplitLayout { flex-direction: column; gap: 14px; }
     .matchSplitCol { min-width: 0; width: 100%; }
     .matchResultList, .homeLeagueMirror, .homeCupMirror { max-height: 50vh; }
@@ -869,21 +933,72 @@
   <button id="tabScoutBtn">スカウト</button>
 </div>
 
-<!-- ホームタブ：実際のゲームプレイの起点画面 -->
+<!-- ホームタブ：実際のゲームプレイの起点画面（上から「今月の進行」→「リーグ戦／カップ戦カード」の順に整理） -->
 <div id="panelHome" class="panel active">
-  <div class="summary" id="homeSeasonLine">-</div>
-  <div class="teamPowerBox statBox">
-    <span class="stat">チーム総合戦力（リーグ用編成）: <span class="statVal"><b id="homeTeamPower">0</b></span></span>
-    <span class="statSep">／</span><span class="stat">チーム評価: <span class="statVal"><b id="homeTeamGrade" class="gradeTag">-</b></span></span>
-    <span class="statSep">／</span><span class="stat">チーム総合戦力（カップ用編成）: <span class="statVal"><b id="homeCupTeamPower">0</b></span></span>
-    <span class="statSep">／</span><span class="stat">カップ評価: <span class="statVal"><b id="homeCupTeamGrade" class="gradeTag">-</b></span></span>
-    <span class="statSep">／</span><span class="stat">カップ総合ランキング（全チーム）: <span class="statVal"><b id="homeCupAllRank">-</b></span></span>
-    <span class="statSep">／</span><span class="stat">所属: <span class="statVal"><b id="homeDivision">-</b></span></span>
-    <span class="statSep">／</span><span class="stat">クラブランク: <span class="statVal"><b id="homeClubRank">-</b></span></span>
-    <span class="statSep">／</span><span class="stat">世界ランキング: <span class="statVal"><b id="homeWorldRank">-</b>位</span></span>
-    <span class="statSep">／</span><span class="stat">カップ優勝: <span class="statVal">通算<b id="homeCupChampionships">0</b>回</span></span>
-    <button class="action" id="homeWorldRankingBtn" style="margin-left:8px; padding:2px 10px; font-size:12px;">世界クラブランキングを見る▶</button>
+  <div class="homeHeader">
+    <div class="summary" id="homeSeasonLine">-</div>
+    <div class="homeHeaderStats">
+      <span>クラブランク <b id="homeClubRank">-</b></span>
+      <span>世界ランキング <b id="homeWorldRank">-</b>位</span>
+      <button class="action" id="homeWorldRankingBtn">世界クラブランキングを見る▶</button>
+    </div>
   </div>
+
+  <!-- ① 今月の進行：カップ選択（必須）→今月の予定→進めるボタン -->
+  <section class="homeCard progress">
+    <div class="homeCardHead"><h3>📅 今月の進行</h3></div>
+    <div class="summary">
+      今月参加するカップ戦：
+      <select id="homeCupSelect"><option value="" disabled>-- 今月参加するカップ戦を選択（必須） --</option></select>
+    </div>
+    <div id="homeCupChoiceWarning" class="summary" style="color:#f88; display:none;">
+      毎月の頭に、必ず今月参加するカップ戦を選んでください（未選択だと進められません）。
+    </div>
+    <div id="homeOverCapPanel"></div>
+    <div id="homeMonthSchedule"></div>
+    <button class="action" id="homeAdvanceBtn" style="margin-top:12px; font-size:16px; padding:10px 24px;">1ヶ月分の試合を進める▶</button>
+  </section>
+  <div id="homeLatestResult" style="margin-bottom:14px;"></div>
+
+  <!-- ② リーグ戦（青）／カップ戦（橙）：戦力・順位・ランキングをそれぞれ1枚にまとめる -->
+  <div class="homeModeGrid">
+    <section class="homeCard league" id="homeLeagueCard">
+      <div class="homeCardHead">
+        <h3>🏟️ リーグ戦</h3>
+        <span class="homeCardSub">所属: <b id="homeDivision">-</b></span>
+      </div>
+      <div class="homeKpiGrid">
+        <div class="homeKpi"><span class="k">今季の順位（所属リーグ内）</span><span class="v" id="homeLeagueRank">-</span></div>
+        <div class="homeKpi"><span class="k">国内ランキング（戦力）</span><span class="v" id="homeDomesticLeagueRank">-</span></div>
+        <div class="homeKpi main"><span class="k">リーグ用編成の総合戦力 ／ 評価</span><span class="v"><span id="homeTeamPower">0</span> <b id="homeTeamGrade" class="gradeTag">-</b></span></div>
+      </div>
+      <div class="homeSubTabs" data-group="league">
+        <button type="button" data-view="standings" class="active">今季の順位表</button>
+        <button type="button" data-view="domestic">国内ランキング</button>
+      </div>
+      <div id="homeLeagueView"></div>
+    </section>
+
+    <section class="homeCard cup" id="homeCupCard">
+      <div class="homeCardHead">
+        <h3>🏆 カップ戦</h3>
+        <span class="homeCardSub">優勝 通算<b id="homeCupChampionships">0</b>回</span>
+      </div>
+      <div class="homeKpiGrid">
+        <div class="homeKpi"><span class="k">カップの順位（直近）</span><span class="v" id="homeCupMonthRank">-</span></div>
+        <div class="homeKpi"><span class="k">国内ランキング（戦力）</span><span class="v" id="homeDomesticCupRank">-</span></div>
+        <div class="homeKpi"><span class="k">全チーム内の順位（戦力）</span><span class="v" id="homeCupAllRank">-</span></div>
+        <div class="homeKpi"><span class="k">カップ用編成の総合戦力 ／ 評価</span><span class="v"><span id="homeCupTeamPower">0</span> <b id="homeCupTeamGrade" class="gradeTag">-</b></span></div>
+      </div>
+      <div class="homeSubTabs" data-group="cup">
+        <button type="button" data-view="month" class="active">カップ順位表</button>
+        <button type="button" data-view="domestic">国内ランキング</button>
+        <button type="button" data-view="all">全チーム</button>
+      </div>
+      <div id="homeCupView"></div>
+    </section>
+  </div>
+
   <div class="summary" id="homeAutoSellSetting">
     新規獲得選手の自動売却：★
     <select id="homeAutoSellThresholdSelect">
@@ -909,18 +1024,6 @@
     以下の新規獲得選手は自動でリリース（資金化）します（図鑑には引き続き記録されます）
     <label style="margin-left:8px;"><input type="checkbox" id="homeAutoSellExcludeJapaneseCheckbox"> 日本人は対象外</label>
   </div>
-  <div class="summary">
-    今月参加するカップ戦：
-    <select id="homeCupSelect"><option value="" disabled>-- 今月参加するカップ戦を選択（必須） --</option></select>
-  </div>
-  <div id="homeCupChoiceWarning" class="summary" style="color:#f88; display:none;">
-    毎月の頭に、必ず今月参加するカップ戦を選んでください（未選択だと進められません）。
-  </div>
-  <div id="homeOverCapPanel"></div>
-  <h3 style="font-size:14px; color:#ddd; margin:16px 0 8px;">今月の予定</h3>
-  <div id="homeMonthSchedule"></div>
-  <button class="action" id="homeAdvanceBtn" style="margin-top:12px; font-size:16px; padding:10px 24px;">1ヶ月分の試合を進める▶</button>
-  <div id="homeLatestResult" style="margin-top:12px;"></div>
 
   <div id="homeSeasonAwards" style="margin-top:20px;"></div>
 </div>
@@ -1166,7 +1269,9 @@
   </div>
   <div class="summary">
     <button type="button" id="copyFormationBtn">もう一方の編成をコピー</button>
+    <button type="button" id="autoFormationBtn">自動編成</button>
     <button type="button" id="clearFormationBtn">全員外す</button>
+    <button type="button" id="clearBenchBtn">ベンチを全員外す</button>
     <button type="button" id="removeMaxLevelBtn">レベル10の選手を外す</button>
     <button type="button" id="hideOtherStartersBtn" aria-pressed="false">もう一方のスタメンを非表示：OFF</button>
   </div>
@@ -1176,13 +1281,18 @@
     （チェック中は、もう一方の編成でスタメンに入っている選手を選択候補から除外します。ベンチは対象外。すでに重複している選手は自動では外れません）
   </div>
   <div class="summary">
+    <label><input type="checkbox" id="levelSplitByContextChk">
+      カップ戦はレベル10のみ、リーグ戦はレベル9以下で編成する</label>
+    （チェック中は、選択候補もその範囲の選手だけになります。配置済みの選手は、レベルが10になっても自動では外れません）
+  </div>
+  <div class="summary">
     フォーメーション：
     <select id="formationSelect">
       <option value="442">4-4-2</option>
       <option value="343">3-4-3</option>
       <option value="352">3-5-2</option>
     </select>
-    ／ 常に20人フル編成。各枠のプルダウンで交代選手を選択（変更時は能力最高の所持選手を自動セット）
+    ／ 常に20人フル編成。各枠のプルダウンで交代選手を選択（変更時と「自動編成」ボタンでは、一度全員外してからコスト上限内で戦力が最大になるよう、スタメン→ベンチの順に自動セット）
   </div>
   <div class="summary">
     選手選択の並び順：
@@ -15129,9 +15239,9 @@
   // すでに両編成のスタメンに入っている選手を遡って外すことはしない（今後の選択時のみ効く）
   let noDupBetweenContexts = false;
   // もう一方の編成のスタメンで起用中の選手ID集合（noDupBetweenContexts が OFF のときは空集合）
-  function otherContextUsedIds() {
+  function otherContextUsedIds(context = currentFormationContext) {
     if (!noDupBetweenContexts) return new Set();
-    const other = currentFormationContext === 'league' ? 'cup' : 'league';
+    const other = context === 'league' ? 'cup' : 'league';
     return new Set(formation[other].starters.filter(Boolean));
   }
   // ON のとき、選択プルダウンと編成外候補一覧から「もう一方の編成のスタメン選手」を非表示にする（表示のみ・保存しない。
@@ -15164,6 +15274,14 @@
   // 編成外候補選手・選手選択プルダウンの絞り込みキーワード
   let candidateFilterText = '';
   let hideMaxLevelCandidates = false; // 編成の候補からレベル10(カンスト)の選手を除く
+  // ON のとき、カップ戦用編成の候補はレベル10の選手のみ、リーグ戦用編成の候補はレベル9以下の選手のみにする（セーブする）。
+  // 進行でレベルが10になっても配置済みの選手は自動では外さない（今後の選択候補にだけ効く）
+  let levelSplitByContext = false;
+  function allowedByLevelSplit(playerId, context = currentFormationContext) {
+    if (!levelSplitByContext) return true;
+    const isMax = currentLevelOf(playerId) >= PLAYER_MAX_LEVEL;
+    return context === 'cup' ? isMax : !isMax;
+  }
   // 現在のソートモードに従って選手配列を並べ替える（OVRは現在のレベル補正後の実効値を使う）
   function sortPlayersForFormation(list) {
     const sorted = [...list];
@@ -15679,7 +15797,7 @@
   let seasonAwardsHistory = [];
   // カップ戦・リーグ戦の通算成績（クラブランクに反映するための永続カウンタ）
   let careerRecord = { cupChampionships: 0, cupRunnerUps: 0, cupSemifinals: 0, leagueTitles: 0, promotions: 0, topHalfFinishes: 0 };
-  // プレイ記録系実績の元になる通算成績（リーグ戦・カップ戦の自クラブの試合のみ対象。練習試合は含めない）。永続
+  // プレイ記録系実績の元になる通算成績（最上位ディビジョンのリーグ戦・カップ戦の自クラブの試合のみ対象。練習試合は含めない）。永続
   let playRecord = {
     totalMatches: 0, totalWins: 0, totalDraws: 0, totalLosses: 0,
     totalGoalsFor: 0, totalGoalsAgainst: 0,
@@ -15930,7 +16048,18 @@
       const isActive = cc === season.country;
       let list = squadIdsOfCountry(cc);
 
-      if (!list && isActive && everTransferred) {
+      // 上の不具合で既にJPが「弱い20人」に絞られてしまったセーブを、制限なし（未設定）へ戻す。
+      // JPは新規訪問で編成対象を作られることがないため、JPに編成対象の一覧が存在すること自体が不具合の産物
+      if (cc === 'JP' && list) {
+        if (isActive) delete rosterEligibility.JP;
+        else if (countrySnapshots.JP) countrySnapshots.JP.eligibility = null;
+        list = null;
+        anyChanged = true;
+      }
+
+      // ホーム国（JP）は、移籍で戻ってきた時に「制限なし（未設定）」へ復元されるのが正しい状態（moveToCountry参照）。
+      // ここで抜けと誤認して作り直すと、JPの編成対象が弱い20人に絞られ、起動のたびにスタメンが勝手に外れる
+      if (!list && isActive && everTransferred && cc !== 'JP') {
         // 移籍済みなのに編成対象が未設定＝過去のバグによる抜け。他国と被らない所持選手で作り直す。
         // ここでのclaimedはORDER内でccより手前の国の分しか積まれていないため、
         // ORDERで後ろにある国（例：JPより後のGB）が既に確保している選手まではまだ反映されていない。
@@ -16002,7 +16131,7 @@
       season.leagueSchedule = buildLeagueSchedule(bottomDivision);
       seedInitialSquadForCountry(countryCode, originSquadIds);
       formation = { league: emptyFormationSlots(), cup: emptyFormationSlots() };
-      autoAssignFormation();
+      autoAssignFormation('league');
       formation.cup = JSON.parse(JSON.stringify(formation.league));
     }
     transferAvailable = false;
@@ -16115,7 +16244,7 @@
   }
 
   // シーズン表彰を決定：自クラブ＋対戦した他クラブ（実データのあるクラブのみ）の選手を横断して集計
-  function computeSeasonAwards(champion) {
+  function computeSeasonAwards(champion, topFlight) {
     const entries = Object.entries(seasonPlayerStats);
     const topScorer = entries.reduce((best, cur) => (!best || cur[1].goals > best[1].goals ? cur : best), null);
     const topAssist = entries.reduce((best, cur) => (!best || cur[1].assists > best[1].assists ? cur : best), null);
@@ -16134,6 +16263,7 @@
     return {
       year: season.year,
       country: season.country, // 国別のシーズン表彰実績（大会制覇・連覇系／シーズン表彰）の集計に使う
+      topFlight, // その国の最上位ディビジョンで戦ったシーズンか（リーグ関連の実績は最上位のみ対象。旧セーブの履歴にはこの項目がない）
       champion,
       topScorerId: topScorer && topScorer[1].goals >= 10 ? topScorer[0] : null,
       topScorerClubId: topScorer ? topScorer[1].clubId : null,
@@ -16330,6 +16460,7 @@
         autoSellExcludeJapanese = !!parsed.autoSellExcludeJapanese;
         matchSpeed = parsed.matchSpeed || '1';
         noDupBetweenContexts = !!parsed.noDupBetweenContexts;
+        levelSplitByContext = !!parsed.levelSplitByContext;
       }
     } catch (e) {
       console.warn('save load failed', e);
@@ -16398,6 +16529,7 @@
       autoSellExcludeJapanese,
       matchSpeed,
       noDupBetweenContexts,
+      levelSplitByContext,
       promotionDroughtSeasons,
       playRecord,
     }));
@@ -16740,25 +16872,149 @@
     });
   }
 
-  // フォーメーション変更時：現在のOVR（レベル反映後の実効値）が高い所持選手からスタメン→ベンチへ自動セット（現在編集中の編成のみ）
-  // ※最大OVR（p.overall）でソートすると、レベルが低く現在のOVRが低い選手が優先されてしまうため、必ず実効値でソートする
-  function autoAssignFormation() {
-    const owned = [...eligibleOwnedPlayers()].sort((a, b) =>
-      effectiveOverallOf(b, currentLevelOf(b.id)) - effectiveOverallOf(a, currentLevelOf(a.id)) || b.rarity - a.rarity);
-    const usedIds = new Set(otherContextUsedIds());
-    const f = activeFormation();
+  // 自動編成用：ポジション別の必要人数(slotCounts)を、コスト(＝★合計)の予算内で実効戦力の合計が最大になるよう選ぶ（ナップサックDP）。
+  // 戦力はcomputeTeamStatsRawと同じ overall×レベル補正（丸めなし）。枠を埋めること自体を最優先し、同点ならコストの低い組み合わせを選ぶ。
+  // 戻り値は { GK: [player...], DF: [...], ... }（各配列は戦力の高い順。予算不足なら枠数より少なくなる）
+  function pickBestSquad(pool, slotCounts, budget) {
+    const FILL_BONUS = 100000;
+    const NEG = -Infinity;
+    const scoreOf = (p) => p.overall * levelScalingFactor(currentLevelOf(p.id));
+    const valueOf = (p) => scoreOf(p) - p.rarity * 1e-4; // 同じ戦力ならコストの低い選手を優先
+    const positions = Object.keys(slotCounts).filter((pos) => slotCounts[pos] > 0);
+    const result = {};
+    positions.forEach((pos) => { result[pos] = []; });
+    if (budget < 1 || positions.length === 0) return result;
 
-    f.starters = FORMATIONS[activeFormationKey()].map((pos) => {
-      const p = owned.find((pl) => pl.position === pos && !usedIds.has(pl.id));
-      if (p) usedIds.add(p.id);
+    const perPos = positions.map((pos) => {
+      const k = slotCounts[pos];
+      // 同じ★なら戦力上位k人だけ残せば十分（それ以外は同コストで劣後する）
+      const byRarity = {};
+      pool.forEach((p) => { if (p.position === pos && p.rarity <= budget) (byRarity[p.rarity] = byRarity[p.rarity] || []).push(p); });
+      const items = [];
+      Object.values(byRarity).forEach((list) => {
+        list.sort((a, b) => valueOf(b) - valueOf(a) || b.overall - a.overall);
+        items.push(...list.slice(0, k));
+      });
+      const dp = Array.from({ length: k + 1 }, () => new Float64Array(budget + 1).fill(NEG));
+      dp[0][0] = 0;
+      const took = items.map(() => Array.from({ length: k + 1 }, () => new Uint8Array(budget + 1)));
+      items.forEach((it, idx) => {
+        const w = it.rarity;
+        const v = valueOf(it);
+        for (let j = k; j >= 1; j--) {
+          for (let c = budget; c >= w; c--) {
+            const prev = dp[j - 1][c - w];
+            if (prev === NEG) continue;
+            if (prev + v > dp[j][c]) { dp[j][c] = prev + v; took[idx][j][c] = 1; }
+          }
+        }
+      });
+      // コストちょうどcで最良になる人数j（枠を埋めるほど有利）
+      const G = new Float64Array(budget + 1).fill(NEG);
+      const Gj = new Int8Array(budget + 1);
+      for (let c = 0; c <= budget; c++) {
+        for (let j = 0; j <= k; j++) {
+          if (dp[j][c] === NEG) continue;
+          const val = dp[j][c] + FILL_BONUS * j;
+          if (val > G[c]) { G[c] = val; Gj[c] = j; }
+        }
+      }
+      return { pos, items, took, G, Gj };
+    });
+
+    // ポジション間でコスト予算を配分する
+    let H = new Float64Array(budget + 1).fill(NEG);
+    H[0] = 0;
+    const argByStage = [];
+    perPos.forEach((e) => {
+      const nextH = new Float64Array(budget + 1).fill(NEG);
+      const arg = new Int32Array(budget + 1);
+      for (let c = 0; c <= budget; c++) {
+        if (H[c] === NEG) continue;
+        for (let a = 0; c + a <= budget; a++) {
+          if (e.G[a] === NEG) continue;
+          const v = H[c] + e.G[a];
+          if (v > nextH[c + a]) { nextH[c + a] = v; arg[c + a] = a; }
+        }
+      }
+      H = nextH;
+      argByStage.push(arg);
+    });
+    let bestC = 0;
+    for (let c = 1; c <= budget; c++) if (H[c] > H[bestC]) bestC = c;
+
+    let c = bestC;
+    for (let i = perPos.length - 1; i >= 0; i--) {
+      const e = perPos[i];
+      let a = argByStage[i][c];
+      c -= a;
+      let j = e.Gj[a];
+      for (let idx = e.items.length - 1; idx >= 0 && j > 0; idx--) {
+        if (e.took[idx][j][a]) {
+          result[e.pos].push(e.items[idx]);
+          a -= e.items[idx].rarity;
+          j -= 1;
+        }
+      }
+      result[e.pos].sort((x, y) => valueOf(y) - valueOf(x));
+    }
+    return result;
+  }
+
+  // 自動編成：指定の編成（既定は現在編集中の編成）を一度すべて外し、(1)スタメン11人 → (2)ベンチ9人 の順に組み直す。
+  // どちらもチームコスト上限(teamCostCap)内で現在の実効戦力の合計が最大になる組み合わせを選ぶ（従来のOVR降順の貪欲法は
+  // コスト上限を無視していたため、上限超過や、高コスト選手が枠を食って他が埋まらない編成になっていた）。
+  // スタメンを優先して予算を使うが、ベンチ全枠を埋められる最低限のコストは先に確保する。
+  // 「リーグ/カップのスタメンを重複させない」はスタメンにのみ効かせる（ベンチは対象外＝手動編成の挙動と同じ）
+  // 戻り値：埋まらなかった枠数（所持選手・コスト上限の不足による）
+  function autoAssignFormation(context = currentFormationContext) {
+    // (0) 全員外す
+    formation[context] = emptyFormationSlots();
+    const f = formation[context];
+    const formationKey = currentFormationKey[context];
+    const starterPositions = FORMATIONS[formationKey];
+    const benchPositions = benchPositionsFor(formationKey);
+    const countSlots = (positions) => positions.reduce((acc, pos) => { acc[pos] = (acc[pos] || 0) + 1; return acc; }, {});
+    const starterCounts = countSlots(starterPositions);
+    const benchCounts = countSlots(benchPositions);
+
+    const pool = eligibleOwnedPlayers().filter((p) => allowedByLevelSplit(p.id, context));
+    const blocked = otherContextUsedIds(context);
+    const starterPool = pool.filter((p) => !blocked.has(p.id));
+    const budget = Math.min(teamCostCap(), 20 * 20);
+    const costOf = (squad) => Object.values(squad).reduce((sum, list) => sum + list.reduce((s, p) => s + p.rarity, 0), 0);
+    // ベンチの各ポジションを埋めるのに最低限必要なコスト（各ポジションの安い順にk人分）
+    const minBenchCost = (candidates) => Object.keys(benchCounts).reduce((sum, pos) => {
+      const rarities = candidates.filter((p) => p.position === pos).map((p) => p.rarity).sort((a, b) => a - b);
+      return sum + rarities.slice(0, benchCounts[pos]).reduce((s, r) => s + r, 0);
+    }, 0);
+
+    // (1) スタメン：ベンチ用の最低コストを確保したうえで戦力最大。確保分が足りなければ（スタメンと安価選手が被った場合）増やして再計算
+    let reserve = minBenchCost(pool);
+    let starters = pickBestSquad(starterPool, starterCounts, Math.max(0, budget - reserve));
+    for (let i = 0; i < 5; i++) {
+      const used = new Set(Object.values(starters).flat().map((p) => p.id));
+      const need = minBenchCost(pool.filter((p) => !used.has(p.id)));
+      if (costOf(starters) + need <= budget || need <= reserve) break;
+      reserve = need;
+      starters = pickBestSquad(starterPool, starterCounts, Math.max(0, budget - reserve));
+    }
+    const starterQueue = Object.fromEntries(Object.entries(starters).map(([pos, list]) => [pos, [...list]]));
+    f.starters = starterPositions.map((pos) => {
+      const p = starterQueue[pos] && starterQueue[pos].shift();
       return p ? p.id : null;
     });
 
-    f.bench = benchPositionsFor(activeFormationKey()).map((pos) => {
-      const p = owned.find((pl) => pl.position === pos && !usedIds.has(pl.id));
-      if (p) usedIds.add(p.id);
+    // (2) ベンチ：スタメンを除いた残りの選手から、残りのコスト予算で戦力最大
+    const usedIds = new Set(f.starters.filter(Boolean));
+    const bench = pickBestSquad(pool.filter((p) => !usedIds.has(p.id)), benchCounts, Math.max(0, budget - costOf(starters)));
+    const benchQueue = Object.fromEntries(Object.entries(bench).map(([pos, list]) => [pos, [...list]]));
+    f.bench = benchPositions.map((pos) => {
+      const p = benchQueue[pos] && benchQueue[pos].shift();
       return p ? p.id : null;
     });
+
+    return f.starters.filter((id) => !id).length + f.bench.filter((id) => !id).length;
   }
 
   // ARCHIVED_COUNTRIES に含まれる国のリーグ・クラブ・選手をゲームの対象から除外する。
@@ -17573,99 +17829,116 @@
   // c_fa_c(≈65)=ES T8／DE T8／FR T8。各国の並びは戦力降順を維持（FA挿入で下位クラブが1枠ずつ繰り上がる）。
   const LEGEND_LADDER_TIERS_BY_COUNTRY = {
     GB: [
-      // 2026-10-21 GB：戦力50以上の全クラブ(レジェンド32・代表nt_含む)＋図鑑★11以上の選手が所属する全クラブを戦力降順・重複なしで配置
+      // 2026-10-22 GB：109 tier(436枠)。各国1部・全代表・レジェンド・選抜・FA・その他の国のクラブ(c_other_*)・アル・イテファク/シント・トロイデン・★11選手所属の英2部/J2計4クラブは必ず登場、それ以外はイングランド4部下位5クラブの平均戦力(≈41.7)以上を強い順に充当。全体を戦力降順で配置
       ['c_leg_madrid', 'c_leg_world', 'nt_2', 'c_sel_gb_all'],
-      ['c_sel_it_all', 'c_leg_nt_brazil', 'c_leg_arsenal', 'c_leg_nt_portugal'],
-      ['c_leg_milan', 'c_leg_inter', 'c_leg_barcelona', 'c_madrid'],
-      ['c_sel_free', 'nt_6', 'c_sel_fr_all', 'nt_3'],
-      ['c_en_02', 'nt_0', 'c_leg_nt_france', 'c_leg_africa'],
+      ['c_sel_it_all', 'c_leg_nt_brazil', 'c_leg_arsenal', 'c_leg_milan'],
+      ['c_leg_nt_portugal', 'c_leg_inter', 'c_leg_barcelona', 'c_madrid'],
+      ['c_sel_free', 'nt_6', 'c_sel_fr_all', 'c_en_02'],
+      ['nt_3', 'nt_0', 'c_leg_nt_france', 'c_leg_africa'],
       ['c_fa_a', 'c_fr_01', 'nt_4', 'c_leg_chelsea'],
-      ['c_leg_nt_argentina', 'c_leg_manutd', 'c_leg_bayern', 'nt_9'],
+      ['c_leg_nt_argentina', 'c_leg_bayern', 'c_leg_manutd', 'nt_9'],
       ['c_leg_juventus', 'nt_1', 'sel_gb_3', 'sel_gb_1'],
-      ['c_leg_nt_italy', 'c_leg_nt_germany', 'sel_gb_4', 'sel_gb_2'],
-      ['c_en_01', 'c_leg_liverpool', 'sel_it_1', 'nt_5'],
+      ['c_leg_nt_italy', 'sel_gb_4', 'c_leg_nt_germany', 'sel_gb_2'],
+      ['c_leg_liverpool', 'c_en_01', 'nt_5', 'sel_it_1'],
       ['c_sel_es_all', 'c_en_05', 'c_leg_nt_netherlands', 'c_it_02'],
       ['sel_it_2', 'c_other_001', 'c_leg_atletico', 'nt_7'],
       ['nt_8', 'sel_it_3', 'c_en_03', 'c_es_02'],
-      ['c_en_04', 'c_other_009', 'nt_11', 'c_other_002'],
-      ['c_leg_nt_croatia', 'c_other_007', 'c_leg_monaco', 'c_it_04'],
+      ['c_en_04', 'c_other_009', 'c_other_002', 'nt_11'],
+      ['c_other_007', 'c_leg_nt_croatia', 'c_it_04', 'c_leg_monaco'],
       ['c_it_01', 'nt_32', 'c_other_005', 'c_en_06'],
       ['c_other_008', 'c_other_011', 'c_sel_de_all', 'c_leg_lazio'],
-      ['nt_19', 'c_leg_roma', 'nt_12', 'c_es_03'],
-      ['sel_es_3', 'c_other_006', 'c_leg_nt_japan', 'c_other_003'],
-      ['sel_fr_1', 'sel_fr_3', 'c_de_01', 'c_leg_parma'],
+      ['c_leg_roma', 'nt_19', 'nt_12', 'c_es_03'],
+      ['sel_es_3', 'c_leg_nt_japan', 'c_other_006', 'sel_fr_1'],
+      ['c_other_003', 'sel_fr_3', 'c_de_01', 'c_leg_parma'],
       ['sel_es_2', 'c_en_08', 'c_en_16', 'nt_21'],
       ['c_en_14', 'sel_fr_2', 'c_en_07', 'c_it_05'],
       ['nt_33', 'c_it_03', 'nt_10', 'nt_13'],
       ['nt_18', 'c_en_17', 'nt_16', 'c_other_014'],
       ['c_en_13', 'nt_34', 'c_en_11', 'nt_15'],
-      ['c_other_015', 'c_other_018', 'c_en_15', 'nt_24'],
-      ['nt_14', 'c_other_004', 'nt_25', 'c_other_012'],
-      ['c_leg_ajax', 'nt_40', 'c_fr_06', 'nt_17'],
+      ['c_other_018', 'c_other_015', 'nt_24', 'c_en_15'],
+      ['nt_14', 'c_other_004', 'nt_25', 'c_leg_ajax'],
+      ['c_other_012', 'nt_40', 'c_fr_06', 'nt_17'],
       ['c_fa_b', 'c_it_07', 'c_es_04', 'nt_37'],
       ['c_other_013', 'c_fr_02', 'nt_20', 'sel_de_2'],
-      ['nt_41', 'c_en_12', 'c_es_05', 'c_other_019'],
-      ['c_es_06', 'c_es_07', 'c_fr_03', 'nt_53'],
-      ['c_en_20', 'c_it_06', 'nt_26', 'c_it_08'],
+      ['c_es_05', 'nt_41', 'c_en_12', 'c_other_019'],
+      ['c_es_06', 'c_es_07', 'nt_53', 'c_fr_03'],
+      ['c_en_20', 'c_it_06', 'c_it_08', 'nt_26'],
       ['sel_de_3', 'c_other_017', 'sel_de_1', 'c_it_19'],
       ['c_en_09', 'sel_es_1', 'c_other_028', 'c_other_016'],
-      ['c_other_023', 'nt_35', 'c_de_03', 'c_de_04'],
+      ['c_other_023', 'c_de_03', 'nt_35', 'c_de_04'],
       ['c_de_02', 'c_other_036', 'c_en_18', 'c_it_10'],
-      ['c_es_08', 'c_fr_04', 'c_other_020', 'nt_28'],
+      ['c_fr_04', 'c_es_08', 'c_other_020', 'nt_28'],
       ['nt_27', 'c_fr_08', 'c_de_08', 'c_de_05'],
-      ['c_de2_16', 'c_fr_07', 'nt_38', 'c_nl_02'],
-      ['c_en_10', 'c_es_09', 'c_other_029', 'c_fa_c'],
+      ['c_de2_16', 'c_fr_07', 'nt_38', 'c_en_10'],
+      ['c_nl_02', 'c_other_029', 'c_es_09', 'c_fa_c'],
       ['c_en_19', 'c_es_10', 'c_other_031', 'c_other_034'],
       ['c_fr_12', 'c_other_025', 'c_it_21', 'c_other_024'],
-      ['c_it_09', 'c_de_06', 'c_other_026', 'c_it_16'],
-      ['c_other_030', 'c_other_033', 'nt_30', 'c_other_021'],
-      ['c_other_032', 'c_other_027', 'c_it_11', 'c_other_022'],
-      ['nt_22', 'c_de_12', 'c_it_17', 'c_fr_18'],
-      ['c_de2_18', 'nt_29', 'c_other_063', 'c_other_054'],
-      ['c_other_055', 'c_other_042', 'c_other_045', 'nt_36'],
-      ['c_other_040', 'c_other_041', 'c_other_043', 'c_other_044'],
-      ['c_es_11', 'c_other_046', 'c_other_049', 'c_de_09'],
-      ['c_other_061', 'c_other_035', 'c_de_10', 'c_other_062'],
-      ['c_other_048', 'c_other_052', 'c_other_047', 'c_other_058'],
-      ['c_other_050', 'c_other_059', 'c_it_15', 'c_other_051'],
-      ['c_other_060', 'nt_39', 'c_de_13', 'c_leg_kashima'],
-      ['c_other_053', 'c_other_056', 'c_en2_22', 'c_other_057'],
+      ['c_it_09', 'c_other_026', 'c_it_16', 'c_de_06'],
+      ['c_other_027', 'c_other_021', 'nt_30', 'c_other_033'],
+      ['c_other_030', 'c_other_032', 'nt_22', 'c_other_022'],
+      ['c_it_11', 'c_de_12', 'c_it_17', 'c_fr_18'],
+      ['nt_29', 'c_other_055', 'c_other_054', 'c_de2_18'],
+      ['c_other_063', 'nt_36', 'c_other_041', 'c_other_046'],
+      ['c_other_043', 'c_other_040', 'c_other_044', 'c_other_042'],
+      ['c_other_045', 'c_es_11', 'c_other_049', 'c_other_061'],
+      ['c_de_09', 'c_other_035', 'c_other_047', 'c_other_048'],
+      ['c_other_062', 'c_other_052', 'c_other_058', 'c_de_10'],
+      ['c_other_050', 'c_other_060', 'c_it_15', 'c_other_059'],
+      ['c_other_051', 'nt_39', 'c_de_13', 'c_other_056'],
+      ['c_other_053', 'c_leg_kashima', 'c_en2_22', 'c_other_057'],
       ['c_fr_05', 'c_de2_20', 'c_de_11', 'c_it_12'],
-      ['c_other_064', 'nt_52', 'c_other_037', 'c_other_065'],
-      ['c_other_038', 'c_other_039', 'c_de_22', 'c_de_14'],
+      ['c_other_064', 'nt_52', 'c_other_037', 'c_other_038'],
+      ['c_other_065', 'c_other_039', 'c_de_22', 'c_de_14'],
       ['c_leg_visselkobe', 'c_leg_jubilo', 'c_de_21', 'c_fr_17'],
-      ['c_fr_13', 'nt_23', 'c_nl_01', 'c_other_066'],
-      ['c_other_067', 'c_other_068', 'c_other_069', 'c_other_071'],
-      ['c_de2_19', 'c_jleaguesel', 'c_other_072', 'c_it_20'],
-      ['c_it_18', 'nt_49', 'c_de2_04', 'c_it_22'],
-      ['c_other_070', 'c_en2_05', 'c_de_24', 'c_other_074'],
-      ['c_fr_14', 'c_es_13', 'c_other_073', 'nt_31'],
-      ['c_fr_09', 'c_fr_19', 'c_other_075', 'c_de2_17'],
-      ['c_es_12', 'c_de2_07', 'c_en2_23', 'c_en4_21'],
-      ['c_de_23', 'c_en4_15', 'c_de2_03', 'c_other_076'],
+      ['c_fr_13', 'nt_23', 'c_other_066', 'c_nl_01'],
+      ['c_other_067', 'c_other_069', 'c_other_068', 'c_de2_19'],
+      ['c_other_071', 'c_jleaguesel', 'c_it_20', 'c_other_072'],
+      ['nt_49', 'c_it_18', 'c_de2_04', 'c_it_22'],
+      ['c_en2_05', 'c_other_070', 'c_fr_14', 'c_de_24'],
+      ['c_other_074', 'c_es_13', 'c_other_073', 'nt_31'],
+      ['c_fr_09', 'c_fr_19', 'c_other_075', 'c_es_12'],
+      ['c_de2_17', 'c_de2_07', 'c_en2_23', 'c_en4_21'],
+      ['c_other_076', 'c_de2_03', 'c_en4_15', 'c_de_23'],
       ['c_other_077', 'c_es_24', 'c_de2_05', 'c_jpsel_c'],
       ['c_it2_12', 'c_fr_10', 'c_de_25', 'nt_42'],
-      ['c_en4_03', 'c_leg_yokohamafm', 'nt_48', 'c_leg_urawa'],
-      ['c_en4_18', 'c_other_078', 'nt_43', 'c_es_15'],
+      ['nt_48', 'c_leg_yokohamafm', 'c_en4_03', 'c_leg_urawa'],
+      ['c_en4_18', 'c_other_078', 'c_es_15', 'nt_43'],
       ['c_de2_13', 'nt_50', 'c_fr_15', 'c_nl_03'],
       ['c_jpsel_b', 'nt_54', 'c_jpsel_a', 'c_es_17'],
       ['c_en2_25', 'c_it2_15', 'c_es2_22', 'c_it2_14'],
-      ['c_de2_11', 'nt_44', 'c_es2_05', 'c_de2_08'],
-      ['c_en3_14', 'c_es2_02', 'c_es2_10', 'c_en2_01'],
-      ['c_fr_16', 'c_de2_02', 'c_en3_16', 'c_es_21'],
-      ['c_en2_02', 'c_en4_22', 'nt_46', 'c_us_16'],
+      ['c_de2_11', 'nt_44', 'c_en3_14', 'c_de2_08'],
+      ['c_es2_10', 'c_es2_05', 'c_es2_02', 'c_en2_01'],
+      ['c_fr_16', 'c_de2_02', 'c_es_21', 'c_en3_16'],
+      ['c_en4_22', 'c_en2_02', 'c_us_16', 'nt_46'],
       ['c_es2_17', 'c_es_22', 'nt_45', 'c_it2_16'],
-      ['c_es2_16', 'c_de2_01', 'c_de2_12', 'c_de2_10'],
-      ['c_en2_03', 'c_jp1_16', 'c_en2_04', 'c_de2_15'],
-      ['c_jp1_11', 'nt_47', 'c_en2_06', 'c_de2_14'],
-      ['c_jp1_19', 'c_en2_17', 'c_en2_14', 'c_jp1_15'],
-      ['c_en2_07', 'c_es2_07', 'c_it3_40', 'c_jp1_17'],
-      ['c_fr2_11', 'c_en2_16', 'c_fr2_15', 'c_es3_40'],
-      ['c_jp1_13', 'c_de3_01', 'c_de3_08', 'c_en2_09'],
-      ['c_es3_21', 'c_it3_24', 'c_jp2_17', 'c_fr3_02'],
-      ['c_es3_07', 'c_es3_16', 'c_es3_10', 'c_fr3_06'],
-      ['c_de3_19', 'c_es3_17', 'c_fr3_13', 'c_de3_06'],
-      ['c_en3_20', 'c_de3_12', 'c_de3_20', 'c_en3_04'],
+      ['c_de2_01', 'c_es2_16', 'c_en4_09', 'c_de2_12'],
+      ['c_en4_12', 'c_de2_10', 'c_es_23', 'c_jp1_02'],
+      ['c_es2_15', 'c_en4_16', 'nt_51', 'c_it2_01'],
+      ['c_en3_15', 'c_en5_16', 'c_it2_13', 'c_en2_03'],
+      ['c_jp1_16', 'c_en2_04', 'c_it2_05', 'c_de2_15'],
+      ['c_it2_02', 'c_es2_03', 'c_es2_09', 'c_es2_04'],
+      ['c_es2_06', 'c_es2_01', 'c_en5_18', 'c_jp1_11'],
+      ['nt_47', 'c_it2_19', 'c_en5_07', 'c_es2_19'],
+      ['c_en2_06', 'c_es2_13', 'c_it2_10', 'c_en4_14'],
+      ['c_en5_13', 'c_en4_11', 'c_es_25', 'c_en4_06'],
+      ['c_en4_23', 'c_it2_04', 'c_it2_17', 'c_de2_14'],
+      ['c_fr2_03', 'c_en4_08', 'c_en4_17', 'c_es2_20'],
+      ['c_en4_24', 'c_jp1_20', 'c_es2_23', 'c_en4_13'],
+      ['c_en4_19', 'c_jp1_06', 'c_fr2_14', 'c_it2_07'],
+      ['c_en4_20', 'c_fr2_01', 'c_fr2_10', 'c_it2_06'],
+      ['c_es2_21', 'c_en4_04', 'c_jp1_03', 'c_es2_18'],
+      ['c_it2_09', 'c_fctokyo', 'c_en4_05', 'c_jp1_19'],
+      ['c_it2_03', 'c_jp1_14', 'c_en2_17', 'c_it2_20'],
+      ['c_en2_08', 'c_en4_10', 'c_it2_18', 'c_en2_14'],
+      ['c_en2_12', 'c_it2_11', 'c_en2_10', 'c_jp1_15'],
+      ['c_es2_14', 'c_fr2_17', 'c_en5_10', 'c_be_11'],
+      ['c_fr2_04', 'c_en2_07', 'c_jp1_12', 'c_jp1_09'],
+      ['c_fr2_08', 'c_jp1_10', 'c_fr2_13', 'c_es2_08'],
+      ['c_es2_11', 'c_es2_07', 'c_it2_08', 'c_jp2_09'],
+      ['c_sa_06', 'c_it3_40', 'c_fr2_09', 'c_jp1_17'],
+      ['c_fr2_02', 'c_jp1_18', 'c_fr2_06', 'c_jp1_23'],
+      ['c_jp1_21', 'c_jp1_04', 'c_jp1_13', 'c_jp2_20'],
+      ['c_jp2_10', 'c_jp2_17', 'c_jp1_05', 'c_jp1_22'],
     ],
     ES: [
       ['c_sel_free', 'c_leg_bayern', 'c_leg_chelsea', 'c_leg_manutd'],
@@ -17704,7 +17977,7 @@
       ['c_jp2_10', 'c_it3_15', 'c_fr3_15', 'c_fr3_12'],
       ['c_es3_31', 'c_en2_19', 'c_it3_39', 'c_de3_14'],
       ['c_jp2_02', 'c_fr3_16', 'c_de3_09', 'c_jp2_08'],
-      ['c_home', 'c_jp3_09', 'c_en3_03', 'c_jp3_10'],
+      ['c_jp3_17', 'c_jp3_09', 'c_en3_03', 'c_jp3_10'],
       ['c_en3_11', 'c_en3_18', 'c_jp3_06', 'c_en3_23'],
     ],
     IT: [
@@ -17959,25 +18232,41 @@
   // ターゲットカップ（有料・資金の終盤シンク。全体ガードレール E1 の具体化）。
   // 「未入手の選手が在籍するクラブ」だけを相手にするカップ戦。★帯ごとに6種類（★15まで／★16／★17／★18／★19／★20）。
   //  - 相手プール：その★帯（15は★1〜15、他はちょうどその★）の未入手選手が1人以上いるクラブ（自クラブ除く）。
+  //  - 対戦相手：プールのクラブを①その★の未入手人数（15は★1〜13）②その一つ下の★帯の未入手人数（15は★11〜12、16は★13〜15、
+  //    17以上は★(n-1)のみ）③戦力 の優先順（①が最優先、同数なら②、さらに同数なら③）で並べた上位 TARGET_CUP_SHORTLIST_SIZE クラブから、
+  //    ランダムに TARGET_CUP_OPPONENTS クラブ（＝4試合）。
+  //    選出は月ごと（キャッシュ切れのたび）にやり直す。対戦相手の選び方モードは使わない。
   //  - 参加費：カップを選んだ時点で支払う。月初に別カップへ変更すれば全額返金（試合開始後は返金なし）。
   //  - 報酬：1勝以上すると、最後に倒したクラブの「その★帯の未入手選手」から優先してスカウトされる。
   //    ただしスカウトの獲得上限（収集ペースのガードレール）は越えられない。
-  //  - 解放：カップ通算優勝回数・図鑑コンプ率・スカウト獲得上限＋（★16以降は）一つ下の★帯のカップ優勝。
+  //  - 解放：カップ通算優勝回数・図鑑コンプ率・スカウト獲得上限＋（★16以降は）一つ下の★帯のカップを TARGET_CUP_PREV_WINS 回優勝（全ヶ国通算）。
+  //  - 報酬人数：候補が未入手選手に限られるため、勝利数×1（通常カップは×2）。
   //  - 毎月の自動踏襲はしない（終了後は選択解除）。勝手に参加費が引かれ続けないようにするため。
   // ★18以上の選手はレジェンドカップ（legendLadder）専用の入手源。他のカップ・移籍市場チケットでは獲得できない
   const LEGEND_ONLY_MIN_RARITY = 18;
   const TARGET_CUP_TIERS = [
-    { n: 21, band: 15, minRarity: 1,  maxRarity: 15, fee: 60000,  titles: 30,  comp: 0.30, minCap: 13, prevN: null },
-    { n: 22, band: 16, minRarity: 16, maxRarity: 16, fee: 90000,  titles: 50,  comp: 0.40, minCap: 16, prevN: 21 },
-    { n: 23, band: 17, minRarity: 17, maxRarity: 17, fee: 130000, titles: 70,  comp: 0.50, minCap: 17, prevN: 22 },
-    { n: 24, band: 18, minRarity: 18, maxRarity: 18, fee: 190000, titles: 100, comp: 0.60, minCap: 18, prevN: 23 },
-    { n: 25, band: 19, minRarity: 19, maxRarity: 19, fee: 270000, titles: 150, comp: 0.70, minCap: 19, prevN: 24 },
-    { n: 26, band: 20, minRarity: 20, maxRarity: 20, fee: 400000, titles: 200, comp: 0.80, minCap: 20, prevN: 25 },
+    { n: 21, band: 15, minRarity: 1,  maxRarity: 15, focusMin: 1,  focusMax: 13, lowerMin: 11, lowerMax: 12, fee: 100000,  titles: 30,  comp: 0.20, minCap: 15, prevN: null },
+    { n: 22, band: 16, minRarity: 16, maxRarity: 16, focusMin: 16, focusMax: 16, lowerMin: 13, lowerMax: 15, fee: 150000,  titles: 50,  comp: 0.25, minCap: 16, prevN: 21 },
+    { n: 23, band: 17, minRarity: 17, maxRarity: 17, focusMin: 17, focusMax: 17, lowerMin: 16, lowerMax: 16, fee: 250000,  titles: 70,  comp: 0.30, minCap: 17, prevN: 22 },
+    { n: 24, band: 18, minRarity: 18, maxRarity: 18, focusMin: 18, focusMax: 18, lowerMin: 17, lowerMax: 17, fee: 400000,  titles: 100, comp: 0.45, minCap: 18, prevN: 23 },
+    { n: 25, band: 19, minRarity: 19, maxRarity: 19, focusMin: 19, focusMax: 19, lowerMin: 18, lowerMax: 18, fee: 650000,  titles: 150, comp: 0.60, minCap: 19, prevN: 24 },
+    { n: 26, band: 20, minRarity: 20, maxRarity: 20, focusMin: 20, focusMax: 20, lowerMin: 19, lowerMax: 19, fee: 1000000, titles: 200, comp: 0.75, minCap: 20, prevN: 25 },
   ];
+  // 対戦クラブ数（自チーム＋この数のクラブの総当たり＝この数の試合）と、そのランダム抽選元にする上位クラブ数
+  const TARGET_CUP_OPPONENTS = 4;
+  const TARGET_CUP_SHORTLIST_SIZE = 10;
+  // 前段のターゲットカップを全ヶ国通算で何回優勝していれば次段が解放されるか
+  const TARGET_CUP_PREV_WINS = 10;
+  function targetCupPrevWins(n) {
+    return ACTIVE_COUNTRY_CODES.reduce((s, cc) => s + ((cupChampionCount[cc] || {})[n] || 0), 0);
+  }
   const TARGET_CUP_DEFS = TARGET_CUP_TIERS.map((t) => ({
     n: t.n,
     name: `ターゲットカップ ${t.band === 15 ? '★15まで' : '★' + t.band}`,
-    pool: { type: 'targetUnowned', band: t.band, minRarity: t.minRarity, maxRarity: t.maxRarity, fee: t.fee },
+    pool: {
+      type: 'targetUnowned', band: t.band, minRarity: t.minRarity, maxRarity: t.maxRarity, fee: t.fee,
+      focusMin: t.focusMin, focusMax: t.focusMax, lowerMin: t.lowerMin, lowerMax: t.lowerMax,
+    },
     cond: { type: 'targetCup', titles: t.titles, comp: t.comp, minCap: t.minCap, prevN: t.prevN },
   }));
   function isTargetCupDef(def) {
@@ -18040,8 +18329,8 @@
     ];
     if (cond.prevN != null) {
       const prev = TARGET_CUP_DEFS.find((d) => d.n === cond.prevN);
-      const prevOk = ACTIVE_COUNTRY_CODES.some((cc) => (cupChampionEver[cc] || []).includes(cond.prevN));
-      lines.push({ ok: prevOk, text: `${prev ? prev.name : '前段のターゲットカップ'}で優勝` });
+      const prevWins = targetCupPrevWins(cond.prevN);
+      lines.push({ ok: prevWins >= TARGET_CUP_PREV_WINS, text: `${prev ? prev.name : '前段のターゲットカップ'}で優勝 ${prevWins}/${TARGET_CUP_PREV_WINS}回` });
     }
     return lines;
   }
@@ -18049,6 +18338,25 @@
   function targetCupUnownedPlayers(clubId, pool) {
     return data.players.filter((p) => p.club === clubId && !p.dexHidden && !isDexOwned(p.id)
       && p.rarity >= pool.minRarity && p.rarity <= pool.maxRarity);
+  }
+  function unownedCountInRarity(clubId, minRarity, maxRarity) {
+    return data.players.filter((p) => p.club === clubId && !p.dexHidden && !isDexOwned(p.id)
+      && p.rarity >= minRarity && p.rarity <= maxRarity).length;
+  }
+  // ターゲットカップの対戦相手：①その★の未入手人数 ②一つ下の★帯の未入手人数 ③戦力 を優先順に並べ（①が最優先、
+  // ①が同数なら②、②も同数なら③の大きい順）、上位 TARGET_CUP_SHORTLIST_SIZE クラブに絞って
+  // その中からランダムに TARGET_CUP_OPPONENTS クラブを選ぶ
+  function selectTargetCupClubs(candidates, pool) {
+    const rows = candidates.map((c) => ({
+      club: c,
+      focus: unownedCountInRarity(c.id, pool.focusMin, pool.focusMax),
+      lower: unownedCountInRarity(c.id, pool.lowerMin, pool.lowerMax),
+      power: clubPower(c.id, PLAYER_MAX_LEVEL),
+    }));
+    rows.sort((a, b) => (b.focus - a.focus) || (b.lower - a.lower) || (b.power - a.power));
+    const shortlist = rows.slice(0, TARGET_CUP_SHORTLIST_SIZE).map((r) => r.club);
+    shuffleArray(shortlist);
+    return shortlist.slice(0, TARGET_CUP_OPPONENTS);
   }
   // 参加費の支払い／返金（cupStateごとに支払い済みフラグを持つ）
   function chargeCupEntryFee(cs) {
@@ -18313,6 +18621,8 @@
       shuffleArray(shuffled);
       return shuffled.slice(0, 3);
     }
+    // ターゲットカップ：①②③の上位10クラブからランダムに4クラブ（選び方モードは使わない）
+    if (isTargetCupDef(def)) return selectTargetCupClubs(candidates, def.pool);
     const mode = cupClubSelectionModeFor(countryCode, def.n);
     if (mode === 'manual') {
       const pickedIds = (cupClubManualPick[countryCode] && cupClubManualPick[countryCode][def.n]) || [];
@@ -18371,7 +18681,9 @@
       const isHunt = isLegendHuntDef(def);
       const requirementLines = isTarget ? targetCupRequirementLines(def.cond)
         : isHunt ? legendHuntRequirementLines(def.cond) : null;
-      const enoughClubs = !(isTarget || isHunt) || (clubs || []).filter(Boolean).length >= 3;
+      const neededClubs = isTarget ? TARGET_CUP_OPPONENTS : 3;
+      const enoughClubs = !(isTarget || isHunt) || (clubs || []).filter(Boolean).length >= neededClubs;
+
       return {
         id: `cup_${countryCode}_${def.n}`,
         name: `${slot}. ${displayName}`,
@@ -18383,6 +18695,7 @@
         targetPool: (isTarget || isHunt) ? def.pool : null,
         requirementLines,
         enoughClubs,
+        neededClubs,
         clubs: (clubs || []).filter(Boolean),
         unlocked: isCupUnlocked(countryCode, def) && enoughClubs,
         chapterPrev: def.cond && def.cond.type === 'wonCupLastMonth' ? def.cond.n : null,
@@ -18405,7 +18718,7 @@
       const winCount = (cupChampionCount[countryCode] || {})[c.n] || 0;
       const mode = cupClubSelectionModeFor(countryCode, c.n);
       let selectionHtml = '';
-      if ((c.unlocked || won) && c.poolType !== 'legendHunt') {
+      if ((c.unlocked || won) && c.poolType !== 'legendHunt' && c.poolType !== 'targetUnowned') {
         if (isCupClubSelectionUnlocked(countryCode, c.n)) {
           selectionHtml = `
             <div class="cupMeta" style="margin-top:4px;">対戦相手の選び方:
@@ -18420,19 +18733,27 @@
           selectionHtml = `<div class="cupMeta" style="font-size:11px;">対戦相手の選び方は、あと${CUP_CLUB_SELECTION_UNLOCK_WINS - winCount}回優勝すると選べるようになります</div>`;
         }
       }
+      // レジェンドカップ（クラス別ラダー）：最下位Tierからやり直すボタン。すでに最下位Tierなら意味がないので出さない
+      const legendResetHtml = (c.poolType === 'legendLadder' && legendLadderCurrentTier(countryCode) < legendLadderMaxTier(countryCode))
+        ? `<div class="cupMeta" style="margin-top:4px;"><button class="legendLadderResetBtn" data-country="${countryCode}" style="background:#5a1f1f; border-color:#a44;">⚠ レジェンドカップを最下位Tierからやり直す</button></div>`
+        : '';
       return `
         <div class="cupCard ${c.unlocked ? '' : 'locked'}">
           <div class="cupName">${c.name}${won ? ` <span class="cupWonTag">🏆 優勝済み（${winCount}回）</span>` : ''}</div>
           <div class="cupMeta">リーグ戦 ／ ${c.clubs.filter(Boolean).length}クラブ</div>
           <div class="cupMeta" style="font-size:11px;">${clubNames}</div>
           <div class="cupPrize">優勝賞金目安: ${c.prizeLabel}（+${c.prize}）</div>
-          ${c.requirementLines ? `<div class="cupMeta" style="font-size:11px;">${c.poolType === 'legendHunt' ? '相手＝全レジェンドカップ登場クラブのうち未入手選手が多い上位10クラブから毎月ランダム3クラブ（参加費なし）' : `参加費 ${c.entryFee.toLocaleString()}資金（選択時に支払い。月初に別カップへ変更すれば返金）`} ／ 解放条件:<br>${c.requirementLines.map((l) => `${l.ok ? '✅' : '❌'} ${l.text}`).join('<br>')}${c.enoughClubs ? '' : '<br>❌ 対象の未入手選手が在籍するクラブが3つ未満'}</div>` : ''}
+          ${c.requirementLines ? `<div class="cupMeta" style="font-size:11px;">${c.poolType === 'legendHunt' ? '相手＝全レジェンドカップ登場クラブのうち未入手選手が多い上位10クラブから毎月ランダム3クラブ（参加費なし）' : `相手＝未入手選手が多い・戦力の高い上位${TARGET_CUP_SHORTLIST_SIZE}クラブから毎月ランダム${TARGET_CUP_OPPONENTS}クラブ（${TARGET_CUP_OPPONENTS}試合）／参加費 ${c.entryFee.toLocaleString()}資金（選択時に支払い。月初に別カップへ変更すれば返金）`} ／ 解放条件:<br>${c.requirementLines.map((l) => `${l.ok ? '✅' : '❌'} ${l.text}`).join('<br>')}${c.enoughClubs ? '' : `<br>❌ 対象の未入手選手が在籍するクラブが${c.neededClubs}つ未満`}</div>` : ''}
           <div class="cupLock">${c.unlocked ? '✅ 参加可能（リーグ戦タブから選択）' : c.chapterPrev != null ? `🔒 未解放（前の章をあと${Math.max(0, CHAPTER_UNLOCK_WINS - ((cupChampionCount[countryCode] || {})[c.chapterPrev] || 0))}回優勝で解放）` : '🔒 未解放'}</div>
           ${selectionHtml}
+          ${legendResetHtml}
         </div>
       `;
     }).join('');
 
+    box.querySelectorAll('.legendLadderResetBtn').forEach((el) => {
+      el.addEventListener('click', () => resetLegendLadder(el.dataset.country));
+    });
     box.querySelectorAll('.cupClubModeSelect').forEach((el) => {
       el.addEventListener('change', () => {
         setCupClubSelectionMode(el.dataset.country, Number(el.dataset.n), el.value);
@@ -18441,6 +18762,44 @@
     box.querySelectorAll('.cupClubManualPickBtn').forEach((el) => {
       el.addEventListener('click', () => openCupClubPickModal(el.dataset.country, Number(el.dataset.n)));
     });
+  }
+
+  // レジェンドカップ（クラス別ラダー）を最下位Tierからやり直す。警告を出し、実行前にセーブを3世代バックアップへ退避する。
+  // レジェンドハントカップの解放カウント（legendTopClears）や優勝回数・実績は変えない（Tierだけが戻る）
+  function resetLegendLadder(countryCode) {
+    ensureSeason();
+    const maxTier = legendLadderMaxTier(countryCode);
+    const curTier = legendLadderCurrentTier(countryCode);
+    if (curTier >= maxTier) return;
+    const cs = season.cupState;
+    const legendActive = !!cs && cs.poolType === 'legendLadder' && season.country === countryCode;
+    // 今月のレジェンドカップが試合進行中だと、対戦相手が現Tierで確定済みのためやり直せない（月初の選択直後ならOK）
+    if (legendActive && season.week > 1) {
+      alert('今月のレジェンドカップが進行中のため、Tierをやり直せません。月末の結審後（次月の月初）にお試しください。');
+      return;
+    }
+    const msg = `【警告】レジェンドカップの現在の進行（Tier ${curTier}／${maxTier}）を破棄し、最下位の Tier ${maxTier} からやり直します。\n\n`
+      + '・Tierは元に戻せません（直前のセーブのみ自動バックアップに退避され、セーブ管理から復元できます）\n'
+      + '・最上位Tier優勝によるレジェンドハントカップの解放カウント、優勝回数、獲得済みの選手は変わりません\n'
+      + (legendActive ? '・今月選択中のレジェンドカップの対戦相手も最下位Tierのクラブに選び直されます\n' : '')
+      + '\n本当にやり直しますか？';
+    if (!confirm(msg)) return;
+    pushSaveBackup('reset');
+    delete legendLadderTier[countryCode];
+    // 現Tierの対戦相手として固定されているキャッシュを破棄し、最下位Tierのクラブで選び直させる
+    cupDefsForCountry(countryCode).forEach((def) => {
+      if (def.pool && def.pool.type === 'legendLadder' && cupClubSelectionCache[countryCode]) {
+        delete cupClubSelectionCache[countryCode][def.n];
+      }
+    });
+    if (legendActive) {
+      // 月初に選択済みのレジェンドカップは、最下位Tierのクラブで開始し直す
+      setActiveCupSelection(season.activeCupId);
+    } else {
+      persistSave();
+    }
+    renderCalendarCups();
+    renderCupParticipateOptions();
   }
 
   // 対戦相手クラブの選び方を保存し、その場でカップ一覧を再描画する（次に変更するまで固定）
@@ -18707,8 +19066,15 @@
   // 「連覇」＝そのシーズン表彰履歴（全体の時系列）の中で、同じ国の優勝が2シーズン連続で並んでいること。
   // 他国を渡り歩いて戻ってきた場合は連続扱いにしない（実際に間を空けず防衛した場合のみ連覇と認める）
   function hasBackToBackLeagueTitle(cc) {
-    return seasonAwardsHistory.some((a, i) => a.champion && a.country === cc
-      && seasonAwardsHistory[i - 1] && seasonAwardsHistory[i - 1].champion && seasonAwardsHistory[i - 1].country === cc);
+    return bestLeagueTitleStreak(cc) >= 2;
+  }
+  // リーグ関連の実績は各国の最上位ディビジョンのシーズンのみ対象（下位リーグでの優勝・個人表彰は数えない）。
+  // topFlightを記録する前の旧セーブの履歴（undefined）は区別できないため、従来どおり対象に含める
+  function topFlightAwardsHistory() {
+    return seasonAwardsHistory.filter((a) => a.topFlight !== false);
+  }
+  function isTopFlightLeagueTitle(a, cc) {
+    return !!a && a.champion && a.topFlight !== false && a.country === cc;
   }
   // カップ定義を「◯◯ 第N章」のような章番号違いで束ね、1シリーズ＝1実績にする
   // （章の解放は前章優勝が条件のため、最終章を優勝済み＝そのシリーズを制覇済みと判定できる）
@@ -18730,7 +19096,7 @@
     let best = 0;
     let cur = 0;
     seasonAwardsHistory.forEach((a) => {
-      if (a.champion && a.country === cc) { cur += 1; best = Math.max(best, cur); } else cur = 0;
+      if (isTopFlightLeagueTitle(a, cc)) { cur += 1; best = Math.max(best, cur); } else cur = 0;
     });
     return best;
   }
@@ -18848,7 +19214,7 @@
     });
 
     // 大会制覇・連覇系：国別（リーグ優勝／リーグ連覇／カップ各シリーズ制覇／全カップ制覇）＋国を跨いだ全制覇
-    const championCount = seasonAwardsHistory.filter((a) => a.champion).length;
+    const championCount = topFlightAwardsHistory().filter((a) => a.champion).length;
     list.push({ category: '大会制覇・連覇系', name: `リーグ優勝（通算${championCount}回）`, unlocked: championCount >= 1 });
     // リーグ連覇（通算）：どこかの国で同じ国のリーグ優勝が連続したシーズン数の最大値で判定
     const bestLeagueStreakAll = Math.max(0, ...ACTIVE_COUNTRY_CODES.map((cc) => bestLeagueTitleStreak(cc)));
@@ -18945,12 +19311,12 @@
       });
     };
 
-    pushAwardAchievements('', seasonAwardsHistory);
+    pushAwardAchievements('', topFlightAwardsHistory());
     ACTIVE_COUNTRY_CODES.forEach((cc) => {
-      pushAwardAchievements(`${COUNTRY_NAMES[cc] || cc} `, seasonAwardsHistory.filter((a) => a.country === cc));
+      pushAwardAchievements(`${COUNTRY_NAMES[cc] || cc} `, topFlightAwardsHistory().filter((a) => a.country === cc));
     });
 
-    // プレイ記録系：リーグ戦・カップ戦の自クラブの試合結果から集計する通算記録（playRecord、練習試合は含めない）
+    // プレイ記録系：最上位ディビジョンのリーグ戦・カップ戦の自クラブの試合結果から集計する通算記録（playRecord、練習試合は含めない）
     const pushRecord = (targets, nameOf, value) => targets.forEach((n) => {
       list.push({ category: 'プレイ記録系', name: nameOf(n), unlocked: value >= n });
     });
@@ -19121,12 +19487,13 @@
   // トロフィールーム上部：通算タイトル・個人賞の件数を大きな数字で見せる
   function renderExhibitTrophyStats() {
     const box = document.getElementById('exhibitTrophyStats');
-    const leagueTitles = seasonAwardsHistory.filter((a) => a.champion).length;
+    const topFlightHistory = topFlightAwardsHistory(); // リーグ関連は各国の最上位ディビジョンのみ対象
+    const leagueTitles = topFlightHistory.filter((a) => a.champion).length;
     const cupTitles = careerRecord.cupChampionships;
-    const mvpCount = seasonAwardsHistory.filter((a) => a.mvpId && a.mvpClubId === MY_CLUB_ID).length;
-    const topScorerCount = seasonAwardsHistory.filter((a) => a.topScorerId && a.topScorerClubId === MY_CLUB_ID).length;
-    const topAssistCount = seasonAwardsHistory.filter((a) => a.topAssistId && a.topAssistClubId === MY_CLUB_ID).length;
-    const bestXICount = seasonAwardsHistory.filter((a) => (a.bestXI || []).some((entry) => {
+    const mvpCount = topFlightHistory.filter((a) => a.mvpId && a.mvpClubId === MY_CLUB_ID).length;
+    const topScorerCount = topFlightHistory.filter((a) => a.topScorerId && a.topScorerClubId === MY_CLUB_ID).length;
+    const topAssistCount = topFlightHistory.filter((a) => a.topAssistId && a.topAssistClubId === MY_CLUB_ID).length;
+    const bestXICount = topFlightHistory.filter((a) => (a.bestXI || []).some((entry) => {
       const id = bestXIEntryId(entry);
       const p = data.players.find((pl) => pl.id === id);
       return p && bestXIEntryClubId(entry, p) === MY_CLUB_ID;
@@ -19572,14 +19939,23 @@
 
   // カップ総合ランキング（表示専用・判定には使わない）：レジェンド／選抜／代表／アニメ／仮想クラブも含む全チームが対象。
   // カップ戦編成の総合力が全チーム中何位かを返す（対戦相手のカップ想定レベル=10で比較。乱数ぶれ防止のためキャッシュ）
-  let cachedAllTeamCupPowers = null;
-  function allTeamCupPowers() {
-    if (!cachedAllTeamCupPowers) {
-      const ids = data.clubs.filter((c) => c.id !== MY_CLUB_ID).map((c) => c.id)
-        .concat(Object.keys(SYNTHETIC_CLUBS));
-      cachedAllTeamCupPowers = ids.map((id) => clubPower(id, 10));
+  let cachedAllTeamCupRows = null;
+  // {id, name, sub, power} の一覧（ホーム画面の「全チーム」ランキング表示にも使う）
+  function allTeamCupRows() {
+    if (!cachedAllTeamCupRows) {
+      cachedAllTeamCupRows = data.clubs.filter((c) => c.id !== MY_CLUB_ID)
+        .map((c) => ({
+          id: c.id, name: c.name, power: clubPower(c.id, 10),
+          sub: c.leagueId ? leagueName(c.leagueId) : (c.country || ''),
+        }))
+        .concat(Object.keys(SYNTHETIC_CLUBS).map((id) => ({
+          id, name: SYNTHETIC_CLUBS[id].name, power: clubPower(id, 10), sub: '',
+        })));
     }
-    return cachedAllTeamCupPowers;
+    return cachedAllTeamCupRows;
+  }
+  function allTeamCupPowers() {
+    return allTeamCupRows().map((r) => r.power);
   }
   function cupAllTeamRank() {
     const pool = allTeamCupPowers();
@@ -20100,8 +20476,20 @@
   // カップをその月だけの少人数総当たりに整えたときに必要な週数
   // 通常カップ＝「3クラブ＋自チーム」の総当たり＝3試合／レジェンドカップ・ラダー＝「4クラブ＋自チーム」＝4試合
   function cupWeeksNeeded(cup) {
-    if (cup && cup.poolType === 'legendLadder') return 4;
+    if (cup && (cup.poolType === 'legendLadder' || cup.poolType === 'targetUnowned')) return 4;
     return 3;
+  }
+
+  // カップの総当たり成績表を順位順（勝点→得失点差→総得点）に並べたクラブID配列を返す
+  function sortCupTableIds(table, ids) {
+    return [...ids].sort((a, b) => {
+      const ra = table[a], rb = table[b];
+      if (!ra || !rb) return 0;
+      if (rb.points !== ra.points) return rb.points - ra.points;
+      const gdA = ra.gf - ra.ga, gdB = rb.gf - rb.ga;
+      if (gdB !== gdA) return gdB - gdA;
+      return rb.gf - ra.gf;
+    });
   }
 
   // 今月分のカップ参加枠を確定：3クラブ＋自チームの4クラブでリーグ戦
@@ -20164,7 +20552,8 @@
     const resultKind = myResult.myGoals > myResult.oppGoals ? 'win' : myResult.myGoals < myResult.oppGoals ? 'lose' : 'draw';
     const income = Math.round(250 * matchIncomeMultiplier() * (resultKind === 'win' ? 1.5 : resultKind === 'draw' ? 1 : 0.7));
     gold += income;
-    recordMatchResult(myResult.myGoals, myResult.oppGoals);
+    // プレイ記録（実績）はリーグ戦なら自国の最上位ディビジョンの試合のみ対象（カップ戦は従来どおり全て対象）
+    if (season.division === topDivisionIdOf(season.country)) recordMatchResult(myResult.myGoals, myResult.oppGoals);
 
     const resultLabel = resultKind === 'win' ? '勝利' : resultKind === 'lose' ? '敗北' : '引き分け';
     const myLabel = 'あなたのクラブ';
@@ -20475,16 +20864,14 @@
     const totalParticipants = cs.participants.length || 1;
     let rank = wins >= totalMatches ? 1 : totalParticipants; // table未整備時のフォールバック
     if (cs.table) {
-      const standingsOrder = [...cs.participants].sort((a, b) => {
-        const ra = cs.table[a], rb = cs.table[b];
-        if (!ra || !rb) return 0;
-        if (rb.points !== ra.points) return rb.points - ra.points;
-        const gdA = ra.gf - ra.ga, gdB = rb.gf - rb.ga;
-        if (gdB !== gdA) return gdB - gdA;
-        return rb.gf - ra.gf;
-      });
+      const standingsOrder = sortCupTableIds(cs.table, cs.participants);
       rank = standingsOrder.indexOf(MY_CLUB_ID) + 1;
       if (rank <= 0) rank = totalParticipants;
+      // ホーム画面の「カップ順位表」で、月が明けたあとも直近のカップ最終順位を見られるよう残しておく
+      season.lastCupResult = {
+        cupName: cs.cupName, year: season.year, month: season.month,
+        order: standingsOrder, table: cs.table,
+      };
     }
     const placement = rank === 1 ? 'champion'
       : rank === 2 ? 'runnerUp'
@@ -20653,10 +21040,14 @@
     // スカウト人数＝その月のカップ戦の勝利数×2（引き分けは0.5勝分）。0.5の端数はランダムに切り上げ/切り捨て
     // 参加した以上、無敗0勝でも最低1人はスカウトできる（0人はなし）
     // カップは1ヶ月3試合構成なので、全勝（3勝）×2＝最大6人が上限になる
-    const rawCount = (cs.wins + (cs.draws || 0) * 0.5) * 2;
+    // ターゲットカップは候補が未入手選手に限られるため×1（4試合全勝で最大4人）
+    const countMult = (cs.targetPool && cs.targetPool.type === 'targetUnowned') ? 1 : 2;
+    const rawCount = (cs.wins + (cs.draws || 0) * 0.5) * countMult;
     const flo = Math.floor(rawCount);
     const frac = rawCount - flo;
-    const baseCount = Math.max(1, frac > 1e-9 ? flo + (Math.random() < 0.5 ? 0 : 1) : flo);
+    // ターゲットカップは0.5の端数を常に切り上げ（通常カップはランダム）
+    const roundUp = countMult === 1 || Math.random() >= 0.5;
+    const baseCount = Math.max(1, frac > 1e-9 ? flo + (roundUp ? 1 : 0) : flo);
 
     // レジェンドカップ・ターゲットカップ以外は、複数チーム所属の選手を最強チームのレコードに限定する
     const restrictStrongest = cs.poolType !== 'legendLadder' && !cs.targetPool;
@@ -20790,7 +21181,8 @@
     scoutPityStreak = pulls.some((x) => x.isNew) ? 0 : scoutPityStreak + 1;
     renderZukan();
 
-    const rows = pulls.map((pull) => {
+    // 演出（高レアほど上に積まれる）と同じ並びにする＝★の高い順
+    const rows = [...pulls].sort((a, b) => b.player.rarity - a.player.rarity).map((pull) => {
       const tag = pull.autoSold
         ? `<span class="tag dupe">自動売却 +${pull.refund}資金</span>`
         : pull.isNew ? '<span class="tag new">NEW!</span>' : `<span class="tag dupe">被り +${pull.refund}資金</span>`;
@@ -20957,7 +21349,7 @@
     gold += seasonPrize;
 
     // シーズン表彰（自クラブの選手個人成績から算出。他クラブは個人データを持たないため対象外）
-    const awards = computeSeasonAwards(champion);
+    const awards = computeSeasonAwards(champion, leagueId === topDivision);
     seasonAwardsHistory.push(awards);
     seasonPlayerStats = {};
 
@@ -20998,26 +21390,28 @@
 
     document.getElementById('standingsLeagueName').textContent = leagueName(leagueId);
 
-    const rows = ranked.map(([id, row], i) => {
-      const isMe = id === MY_CLUB_ID;
-      const zone = (canPromote && i < pyramid.promote) ? 'promotion'
-        : (canRelegate && i >= ranked.length - pyramid.relegate) ? 'relegation' : '';
-      return `
-        <tr class="${isMe ? 'me' : ''} ${zone}">
-          <td>${i + 1}</td>
-          <td class="clubNameCell">${clubDisplayName(id)}</td>
-          <td>${row.played}</td>
-          <td>${row.won}</td>
-          <td>${row.drawn}</td>
-          <td>${row.lost}</td>
-          <td>${row.gf - row.ga}</td>
-          <td>${row.points}</td>
-        </tr>
-      `;
-    }).join('');
+    document.getElementById('standingsTable').innerHTML = standingsTableHtml(ranked, (i) =>
+      (canPromote && i < pyramid.promote) ? 'promotion'
+        : (canRelegate && i >= ranked.length - pyramid.relegate) ? 'relegation' : '');
+  }
 
-    document.getElementById('standingsTable').innerHTML = `
-      <table style="width:100%; border-collapse:collapse;">
+  // 順位表（リーグ戦タブ・ホーム画面のリーグ／カップ共通）。ranked = 順位順の [クラブID, 成績] 配列、
+  // zoneOf(i) = その順位の行に付けるクラス（promotion / relegation / champion など）
+  function standingsTableHtml(ranked, zoneOf) {
+    const rows = ranked.map(([id, row], i) => `
+      <tr class="${id === MY_CLUB_ID ? 'me' : ''} ${zoneOf ? zoneOf(i) : ''}">
+        <td>${i + 1}</td>
+        <td class="clubNameCell">${clubDisplayName(id)}</td>
+        <td>${row.played}</td>
+        <td>${row.won}</td>
+        <td>${row.drawn}</td>
+        <td>${row.lost}</td>
+        <td>${row.gf - row.ga}</td>
+        <td>${row.points}</td>
+      </tr>
+    `).join('');
+    return `
+      <table class="rankTable">
         <thead><tr><th>順位</th><th>クラブ</th><th>試</th><th>勝</th><th>分</th><th>負</th><th>得失</th><th>勝点</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
@@ -21060,7 +21454,8 @@
     document.getElementById('homeCupTeamPower').textContent = cupPower.toFixed(1);
     setGradeTag('homeCupTeamGrade', cupPower);
     const cupRank = cupAllTeamRank();
-    document.getElementById('homeCupAllRank').textContent = `${cupRank.rank.toLocaleString()}位／${cupRank.total.toLocaleString()}チーム`;
+    document.getElementById('homeCupAllRank').textContent = `${cupRank.rank.toLocaleString()}位／${cupRank.total.toLocaleString()}`;
+    renderHomeRankings(power, cupPower);
 
     // 毎週必ずリーグ戦（前半）を実施し、選択中カップの必要週数の範囲内だけカップ戦（後半）も並行して実施する。
     // 月の第1週（＝まだ確定していない場合）は、現在選択中のカップでプレビュー表示する
@@ -21108,6 +21503,204 @@
     document.getElementById('cupParticipateSelect').disabled = locked;
 
     renderHomeSeasonAwards();
+  }
+
+  // ---- ホーム画面：リーグ／カップのランキング表示 ----
+  // 表示状態（サブタブ・全件展開）は画面を開いている間だけ保持する（セーブ対象外）
+  const homeRankState = { league: 'standings', cup: 'month', expanded: {}, jumpKey: null };
+  const HOME_RANK_COMPACT_MAX = 15; // これ以下の件数なら最初から全件表示
+
+  // 自国のリーグ所属クラブ（選抜・代表・レジェンド等は除く）の {id,name,sub,power} 一覧。
+  // 想定Lvはリーグ戦=7／カップ戦=10。乱数ぶれ防止のため国×Lv単位でキャッシュする
+  const domesticRankCache = {};
+  function domesticRankRows(country, assumedLevel) {
+    const key = `${country}|${assumedLevel}`;
+    if (!domesticRankCache[key]) {
+      domesticRankCache[key] = data.clubs
+        .filter((c) => c.country === country && c.leagueId && c.id !== MY_CLUB_ID && !RANKING_EXCLUDED_CATEGORIES.includes(c.category))
+        .map((c) => ({ id: c.id, name: c.name, sub: leagueName(c.leagueId), power: clubPower(c.id, assumedLevel) }));
+    }
+    return domesticRankCache[key];
+  }
+
+  // 他クラブ一覧に自クラブを加えて戦力順に並べる（同点は自クラブを上位＝世界ランキングの数え方と同じ）
+  function rankRowsWithMe(pool, myPower) {
+    const rows = pool.concat([{ id: MY_CLUB_ID, name: 'あなたのクラブ', sub: '', power: myPower, isMe: true }]);
+    rows.sort((a, b) => (b.power - a.power) || ((b.isMe ? 1 : 0) - (a.isMe ? 1 : 0)));
+    return rows;
+  }
+
+  function rankSummaryHtml(rows, unit) {
+    const i = rows.findIndex((r) => r.isMe);
+    return i < 0 ? '-' : `${(i + 1).toLocaleString()}位 <small>／${rows.length.toLocaleString()}${unit}</small>`;
+  }
+
+  // 戦力ランキング表。件数が多いときは「上位5＋自分の前後3」だけを出し、トグルで全件展開できる
+  function rankListHtml(rows, key) {
+    const expanded = !!homeRankState.expanded[key];
+    const myIdx = rows.findIndex((r) => r.isMe);
+    const canToggle = rows.length > HOME_RANK_COMPACT_MAX;
+    const show = new Set();
+    if (expanded || !canToggle) {
+      rows.forEach((_, i) => show.add(i));
+    } else {
+      for (let i = 0; i < 5; i++) show.add(i);
+      for (let i = myIdx - 3; i <= myIdx + 3; i++) if (i >= 0 && i < rows.length) show.add(i);
+    }
+    const gapRow = '<tr class="gap"><td colspan="4">⋮</td></tr>';
+    let body = '';
+    let prev = -1;
+    [...show].sort((a, b) => a - b).forEach((i) => {
+      if (i - prev > 1) body += gapRow;
+      const r = rows[i];
+      body += `<tr class="${r.isMe ? 'me' : ''}"><td>${i + 1}</td>` +
+        `<td class="clubNameCell">${r.isMe ? '★ ' : ''}${r.name}${r.sub ? `<small>${r.sub}</small>` : ''}</td>` +
+        `<td>${r.power.toFixed(1)}</td><td>${gradeOf(r.power)}</td></tr>`;
+      prev = i;
+    });
+    if (prev < rows.length - 1) body += gapRow;
+    return `
+      <div class="rankScroll" data-rank-key="${key}">
+        <table class="rankTable">
+          <thead><tr><th>順位</th><th>クラブ</th><th>戦力</th><th>評価</th></tr></thead>
+          <tbody>${body}</tbody>
+        </table>
+      </div>
+      ${canToggle ? `<button type="button" class="action homeRankToggle" data-rank-key="${key}">${expanded ? '上位と自分の周辺だけ表示' : `全${rows.length.toLocaleString()}件を表示`}</button>` : ''}
+    `;
+  }
+
+  // 表示先に反映する。全件展開中は再描画してもスクロール位置を保ち、展開した直後だけ自クラブの行へ寄せる
+  function setHomeRankView(boxId, html) {
+    const box = document.getElementById(boxId);
+    const prevScroll = box.querySelector('.rankScroll');
+    const prevTop = prevScroll ? prevScroll.scrollTop : 0;
+    box.innerHTML = html;
+    const scroll = box.querySelector('.rankScroll');
+    if (!scroll) return;
+    const key = scroll.dataset.rankKey;
+    if (homeRankState.jumpKey === key) {
+      homeRankState.jumpKey = null;
+      const me = scroll.querySelector('tr.me');
+      if (me) scroll.scrollTop = Math.max(0, me.offsetTop - scroll.clientHeight / 2);
+    } else {
+      scroll.scrollTop = prevTop;
+    }
+  }
+
+  // カップ順位表の元データ：今月のカップ（開催前／進行中）、無ければ直近に終えたカップの最終結果
+  function homeCupResultSource() {
+    const cs = season.cupState;
+    if (cs && cs.table) {
+      const played = cs.table[MY_CLUB_ID] ? cs.table[MY_CLUB_ID].played : 0;
+      return {
+        kind: played > 0 ? 'live' : 'before',
+        cupName: cs.cupName, ids: cs.participants, table: cs.table,
+        note: played > 0
+          ? `<b>${cs.cupName}</b>（今月・${played}/${cs.participants.length - 1}試合消化）`
+          : `<b>${cs.cupName}</b>（今月・開催前。試合を進めると成績が入ります）`,
+      };
+    }
+    const last = season.lastCupResult;
+    if (last && last.table) {
+      return {
+        kind: 'last',
+        cupName: last.cupName, ids: last.order, table: last.table,
+        note: `<b>${last.cupName}</b> の最終結果（${last.year}年目 ${last.month}月）。今月のカップを選んで進めると更新されます`,
+      };
+    }
+    return null;
+  }
+
+  function renderHomeRankings(leaguePower, cupPower) {
+    const country = season.country;
+
+    // ---- リーグ：所属リーグ内の順位 ＋ 国内戦力ランキング ----
+    const leagueId = season.division;
+    const leagueTable = season.standings[leagueId] || {};
+    const leagueRanked = Object.entries(leagueTable).sort(standingsComparator(leagueId));
+    const myPos = leagueRanked.findIndex(([id]) => id === MY_CLUB_ID);
+    const myLeagueRow = leagueTable[MY_CLUB_ID];
+    document.getElementById('homeLeagueRank').innerHTML = (myPos < 0 || !myLeagueRow) ? '-'
+      : myLeagueRow.played === 0 ? '開幕前'
+        : `${myPos + 1}位 <small>／${leagueRanked.length}クラブ</small>`;
+
+    const domesticLeagueRows = rankRowsWithMe(domesticRankRows(country, 7), leaguePower);
+    document.getElementById('homeDomesticLeagueRank').innerHTML = rankSummaryHtml(domesticLeagueRows, 'クラブ');
+
+    const pyramid = currentPyramid();
+    const idx = pyramid.leagues.indexOf(leagueId);
+    const canPromote = idx < pyramid.leagues.length - 1;
+    const canRelegate = idx > 0;
+    let leagueHtml;
+    if (homeRankState.league === 'domestic') {
+      leagueHtml = `<p class="homeViewNote">自国（${country}）のリーグ所属クラブ全体を、リーグ用編成の戦力で並べた順位です（所属ディビジョンは問いません）。</p>` +
+        rankListHtml(domesticLeagueRows, 'leagueDomestic');
+    } else {
+      leagueHtml = `<p class="homeViewNote"><b>${leagueName(leagueId)}</b> の今季の順位表</p>` +
+        `<div class="rankScroll">${standingsTableHtml(leagueRanked, (i) =>
+          (canPromote && i < pyramid.promote) ? 'promotion'
+            : (canRelegate && i >= leagueRanked.length - pyramid.relegate) ? 'relegation' : '')}</div>` +
+        '<div class="rankLegend"><span class="up">■</span> 昇格圏 ／ <span class="down">■</span> 降格圏</div>';
+    }
+    setHomeRankView('homeLeagueView', leagueHtml);
+
+    // ---- カップ：カップ内の順位表 ＋ 国内／全チームの戦力ランキング ----
+    const src = homeCupResultSource();
+    let cupOrder = [];
+    if (src) cupOrder = sortCupTableIds(src.table, src.ids);
+    const cupPos = cupOrder.indexOf(MY_CLUB_ID);
+    document.getElementById('homeCupMonthRank').innerHTML = (!src || cupPos < 0) ? '-'
+      : src.kind === 'before' ? '開催前'
+        : `${cupPos + 1}位 <small>／${cupOrder.length}クラブ</small>`;
+
+    const domesticCupRows = rankRowsWithMe(domesticRankRows(country, 10), cupPower);
+    document.getElementById('homeDomesticCupRank').innerHTML = rankSummaryHtml(domesticCupRows, 'クラブ');
+
+    let cupHtml;
+    if (homeRankState.cup === 'domestic') {
+      cupHtml = `<p class="homeViewNote">自国（${country}）のリーグ所属クラブ全体を、カップ用編成の戦力で並べた順位です。</p>` +
+        rankListHtml(domesticCupRows, 'cupDomestic');
+    } else if (homeRankState.cup === 'all') {
+      cupHtml = '<p class="homeViewNote">世界中のクラブ・選抜・代表・レジェンドを含む全チームを、カップ用編成の戦力で並べた順位です。</p>' +
+        rankListHtml(rankRowsWithMe(allTeamCupRows(), cupPower), 'cupAll');
+    } else if (!src) {
+      cupHtml = '<p class="homeViewNote">今月のカップ戦はまだ始まっていません。「今月の進行」で試合を進めると、参加クラブのカップ内順位表がここに表示されます。</p>';
+    } else {
+      const ranked = cupOrder.map((id) => [id, src.table[id]]);
+      cupHtml = `<p class="homeViewNote">${src.note}</p>` +
+        `<div class="rankScroll">${standingsTableHtml(ranked, (i) => (src.kind !== 'before' && i === 0 ? 'champion' : ''))}</div>` +
+        '<div class="rankLegend">1位＝カップ優勝（スカウト・賞金が最大）</div>';
+    }
+    setHomeRankView('homeCupView', cupHtml);
+
+    // サブタブの選択状態
+    document.querySelectorAll('#homeLeagueCard .homeSubTabs button').forEach((b) =>
+      b.classList.toggle('active', b.dataset.view === homeRankState.league));
+    document.querySelectorAll('#homeCupCard .homeSubTabs button').forEach((b) =>
+      b.classList.toggle('active', b.dataset.view === homeRankState.cup));
+  }
+
+  function setupHomeRankings() {
+    const refresh = () => renderHomeRankings(computeTeamPower('league'), computeTeamPower('cup'));
+    ['homeLeagueCard', 'homeCupCard'].forEach((cardId) => {
+      const group = cardId === 'homeLeagueCard' ? 'league' : 'cup';
+      document.getElementById(cardId).addEventListener('click', (e) => {
+        const tab = e.target.closest('.homeSubTabs button');
+        if (tab) {
+          homeRankState[group] = tab.dataset.view;
+          refresh();
+          return;
+        }
+        const toggle = e.target.closest('.homeRankToggle');
+        if (toggle) {
+          const key = toggle.dataset.rankKey;
+          homeRankState.expanded[key] = !homeRankState.expanded[key];
+          homeRankState.jumpKey = homeRankState.expanded[key] ? key : null;
+          refresh();
+        }
+      });
+    });
   }
 
   // ホーム画面はリーグ戦タブと別のDOMなので、同じタイムラインを使って演出をもう一つ同時再生し、
@@ -21209,6 +21802,7 @@
     document.getElementById('homeWorldRankingBtn').addEventListener('click', () => {
       document.getElementById('tabWorldRankingBtn').click();
     });
+    setupHomeRankings();
   }
 
   function displayName(player) {
@@ -21506,7 +22100,8 @@
         document.body.appendChild(flash);
         setTimeout(() => flash.remove(), 700);
       }
-      cardsEl.appendChild(card);
+      // 新しい選手を上に積む（低レア→高レアの順に出すので、最終的に高レアほど上に並ぶ＝最終一覧と同じ並び）
+      cardsEl.insertBefore(card, cardsEl.firstChild);
       requestAnimationFrame(() => requestAnimationFrame(() => card.classList.add('revealed')));
       i++;
       timer = setTimeout(step, tierDelay[tier] || 500);
@@ -21542,7 +22137,8 @@
   function renderScoutResult(result) {
     const box = document.getElementById('scoutResult');
 
-    const rows = result.pulls.map((pull) => {
+    // 演出（高レアほど上に積まれる）と同じ並びにする＝★の高い順
+    const rows = [...result.pulls].sort((a, b) => b.player.rarity - a.player.rarity).map((pull) => {
       const p = pull.player;
       const band = pull.band;
       const tag = pull.guaranteed
@@ -21732,6 +22328,8 @@
     });
     const noDupChkEl = document.getElementById('noDupBetweenContextsChk');
     if (noDupChkEl) noDupChkEl.checked = noDupBetweenContexts;
+    const levelSplitChkEl = document.getElementById('levelSplitByContextChk');
+    if (levelSplitChkEl) levelSplitChkEl.checked = levelSplitByContext;
     const hideBtnEl = document.getElementById('hideOtherStartersBtn');
     if (hideBtnEl) {
       const otherLabel = currentFormationContext === 'league' ? 'カップ戦用' : 'リーグ戦用';
@@ -21755,7 +22353,8 @@
       const current = f.starters[i];
       const candidates = sortPlayersForFormation(owned.filter((p) => p.position === pos && (p.id === current || !used.has(p.id))
         && (p.id === current || !filterLower || displayName(p).toLowerCase().includes(filterLower))
-        && (p.id === current || !hideMaxLevelCandidates || currentLevelOf(p.id) < PLAYER_MAX_LEVEL)));
+        && (p.id === current || !hideMaxLevelCandidates || currentLevelOf(p.id) < PLAYER_MAX_LEVEL)
+        && (p.id === current || allowedByLevelSplit(p.id))));
       const currentPlayer = current && byId[current];
       const currentLevel = current ? currentLevelOf(current) : 1;
 
@@ -21785,7 +22384,8 @@
       const candidates = sortPlayersForFormation(owned.filter((p) => (p.id === current || !used.has(p.id))
         && (p.id === current || p.position === benchPos)
         && (p.id === current || !filterLower || displayName(p).toLowerCase().includes(filterLower))
-        && (p.id === current || !hideMaxLevelCandidates || currentLevelOf(p.id) < PLAYER_MAX_LEVEL)));
+        && (p.id === current || !hideMaxLevelCandidates || currentLevelOf(p.id) < PLAYER_MAX_LEVEL)
+        && (p.id === current || allowedByLevelSplit(p.id))));
       const currentPlayer = current && byId[current];
       const currentLevel = current ? currentLevelOf(current) : 1;
 
@@ -21851,7 +22451,8 @@
     const hiddenIds = otherStarterIdsToHide();
     const filterLower = candidateFilterText.trim().toLowerCase();
     const remaining = owned.filter((p) => !usedIds.has(p.id) && !hiddenIds.has(p.id) && (!filterLower || displayName(p).toLowerCase().includes(filterLower))
-      && (!hideMaxLevelCandidates || currentLevelOf(p.id) < PLAYER_MAX_LEVEL));
+      && (!hideMaxLevelCandidates || currentLevelOf(p.id) < PLAYER_MAX_LEVEL)
+      && allowedByLevelSplit(p.id));
     const order = ['GK', 'DF', 'MF', 'FW'];
     const box = document.getElementById('candidatesList');
 
@@ -22019,12 +22620,36 @@
         renderFormation();
       });
     }
+    const autoBtn = document.getElementById('autoFormationBtn');
+    if (autoBtn) {
+      autoBtn.addEventListener('click', () => {
+        const selfLabel = currentFormationContext === 'league' ? 'リーグ戦用' : 'カップ戦用';
+        if (!confirm(`${selfLabel}の編成を一度すべて外し、スタメン→ベンチの順に自動で組み直します。よろしいですか？`)) return;
+        const unfilled = autoAssignFormation();
+        persistSave();
+        renderFormation();
+        if (unfilled > 0) alert(`所持選手またはチームコスト上限（${teamCostCap()}）の都合で、${unfilled}枠を埋められませんでした`);
+      });
+    }
     const clearBtn = document.getElementById('clearFormationBtn');
     if (clearBtn) {
       clearBtn.addEventListener('click', () => {
         const selfLabel = currentFormationContext === 'league' ? 'リーグ戦用' : 'カップ戦用';
         if (!confirm(`${selfLabel}の編成（スタメン・ベンチ）を全員外します。よろしいですか？`)) return;
         formation[currentFormationContext] = emptyFormationSlots();
+        persistSave();
+        renderFormation();
+      });
+    }
+    const clearBenchBtn = document.getElementById('clearBenchBtn');
+    if (clearBenchBtn) {
+      clearBenchBtn.addEventListener('click', () => {
+        const f = formation[currentFormationContext];
+        const selfLabel = currentFormationContext === 'league' ? 'リーグ戦用' : 'カップ戦用';
+        const count = f.bench.filter(Boolean).length;
+        if (count === 0) { alert(`${selfLabel}の編成のベンチに選手はいません`); return; }
+        if (!confirm(`${selfLabel}の編成のベンチ${count}人を全員外します（スタメンはそのまま）。よろしいですか？`)) return;
+        f.bench = Array(BENCH_SIZE).fill(null);
         persistSave();
         renderFormation();
       });
@@ -22056,6 +22681,15 @@
       noDupChk.checked = noDupBetweenContexts;
       noDupChk.addEventListener('change', (e) => {
         noDupBetweenContexts = e.target.checked;
+        persistSave();
+        renderFormation();
+      });
+    }
+    const levelSplitChk = document.getElementById('levelSplitByContextChk');
+    if (levelSplitChk) {
+      levelSplitChk.checked = levelSplitByContext;
+      levelSplitChk.addEventListener('change', (e) => {
+        levelSplitByContext = e.target.checked;
         persistSave();
         renderFormation();
       });
@@ -22095,6 +22729,7 @@
       formation = { league: emptyFormationSlots(), cup: emptyFormationSlots() };
       currentFormationContext = 'league';
       noDupBetweenContexts = false;
+      levelSplitByContext = false;
       facilities = initialFacilityLevelsForCountry('JP');
       items = Object.fromEntries(ITEM_KEYS.map((k) => [k, 1]));
       itemActive = Object.fromEntries(ITEM_KEYS.map((k) => [k, false]));
