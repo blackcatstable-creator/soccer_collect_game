@@ -50,10 +50,26 @@
   .homeWeekRow .weekKind.cup { color: #ffbf6b; }
 
   /* ==== ホーム画面：リーグ／カップを色分けしたカードで整理 ==== */
+  .homeTopBar {
+    background: #1b1e26; border: 1px solid #2e323c; border-radius: 8px;
+    padding: 10px 14px; margin-bottom: 14px;
+  }
   .homeHeader {
     display: flex; align-items: center; justify-content: space-between; gap: 8px 16px; flex-wrap: wrap;
-    margin-bottom: 12px;
+    margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #2a2e37;
   }
+  .homeAutoSell {
+    display: flex; align-items: center; gap: 6px 10px; flex-wrap: wrap;
+    font-size: 12px; color: #bbb; line-height: 1.5;
+  }
+  .homeAutoSellTitle { font-weight: bold; color: #ffd24a; font-size: 13px; white-space: nowrap; }
+  .homeAutoSell select { font-size: 13px; }
+  .homeAutoSellExclude { margin-left: auto; white-space: nowrap; }
+  .homeAlert {
+    background: #3a1e22; border: 1px solid #7a3038; border-radius: 6px;
+    color: #f88; font-size: 13px; padding: 8px 12px; margin-bottom: 10px;
+  }
+  .homeCupPick { display: flex; align-items: center; gap: 6px 10px; flex-wrap: wrap; font-size: 14px; color: #bbb; margin-bottom: 10px; }
   .homeHeader .summary { margin: 0; font-size: 16px; color: #fff; font-weight: bold; }
   .homeHeaderStats { display: flex; align-items: center; gap: 6px 14px; flex-wrap: wrap; font-size: 12px; color: #9aa0a6; }
   .homeHeaderStats b { color: #fff; font-size: 14px; }
@@ -804,6 +820,8 @@
     .rankScroll { max-height: 55vh; }
     .rankTable th, .rankTable td { padding: 6px 4px; }
     .homeHeaderStats button.action { width: 100%; }
+    .homeTopBar { padding: 10px; }
+    .homeAutoSellExclude { margin-left: 0; }
     .matchSplitLayout { flex-direction: column; gap: 14px; }
     .matchSplitCol { min-width: 0; width: 100%; }
     .matchResultList, .homeLeagueMirror, .homeCupMirror { max-height: 50vh; }
@@ -933,28 +951,60 @@
   <button id="tabScoutBtn">スカウト</button>
 </div>
 
-<!-- ホームタブ：実際のゲームプレイの起点画面（上から「今月の進行」→「リーグ戦／カップ戦カード」の順に整理） -->
+<!-- ホームタブ：実際のゲームプレイの起点画面
+     上から「ステータス帯（現在地＋放出制限）」→「今月の進行」→「直近の結果」→「リーグ戦／カップ戦カード」の順に整理 -->
 <div id="panelHome" class="panel active">
-  <div class="homeHeader">
-    <div class="summary" id="homeSeasonLine">-</div>
-    <div class="homeHeaderStats">
-      <span>クラブランク <b id="homeClubRank">-</b></span>
-      <span>世界ランキング <b id="homeWorldRank">-</b>位</span>
-      <button class="action" id="homeWorldRankingBtn">世界クラブランキングを見る▶</button>
+  <!-- ⓪ ステータス帯：現在地（シーズン・ランク）と放出制限（自動放出）を最上部にまとめる -->
+  <section class="homeTopBar">
+    <div class="homeHeader">
+      <div class="summary" id="homeSeasonLine">-</div>
+      <div class="homeHeaderStats">
+        <span>クラブランク <b id="homeClubRank">-</b></span>
+        <span>世界ランキング <b id="homeWorldRank">-</b>位</span>
+        <button class="action" id="homeWorldRankingBtn">世界クラブランキングを見る▶</button>
+      </div>
     </div>
-  </div>
+    <div class="homeAutoSell" id="homeAutoSellSetting">
+      <span class="homeAutoSellTitle">🗑️ 放出制限</span>
+      <span class="homeAutoSellBody">
+        ★
+        <select id="homeAutoSellThresholdSelect">
+          <option value="0">なし</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="15">15</option>
+          <option value="16">16</option>
+          <option value="17">17</option>
+        </select>
+        以下の新規獲得選手は自動で放出（資金化・図鑑には記録）
+      </span>
+      <label class="homeAutoSellExclude"><input type="checkbox" id="homeAutoSellExcludeJapaneseCheckbox"> 日本人は対象外</label>
+    </div>
+  </section>
 
-  <!-- ① 今月の進行：カップ選択（必須）→今月の予定→進めるボタン -->
+  <!-- ① 今月の進行：要対応（警告／保有上限）→カップ選択（必須）→今月の予定→進めるボタン -->
   <section class="homeCard progress">
     <div class="homeCardHead"><h3>📅 今月の進行</h3></div>
-    <div class="summary">
-      今月参加するカップ戦：
-      <select id="homeCupSelect"><option value="" disabled>-- 今月参加するカップ戦を選択（必須） --</option></select>
-    </div>
-    <div id="homeCupChoiceWarning" class="summary" style="color:#f88; display:none;">
+    <div id="homeCupChoiceWarning" class="homeAlert" style="display:none;">
       毎月の頭に、必ず今月参加するカップ戦を選んでください（未選択だと進められません）。
     </div>
     <div id="homeOverCapPanel"></div>
+    <div class="homeCupPick">
+      <label for="homeCupSelect">今月参加するカップ戦</label>
+      <select id="homeCupSelect"><option value="" disabled>-- 今月参加するカップ戦を選択（必須） --</option></select>
+    </div>
     <div id="homeMonthSchedule"></div>
     <button class="action" id="homeAdvanceBtn" style="margin-top:12px; font-size:16px; padding:10px 24px;">1ヶ月分の試合を進める▶</button>
   </section>
@@ -997,32 +1047,6 @@
       </div>
       <div id="homeCupView"></div>
     </section>
-  </div>
-
-  <div class="summary" id="homeAutoSellSetting">
-    新規獲得選手の自動売却：★
-    <select id="homeAutoSellThresholdSelect">
-      <option value="0">なし</option>
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
-      <option value="6">6</option>
-      <option value="7">7</option>
-      <option value="8">8</option>
-      <option value="9">9</option>
-      <option value="10">10</option>
-      <option value="11">11</option>
-      <option value="12">12</option>
-      <option value="13">13</option>
-      <option value="14">14</option>
-      <option value="15">15</option>
-      <option value="16">16</option>
-      <option value="17">17</option>
-    </select>
-    以下の新規獲得選手は自動でリリース（資金化）します（図鑑には引き続き記録されます）
-    <label style="margin-left:8px;"><input type="checkbox" id="homeAutoSellExcludeJapaneseCheckbox"> 日本人は対象外</label>
   </div>
 
   <div id="homeSeasonAwards" style="margin-top:20px;"></div>
@@ -1526,7 +1550,7 @@
 <div id="panelItems" class="panel">
   <div class="summary">カップ最終週のスカウトを強化するアイテム（各5段階）。ONにしたまま月末を迎えると効果が乗ります</div>
   <div id="itemsList"></div>
-  <div class="summary" style="margin-top:16px;">購入して使う消耗品アイテム（買い切り・使用すると在庫を1つ消費します）</div>
+  <div class="summary" style="margin-top:16px;">移籍チケット：他の国の編成にいる自分の選手を、今いる国へ今すぐ移籍させます（カップ最終週を待つ必要はありません）</div>
   <div id="consumablesList"></div>
 </div>
 
@@ -15533,24 +15557,18 @@
     // イベントは renderItems() 内で都度再バインド
   }
 
-  // 買い切りの消耗品アイテム（レベルアップ式ではなく、購入して在庫を1つ消費して使う）
+  // 移籍チケット（買い切りの消耗品アイテム）
+  // 「他の国で編成に入れている自分の所持選手」を1人指名し、契約金を支払って今いる国の編成へ即座に移籍させる。
+  // スカウトの抽選とは無関係に、カップ最終週を待たず使った瞬間に反映される。候補も未所持選手ではなく所持選手のみ
   const CONSUMABLE_DEFS = {
-    transferScout: {
-      name: '移籍市場チケット',
-      desc: 'これまでにプレイした他の国のクラブに所属する未所持選手を1人指名して契約金を支払う。次にカップ最終週を迎えたとき、成績に関わらずその選手を必ず獲得できる（指名できるのは現在の獲得上限まで／契約金は選手のレアリティで変動）',
+    rosterTransfer: {
+      name: '移籍チケット',
+      desc: '他の国の編成に入っている自分の所持選手を1人指名し、今いる国へ今すぐ移籍させる（カップ最終週を待つ必要なし）。移籍元の国の編成からは外れる。契約金は選手のレアリティで変動',
     },
-    // 2026-07-21: スカウト強化チケットは廃止のためコメントアウト
-    // scoutBoost: {
-    //   name: 'スカウト強化チケット',
-    //   desc: '次回のカップスカウトの抽選を1回だけ最高品質にする（施設のレア上限を無視。キャリアに応じた獲得上限までは適用）',
-    //   cost: 2000,
-    // },
   };
-  const CONSUMABLE_KEYS = Object.keys(CONSUMABLE_DEFS);
-  let consumables = Object.fromEntries(CONSUMABLE_KEYS.map((k) => [k, 0])); // 保有在庫数
-  let consumableArmed = Object.fromEntries(CONSUMABLE_KEYS.map((k) => [k, false])); // 次回のカップ最終週に使うか
-  let transferTargetPlayerId = null; // 移籍市場チケットで指名する選手
-  // 移籍市場チケットの指名リストの絞り込み条件（セーブ対象外）
+  let transferTargetPlayerId = null; // 移籍チケットで指名する選手（セーブ対象外）
+  let transferResultNote = ''; // 直近の移籍結果の表示（セーブ対象外）
+  // 移籍チケットの指名リストの絞り込み条件（セーブ対象外）。country は「移籍元の国」
   let transferFilter = { text: '', country: '', minRarity: 0, position: '', sort: 'overall' };
   const TRANSFER_LIST_LIMIT = 300;
 
@@ -15558,49 +15576,66 @@
     return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
-  // 同一人物判定キー（選抜・代表・FA・レジェンド等の「別カード」は対象外にした上で、実クラブ間の重複を名寄せする）
-  function transferPersonKey(p) {
-    return `${p.name}|${p.nationality}|${p.position}`;
+  // 移籍チケットの契約金：選手のレアリティが高いほど急増する（施設アップグレードと同じ二乗カーブ）
+  function transferScoutCost(rarity) {
+    return Math.round(300 * rarity * rarity);
   }
 
-  // 移籍市場チケットで指名できる選手の候補（絞り込み前）。
-  // ・リーグ所属の実クラブ（leagueId あり）の選手のみ＝選抜/代表/FA/レジェンド/その他の国の「別カード」は除外
-  // ・これまでに訪れた「現在地以外」の国のクラブ所属／未所持／獲得上限（hardCap）以内
-  // ・同一人物（名前＋国籍＋ポジション）は最も総合値の高い1枚に名寄せし、既に所持している人物は除外
+  // これまでにプレイした「現在地以外」の国（＝一度でも移籍で訪れた国）のコード一覧
+  function visitedForeignCountries() {
+    return Object.keys(countrySnapshots);
+  }
+
+  function playerClubCountry(player) {
+    const club = data.clubs.find((c) => c.id === player.club);
+    return club ? club.country : null;
+  }
+
+  // 移籍元の国が選手を手放しても編成が成り立つか（最低11人・各ポジション1人以上は残す）
+  function canLeaveCountry(list, player) {
+    const rest = list.filter((id) => id !== player.id).map((id) => data.players.find((p) => p.id === id)).filter(Boolean);
+    if (rest.length < 11) return false;
+    return ['GK', 'DF', 'MF', 'FW'].every((pos) => rest.some((p) => p.position === pos));
+  }
+
+  // 移籍チケットで指名できる選手の候補。
+  // ・今いる国の編成にまだ入っていない所持選手のうち、他の国の編成に入っているもの
+  // ・編成が「制限なし」の国（日本など）は所持選手すべてがその国で使えるので、他に居場所のない所持選手はその国の所属扱い
+  // ・今いる国が制限なし（日本など）の場合は所持選手すべてが既に編成可能なので、候補なし（restricted=false）
   function transferCandidates() {
-    const guard = currentScoutGuardrails();
-    const foreignCountries = visitedForeignCountries();
-    const clubById = new Map(data.clubs.map((c) => [c.id, c]));
-    const isRealClub = (c) => !!(c && c.leagueId);
-    const ownedKeys = new Set();
-    const pool = [];
-    data.players.forEach((p) => {
-      const club = clubById.get(p.club);
-      if (!isRealClub(club)) return;
-      const st = collectionState.players[p.id];
-      if (st && st.owned) { ownedKeys.add(transferPersonKey(p)); return; }
-      if (p.exclusiveTo || p.dexHidden || p.rarity > guard.hardCap) return;
-      if (!foreignCountries.includes(club.country)) return;
-      pool.push({ p, club });
+    const here = season.country;
+    const hereList = rosterEligibility[here];
+    if (!hereList) return { restricted: false, candidates: [] };
+    const hereIds = new Set(hereList);
+    const owned = ownedPlayers().filter((p) => !hereIds.has(p.id));
+    const ownedById = new Map(owned.map((p) => [p.id, p]));
+    const source = new Map(); // 選手ID -> 移籍元の国コード
+    const ccs = Object.keys(countrySnapshots).filter((cc) => cc !== here);
+    ccs.forEach((cc) => {
+      const list = countrySnapshots[cc].eligibility;
+      if (!list) return;
+      list.forEach((id) => {
+        const p = ownedById.get(id);
+        if (p && !source.has(id) && canLeaveCountry(list, p)) source.set(id, cc);
+      });
     });
-    const best = new Map();
-    pool.forEach((e) => {
-      const key = transferPersonKey(e.p);
-      if (ownedKeys.has(key)) return;
-      const cur = best.get(key);
-      if (!cur || e.p.overall > cur.p.overall || (e.p.overall === cur.p.overall && e.p.rarity > cur.p.rarity)) best.set(key, e);
+    ccs.forEach((cc) => {
+      if (countrySnapshots[cc].eligibility) return;
+      owned.forEach((p) => { if (!source.has(p.id)) source.set(p.id, cc); });
     });
-    return { guard, foreignCountries, candidates: [...best.values()] };
+    const candidates = [];
+    source.forEach((from, id) => candidates.push({ p: ownedById.get(id), from }));
+    return { restricted: true, candidates };
   }
 
   function filterTransferCandidates(candidates) {
     const f = transferFilter;
     const q = f.text.trim().toLowerCase();
-    const list = candidates.filter(({ p, club }) => {
-      if (f.country && club.country !== f.country) return false;
+    const list = candidates.filter(({ p, from }) => {
+      if (f.country && from !== f.country) return false;
       if (f.position && p.position !== f.position) return false;
       if (f.minRarity && p.rarity < f.minRarity) return false;
-      if (q && !(`${displayName(p)} ${club.name}`.toLowerCase().includes(q))) return false;
+      if (q && !displayName(p).toLowerCase().includes(q)) return false;
       return true;
     });
     const cmp = f.sort === 'rarity' ? (a, b) => b.p.rarity - a.p.rarity || b.p.overall - a.p.overall
@@ -15622,158 +15657,117 @@
       if (sel) shown.unshift(sel);
     }
     const statKey = { attack: 'attack', defense: 'defense', speed: 'speed', gk: 'gk' }[transferFilter.sort];
-    const options = shown.map(({ p, club }) => {
+    const options = shown.map(({ p, from }) => {
       const extra = statKey ? `・${{ attack: '攻', defense: '守', speed: '速', gk: 'GK' }[statKey]}${p.stats[statKey]}` : '';
-      return `<option value="${p.id}" ${p.id === transferTargetPlayerId ? 'selected' : ''}>★${p.rarity} ${escapeAttr(displayName(p))}（${p.position}・OVR${p.overall}${extra}・${escapeAttr(club.name)}・${COUNTRY_NAMES_ALL[club.country] || club.country}）</option>`;
+      return `<option value="${p.id}" ${p.id === transferTargetPlayerId ? 'selected' : ''}>★${p.rarity} ${escapeAttr(displayName(p))}（${p.position}・OVR${p.overall}${extra}・${COUNTRY_NAMES_ALL[from] || from}の編成）</option>`;
     }).join('');
-    const count = `該当 ${filtered.length}人 / 指名可能 ${candidates.length}人${filtered.length > TRANSFER_LIST_LIMIT ? `（上位${TRANSFER_LIST_LIMIT}人を表示）` : ''}`;
+    const count = `該当 ${filtered.length}人 / 移籍可能 ${candidates.length}人${filtered.length > TRANSFER_LIST_LIMIT ? `（上位${TRANSFER_LIST_LIMIT}人を表示）` : ''}`;
     return { options, count };
   }
 
-  // 移籍市場チケットの契約金：選手のレアリティが高いほど急増する（施設アップグレードと同じ二乗カーブ）
-  function transferScoutCost(rarity) {
-    return Math.round(300 * rarity * rarity);
-  }
-
-  // これまでにプレイした「現在地以外」の国（＝一度でも移籍で訪れた国）のコード一覧
-  function visitedForeignCountries() {
-    return Object.keys(countrySnapshots);
-  }
-
-  function playerClubCountry(player) {
-    const club = data.clubs.find((c) => c.id === player.club);
-    return club ? club.country : null;
-  }
-
-  function buyConsumable(key) {
-    const def = CONSUMABLE_DEFS[key];
-    if (!def || gold < def.cost) return;
-    gold -= def.cost;
-    consumables[key] += 1;
-    persistSave();
-    renderGold();
-    renderConsumables();
-  }
-
-  // 移籍市場チケット：選択中の選手のレアリティに応じた契約金を支払い、次のカップ最終週の獲得を確約する
-  function contractTransferTarget() {
+  // 移籍チケット：選択中の選手を、契約金を支払って今いる国の編成へ即座に移籍させる
+  function executeRosterTransfer() {
     if (!transferTargetPlayerId) return;
-    const target = data.players.find((p) => p.id === transferTargetPlayerId);
-    if (!target) return;
-    const cost = transferScoutCost(target.rarity);
+    const here = season.country;
+    const hereList = rosterEligibility[here];
+    if (!hereList) return;
+    const entry = transferCandidates().candidates.find((e) => e.p.id === transferTargetPlayerId);
+    if (!entry) return;
+    const { p } = entry;
+    const cost = transferScoutCost(p.rarity);
     if (gold < cost) return;
+    if (!confirm(`★${p.rarity} ${displayName(p)}（${COUNTRY_NAMES_ALL[entry.from] || entry.from}の編成）を${COUNTRY_NAMES_ALL[here] || here}へ移籍させます。契約金 ${cost.toLocaleString()}資金。よろしいですか？`)) return;
     gold -= cost;
-    consumables.transferScout = 1;
-    consumableArmed.transferScout = true;
+    // 移籍元（編成が絞られている国）の編成対象と、保存済みのスタメン/ベンチから外す。
+    // 制限なしの国（日本など）は所持選手すべてが使えるままなので何もしない
+    Object.keys(countrySnapshots).forEach((cc) => {
+      const snap = countrySnapshots[cc];
+      if (cc === here || !snap.eligibility) return;
+      const idx = snap.eligibility.indexOf(p.id);
+      if (idx === -1) return;
+      snap.eligibility.splice(idx, 1);
+      ['league', 'cup'].forEach((ctx) => {
+        const f = snap.formation && snap.formation[ctx];
+        if (!f) return;
+        if (Array.isArray(f.starters)) f.starters = f.starters.map((id) => (id === p.id ? null : id));
+        if (Array.isArray(f.bench)) f.bench = f.bench.map((id) => (id === p.id ? null : id));
+      });
+    });
+    hereList.push(p.id);
+    transferTargetPlayerId = null;
+    transferResultNote = `${COUNTRY_NAMES_ALL[entry.from] || entry.from}から★${p.rarity} ${displayName(p)} が加入しました（契約金 ${cost.toLocaleString()}資金）。編成タブで起用できます。`;
     persistSave();
     renderGold();
-    renderConsumables();
-  }
-
-  // 移籍市場チケットの契約を取り消し、契約金を全額返金する
-  function cancelTransferContract() {
-    if (!consumableArmed.transferScout || consumables.transferScout <= 0 || !transferTargetPlayerId) return;
-    const target = data.players.find((p) => p.id === transferTargetPlayerId);
-    if (target) gold += transferScoutCost(target.rarity);
-    consumables.transferScout = 0;
-    consumableArmed.transferScout = false;
-    persistSave();
-    renderGold();
+    renderFormation();
     renderConsumables();
   }
 
   function renderConsumables() {
     const box = document.getElementById('consumablesList');
     if (!box) return;
-    // ガードレール：移籍市場チケットで指名できるのは現在の獲得上限（hardCap）以内の選手のみ
-    // かつ、これまでに移籍で訪れたことのある「現在地以外」の国のクラブに所属する選手のみ
-    const { guard, foreignCountries, candidates } = transferCandidates();
+    const def = CONSUMABLE_DEFS.rosterTransfer;
+    const { restricted, candidates } = transferCandidates();
+    if (transferTargetPlayerId && !candidates.some((e) => e.p.id === transferTargetPlayerId)) transferTargetPlayerId = null;
     const listHtml = transferListHtml(candidates);
     const sel = (cur, v) => (String(cur) === String(v) ? 'selected' : '');
     const filterStyle = 'margin:0 4px 4px 0;';
+    const fromCountries = [...new Set(candidates.map((e) => e.from))];
 
-    const contracted = consumableArmed.transferScout && consumables.transferScout > 0;
-    const contractedPlayer = contracted ? data.players.find((p) => p.id === transferTargetPlayerId) : null;
-    const selectedPlayer = transferTargetPlayerId ? data.players.find((p) => p.id === transferTargetPlayerId) : null;
-    const selectedCost = selectedPlayer ? transferScoutCost(selectedPlayer.rarity) : null;
+    const selectedEntry = transferTargetPlayerId ? candidates.find((e) => e.p.id === transferTargetPlayerId) : null;
+    const selectedCost = selectedEntry ? transferScoutCost(selectedEntry.p.rarity) : null;
 
-    const transferCard = `
+    const resultHtml = transferResultNote ? `<div style="font-size:12px; color:#9f9; margin-bottom:6px;">${escapeAttr(transferResultNote)}</div>` : '';
+    let bodyHtml;
+    if (!restricted) {
+      bodyHtml = '<div style="font-size:11px; color:#f99;">今いる国では所持選手をすべて編成に使えるため、移籍させる必要はありません。他の国へ移籍したあと、その国の編成に呼びたい選手がいるときに使えます。</div>';
+    } else if (candidates.length === 0) {
+      bodyHtml = '<div style="font-size:11px; color:#f99;">移籍させられる選手がいません（他の国の編成に入っている所持選手がいないか、移籍元の国の編成が最低人数ぎりぎりです）。</div>';
+    } else {
+      bodyHtml = `
+        <div>
+          <input type="text" data-transfer-filter="text" placeholder="選手名で検索" value="${escapeAttr(transferFilter.text)}" style="width:150px; ${filterStyle}">
+          <select data-transfer-filter="country" style="${filterStyle}">
+            <option value="">全ての移籍元</option>
+            ${fromCountries.map((cc) => `<option value="${cc}" ${sel(transferFilter.country, cc)}>${COUNTRY_NAMES_ALL[cc] || cc}</option>`).join('')}
+          </select>
+          <select data-transfer-filter="minRarity" style="${filterStyle}">
+            <option value="0">★指定なし</option>
+            ${[5, 8, 10, 12, 14, 16, 18, 20].map((r) => `<option value="${r}" ${sel(transferFilter.minRarity, r)}>★${r}以上</option>`).join('')}
+          </select>
+          <select data-transfer-filter="position" style="${filterStyle}">
+            <option value="">全ポジション</option>
+            ${['GK', 'DF', 'MF', 'FW'].map((pos) => `<option value="${pos}" ${sel(transferFilter.position, pos)}>${pos}</option>`).join('')}
+          </select>
+          <select data-transfer-filter="sort" style="${filterStyle}">
+            ${[['overall', '総合値順'], ['rarity', '★順'], ['attack', '攻撃力順'], ['defense', '守備力順'], ['speed', 'スピード順'], ['gk', 'GK力順'], ['name', '名前順']].map(([v, l]) => `<option value="${v}" ${sel(transferFilter.sort, v)}>${l}</option>`).join('')}
+          </select>
+        </div>
+        <div style="font-size:11px; color:#9cf; margin-bottom:2px;" data-transfer-count>${listHtml.count}</div>
+        <select data-transfer-target size="8" style="width:100%; max-width:520px; margin-bottom:4px;">
+          <option value="">－ 移籍させる選手を選択 －</option>
+          ${listHtml.options}
+        </select>
+        ${selectedEntry ? `<div class="itemLevel">契約金: ${selectedCost.toLocaleString()}資金${gold < selectedCost ? '（資金不足）' : ''}</div>` : ''}
+        <button class="action" data-transfer-contract ${selectedEntry && gold >= selectedCost ? '' : 'disabled'}>移籍させる${selectedEntry ? `（${selectedCost.toLocaleString()}資金）` : ''}</button>
+      `;
+    }
+
+    box.innerHTML = `
       <div class="itemCard">
-        <div class="itemName">${CONSUMABLE_DEFS.transferScout.name}</div>
-        <div class="itemDesc">${CONSUMABLE_DEFS.transferScout.desc}</div>
-        ${contracted && contractedPlayer ? `
-          <div class="itemLevel">契約中：★${contractedPlayer.rarity} ${displayName(contractedPlayer)}（契約金 ${transferScoutCost(contractedPlayer.rarity).toLocaleString()}資金・支払い済み）</div>
-          <div style="font-size:11px; color:#9cf; margin-bottom:4px;">次のカップ最終週に成績に関わらず加入します。</div>
-          <button class="action" data-transfer-cancel>契約を取り消す（全額返金）</button>
-        ` : `
-          <div style="font-size:11px; color:#9cf; margin-bottom:4px;">指名できるのは★${guard.hardCap}まで（昇格・国制覇・カップ優勝・所持レアの更新で上限が上がります）</div>
-          ${foreignCountries.length === 0 ? `
-            <div style="font-size:11px; color:#f99;">まだ他の国へ移籍したことがないため、指名できる選手がいません。一度他国へ移籍すると、その国のクラブの選手を指名できるようになります。</div>
-          ` : `
-            <div>
-              <input type="text" data-transfer-filter="text" placeholder="選手名・クラブ名で検索" value="${escapeAttr(transferFilter.text)}" style="width:150px; ${filterStyle}">
-              <select data-transfer-filter="country" style="${filterStyle}">
-                <option value="">全ての国</option>
-                ${foreignCountries.map((cc) => `<option value="${cc}" ${sel(transferFilter.country, cc)}>${COUNTRY_NAMES_ALL[cc] || cc}</option>`).join('')}
-              </select>
-              <select data-transfer-filter="minRarity" style="${filterStyle}">
-                <option value="0">★指定なし</option>
-                ${[5, 8, 10, 12, 14, 16, 18, 20].map((r) => `<option value="${r}" ${sel(transferFilter.minRarity, r)}>★${r}以上</option>`).join('')}
-              </select>
-              <select data-transfer-filter="position" style="${filterStyle}">
-                <option value="">全ポジション</option>
-                ${['GK', 'DF', 'MF', 'FW'].map((pos) => `<option value="${pos}" ${sel(transferFilter.position, pos)}>${pos}</option>`).join('')}
-              </select>
-              <select data-transfer-filter="sort" style="${filterStyle}">
-                ${[['overall', '総合値順'], ['rarity', '★順'], ['attack', '攻撃力順'], ['defense', '守備力順'], ['speed', 'スピード順'], ['gk', 'GK力順'], ['name', '名前順']].map(([v, l]) => `<option value="${v}" ${sel(transferFilter.sort, v)}>${l}</option>`).join('')}
-              </select>
-            </div>
-            <div style="font-size:11px; color:#9cf; margin-bottom:2px;" data-transfer-count>${listHtml.count}</div>
-            <select data-transfer-target size="8" style="width:100%; max-width:520px; margin-bottom:4px;">
-              <option value="">－ 指名する選手を選択 －</option>
-              ${listHtml.options}
-            </select>
-            ${selectedPlayer ? `<div class="itemLevel">契約金: ${selectedCost.toLocaleString()}資金${gold < selectedCost ? '（資金不足）' : ''}</div>` : ''}
-            <button class="action" data-transfer-contract ${selectedPlayer && gold >= selectedCost ? '' : 'disabled'}>契約する${selectedPlayer ? `（${selectedCost.toLocaleString()}資金）` : ''}</button>
-          `}
-        `}
+        <div class="itemName">${def.name}</div>
+        <div class="itemDesc">${def.desc}</div>
+        ${resultHtml}
+        ${bodyHtml}
       </div>
     `;
 
-    // 2026-07-21: スカウト強化チケットは廃止のためコメントアウト
-    // const scoutBoostDef = CONSUMABLE_DEFS.scoutBoost;
-    // const scoutBoostStock = consumables.scoutBoost;
-    // const scoutBoostCanAfford = gold >= scoutBoostDef.cost;
-    // const scoutBoostCard = `
-    //   <div class="itemCard">
-    //     <div class="itemName">${scoutBoostDef.name}</div>
-    //     <div class="itemDesc">${scoutBoostDef.desc}</div>
-    //     <div class="itemLevel">在庫: ${scoutBoostStock}個</div>
-    //     <label><input type="checkbox" data-consumable-toggle="scoutBoost" ${consumableArmed.scoutBoost ? 'checked' : ''} ${scoutBoostStock <= 0 ? 'disabled' : ''}> 次のカップ最終週に使用する（使用で在庫を1消費）</label>
-    //     <button class="action" data-consumable-buy="scoutBoost" ${scoutBoostCanAfford ? '' : 'disabled'}>購入（${scoutBoostDef.cost.toLocaleString()}資金）</button>
-    //   </div>
-    // `;
-
-    box.innerHTML = transferCard;
-
-    box.querySelectorAll('button[data-consumable-buy]').forEach((btn) => {
-      btn.addEventListener('click', () => buyConsumable(btn.dataset.consumableBuy));
-    });
-    box.querySelectorAll('input[data-consumable-toggle]').forEach((el) => {
-      el.addEventListener('change', () => {
-        consumableArmed[el.dataset.consumableToggle] = el.checked;
-        persistSave();
-      });
-    });
     const contractBtn = box.querySelector('button[data-transfer-contract]');
-    if (contractBtn) contractBtn.addEventListener('click', contractTransferTarget);
-    const cancelBtn = box.querySelector('button[data-transfer-cancel]');
-    if (cancelBtn) cancelBtn.addEventListener('click', cancelTransferContract);
+    if (contractBtn) contractBtn.addEventListener('click', executeRosterTransfer);
     const targetSel = box.querySelector('select[data-transfer-target]');
     if (targetSel) {
       targetSel.addEventListener('change', (e) => {
         transferTargetPlayerId = e.target.value || null;
-        persistSave();
+        transferResultNote = '';
         renderConsumables();
       });
     }
@@ -15786,7 +15780,7 @@
         const countEl = box.querySelector('[data-transfer-count]');
         const listEl = box.querySelector('select[data-transfer-target]');
         if (countEl) countEl.textContent = html.count;
-        if (listEl) listEl.innerHTML = `<option value="">－ 指名する選手を選択 －</option>${html.options}`;
+        if (listEl) listEl.innerHTML = `<option value="">－ 移籍させる選手を選択 －</option>${html.options}`;
       });
     });
   }
@@ -16396,13 +16390,12 @@
         if (parsed.itemPositionChoice) {
           itemPositionChoice = parsed.itemPositionChoice;
         }
-        if (parsed.consumables) {
-          CONSUMABLE_KEYS.forEach((k) => { consumables[k] = parsed.consumables[k] || 0; });
+        // 旧「移籍市場チケット」（未所持選手を指名してカップ最終週に獲得）で契約済みだった分は、仕様変更のため契約金を返金する
+        if (data && data.players && parsed.consumableArmed && parsed.consumableArmed.transferScout
+            && parsed.consumables && parsed.consumables.transferScout > 0 && parsed.transferTargetPlayerId) {
+          const refundTarget = data.players.find((p) => p.id === parsed.transferTargetPlayerId);
+          if (refundTarget) gold += transferScoutCost(refundTarget.rarity);
         }
-        if (parsed.consumableArmed) {
-          CONSUMABLE_KEYS.forEach((k) => { consumableArmed[k] = !!parsed.consumableArmed[k]; });
-        }
-        transferTargetPlayerId = parsed.transferTargetPlayerId || null;
         seasonPlayerStats = parsed.seasonPlayerStats || {};
         seasonAwardsHistory = parsed.seasonAwardsHistory || [];
         if (parsed.careerRecord) {
@@ -16498,9 +16491,6 @@
       items,
       itemActive,
       itemPositionChoice,
-      consumables,
-      consumableArmed,
-      transferTargetPlayerId,
       seasonPlayerStats,
       seasonAwardsHistory,
       careerRecord,
@@ -17941,51 +17931,78 @@
       ['c_jp2_10', 'c_jp2_17', 'c_jp1_05', 'c_jp1_22'],
     ],
     ES: [
-      ['c_sel_free', 'c_leg_bayern', 'c_leg_chelsea', 'c_leg_manutd'],
-      ['sel_gb_1', 'sel_it_1', 'c_en_01', 'c_leg_juventus'],
-      ['c_other_001', 'nt_6', 'nt_8', 'c_other_007'],
-      ['nt_9', 'c_en_06', 'c_leg_roma', 'c_sel_de_all'],
-      ['c_es_03', 'c_leg_nt_japan', 'sel_es_2', 'c_en_08'],
-      ['c_en_07', 'c_it_05', 'c_en_13', 'c_en_11'],
-      ['c_other_015', 'c_fr_06', 'c_it_07', 'c_en_12'],
-      ['c_fr_03', 'c_it_06', 'c_it_08', 'c_other_019'],
-      ['c_en_20', 'c_other_017', 'c_other_023', 'c_de_03'],
-      ['c_de_04', 'c_it_10', 'c_other_020', 'c_fr_08'],
-      ['c_de_05', 'c_other_029', 'c_fa_c', 'c_fr_04'],
-      ['c_en_19', 'c_fr_12', 'c_it_21', 'c_it_09'],
+      // 2026-10-23 ES：スペインに関連するクラブ（所属国一致・代表・レジェンド・選抜）と、スペインに関連する★18以上の選手の所属クラブを全て収録
+      ['c_leg_madrid', 'c_leg_world', 'nt_2', 'c_sel_gb_all'],
+      ['c_leg_nt_brazil', 'c_leg_arsenal', 'c_leg_nt_portugal', 'c_leg_barcelona'],
+      ['c_madrid', 'c_sel_free', 'c_en_02', 'nt_3'],
+      ['nt_0', 'c_fa_a', 'nt_4', 'c_leg_nt_argentina'],
+      ['c_leg_bayern', 'c_leg_chelsea', 'c_leg_manutd', 'nt_1'],
+      ['sel_gb_3', 'sel_gb_1', 'sel_gb_2', 'sel_it_1'],
+      ['c_en_01', 'c_leg_juventus', 'c_sel_es_all', 'c_other_001'],
+      ['nt_6', 'c_leg_atletico', 'nt_8', 'c_es_02'],
+      ['nt_11', 'c_other_007', 'nt_9', 'c_leg_nt_croatia'],
+      ['c_en_06', 'c_leg_roma', 'c_sel_de_all', 'nt_12'],
+      ['c_es_03', 'sel_es_3', 'c_leg_nt_japan', 'sel_es_2'],
+      ['c_en_08', 'c_en_07', 'c_it_05', 'nt_10'],
+      ['c_en_13', 'nt_34', 'c_en_11', 'c_other_015'],
+      ['c_fr_06', 'c_it_07', 'c_es_04', 'c_es_05'],
+      ['c_en_12', 'c_es_06', 'c_es_07', 'c_fr_03'],
+      ['c_it_06', 'c_it_08', 'c_other_019', 'c_en_20'],
+      ['c_other_017', 'sel_es_1', 'c_other_023', 'c_de_03'],
+      ['c_de_04', 'c_other_036', 'c_it_10', 'c_es_08'],
+      ['c_other_020', 'c_fr_08', 'c_de_05', 'c_other_029'],
+      ['c_es_09', 'c_fa_c', 'c_fr_04', 'c_en_19'],
+      ['c_es_10', 'c_fr_12', 'c_it_21', 'c_it_09'],
       ['c_other_026', 'c_other_021', 'c_other_030', 'nt_22'],
       ['c_fr_18', 'c_other_063', 'c_other_046', 'c_other_043'],
-      ['c_other_041', 'c_other_042', 'c_other_049', 'c_de_09'],
-      ['c_other_048', 'c_other_047', 'c_other_050', 'c_leg_visselkobe'],
-      ['c_other_059', 'c_de_13', 'c_en2_22', 'c_other_057'],
-      ['c_other_064', 'c_other_037', 'c_other_039', 'c_leg_jubilo'],
-      ['c_de_21', 'c_other_066', 'c_de2_19', 'c_jleaguesel'],
-      ['c_other_067', 'c_other_072', 'c_other_038', 'c_it_22'],
-      ['c_other_074', 'c_de_24', 'c_fr_19', 'c_es_12'],
-      ['c_de2_07', 'c_other_077', 'c_en4_15', 'c_it2_12'],
-      ['c_leg_urawa', 'c_en4_18', 'c_nl_03', 'c_it2_15'],
-      ['c_es2_02', 'c_de2_08', 'c_es_21', 'c_es2_17'],
-      ['c_en4_09', 'c_de2_12', 'c_es_23', 'c_en3_15'],
-      ['c_jp1_16', 'c_it2_05', 'c_en2_04', 'c_de2_15'],
-      ['c_es2_03', 'c_es2_01', 'c_es2_09', 'c_es2_04'],
-      ['c_it2_02', 'c_es2_06', 'c_en5_18', 'c_jp1_11'],
-      ['c_it2_19', 'c_en5_07', 'c_es2_19', 'c_en2_06'],
-      ['c_es2_13', 'c_it2_10', 'c_en5_13', 'c_en4_14'],
-      ['c_en4_11', 'c_es_25', 'c_jp1_14', 'c_es2_08'],
-      ['c_fr2_09', 'c_it3_30', 'c_it3_34', 'c_jp1_07'],
-      ['c_en2_18', 'c_de3_03', 'c_de3_15', 'c_it3_47'],
-      ['c_jp2_10', 'c_it3_15', 'c_fr3_15', 'c_fr3_12'],
-      ['c_es3_31', 'c_en2_19', 'c_it3_39', 'c_de3_14'],
-      ['c_jp2_02', 'c_fr3_16', 'c_de3_09', 'c_jp2_08'],
-      ['c_jp3_17', 'c_jp3_09', 'c_en3_03', 'c_jp3_10'],
-      ['c_en3_11', 'c_en3_18', 'c_jp3_06', 'c_en3_23'],
+      ['c_other_041', 'c_other_042', 'c_es_11', 'c_other_049'],
+      ['c_de_09', 'c_other_048', 'c_other_047', 'c_other_050'],
+      ['c_leg_visselkobe', 'c_other_059', 'c_de_13', 'c_en2_22'],
+      ['c_other_057', 'c_other_064', 'c_other_037', 'c_other_039'],
+      ['c_leg_jubilo', 'c_de_21', 'c_other_066', 'c_de2_19'],
+      ['c_jleaguesel', 'c_other_067', 'c_other_072', 'c_other_038'],
+      ['c_it_22', 'c_other_074', 'c_de_24', 'c_es_13'],
+      ['c_fr_19', 'c_es_12', 'c_de2_07', 'c_other_077'],
+      ['c_en4_15', 'c_es_24', 'c_it2_12', 'c_leg_urawa'],
+      ['c_en4_18', 'c_es_15', 'c_es_17', 'c_es2_22'],
+      ['c_es2_05', 'c_es2_10', 'c_es_22', 'c_es2_16'],
+      ['c_es2_15', 'c_nl_03', 'c_it2_15', 'c_es2_02'],
+      ['c_de2_08', 'c_es_21', 'c_es2_17', 'c_en4_09'],
+      ['c_de2_12', 'c_es_23', 'c_en3_15', 'c_jp1_16'],
+      ['c_it2_05', 'c_en2_04', 'c_de2_15', 'c_es2_03'],
+      ['c_es2_01', 'c_es2_09', 'c_es2_04', 'c_it2_02'],
+      ['c_es2_06', 'c_en5_18', 'c_jp1_11', 'c_it2_19'],
+      ['c_en5_07', 'c_es2_19', 'c_en2_06', 'c_es2_13'],
+      ['c_it2_10', 'c_en5_13', 'c_en4_14', 'c_en4_11'],
+      ['c_es_25', 'c_es2_20', 'c_es2_23', 'c_es2_21'],
+      ['c_es2_18', 'c_jp1_14', 'c_es2_14', 'c_es2_08'],
+      ['c_es2_07', 'c_es2_11', 'c_fr2_09', 'c_it3_30'],
+      ['c_es3_34', 'c_it3_34', 'c_es3_25', 'c_jp1_07'],
+      ['c_es3_40', 'c_en2_18', 'c_es3_36', 'c_de3_03'],
+      ['c_de3_15', 'c_it3_47', 'c_es3_37', 'c_jp2_10'],
+      ['c_es3_21', 'c_it3_15', 'c_es3_30', 'c_fr3_15'],
+      ['c_es3_29', 'c_fr3_12', 'c_es3_07', 'c_es3_31'],
+      ['c_es3_03', 'c_es3_12', 'c_es3_16', 'c_en2_19'],
+      ['c_es3_15', 'c_es3_10', 'c_it3_39', 'c_es3_08'],
+      ['c_de3_14', 'c_es3_35', 'c_jp2_02', 'c_es3_06'],
+      ['c_es3_38', 'c_es3_17', 'c_fr3_16', 'c_de3_09'],
+      ['c_jp2_08', 'c_jp3_17', 'c_jp3_09', 'c_en3_03'],
+      ['c_jp3_10', 'c_en3_11', 'c_en3_18', 'c_jp3_06'],
     ],
     IT: [
-      ['c_sel_free', 'c_fa_a', 'c_leg_africa', 'c_leg_manutd'],
-      ['sel_gb_1', 'c_leg_bayern', 'sel_it_1', 'c_leg_juventus'],
-      ['c_leg_atletico', 'nt_2', 'nt_4', 'c_other_002'],
-      ['c_it_04', 'c_en_06', 'c_leg_roma', 'nt_19'],
-      ['c_it_05', 'nt_24', 'c_other_013', 'c_fr_03'],
+      // 2026-10-23 IT：イタリアに関連するクラブ（所属国一致・代表・レジェンド・選抜）と、イタリアに関連する★18以上の選手の所属クラブを全て収録
+      ['c_leg_world', 'c_sel_it_all', 'c_leg_nt_brazil', 'c_leg_milan'],
+      ['c_leg_nt_portugal', 'c_leg_inter', 'c_sel_free', 'nt_6'],
+      ['c_sel_fr_all', 'nt_0', 'c_fa_a', 'c_leg_africa'],
+      ['c_fr_01', 'c_leg_nt_argentina', 'c_leg_manutd', 'nt_9'],
+      ['nt_1', 'sel_gb_1', 'c_leg_bayern', 'c_leg_nt_italy'],
+      ['sel_it_1', 'c_leg_juventus', 'c_it_02', 'sel_it_2'],
+      ['c_other_001', 'c_leg_atletico', 'nt_2', 'nt_4'],
+      ['sel_it_3', 'c_other_002', 'c_leg_nt_croatia', 'c_it_04'],
+      ['c_it_01', 'nt_32', 'c_en_06', 'c_leg_lazio'],
+      ['c_leg_roma', 'nt_19', 'c_leg_parma', 'c_it_05'],
+      ['c_it_03', 'nt_10', 'nt_24', 'c_other_013'],
+      ['c_other_019', 'c_fr_03', 'c_it_08', 'c_it_19'],
       ['sel_es_1', 'c_leg_nt_japan', 'sel_es_2', 'c_en_08'],
       ['c_en_07', 'c_en_17', 'c_en_11', 'c_other_015'],
       ['c_it_07', 'c_it_06', 'c_es_05', 'c_es_07'],
@@ -17993,120 +18010,163 @@
       ['c_other_036', 'c_it_10', 'c_de_08', 'c_de_05'],
       ['c_other_029', 'c_fr_04', 'c_en_19', 'c_other_031'],
       ['c_it_21', 'c_it_09', 'c_de_06', 'c_other_030'],
-      ['c_other_033', 'c_other_022', 'c_fr_18', 'c_de2_18'],
-      ['c_other_040', 'c_other_041', 'c_other_049', 'c_it_16'],
-      ['c_other_042', 'c_de_09', 'c_other_048', 'c_other_047'],
-      ['c_other_050', 'c_leg_visselkobe', 'c_other_053', 'c_other_056'],
+      ['c_other_033', 'nt_22', 'c_other_022', 'c_it_11'],
+      ['c_it_17', 'c_fr_18', 'c_de2_18', 'c_other_040'],
+      ['c_other_041', 'c_other_049', 'c_it_16', 'c_other_042'],
+      ['c_de_09', 'c_other_048', 'c_other_047', 'c_other_050'],
+      ['c_it_15', 'c_leg_visselkobe', 'c_other_053', 'c_other_056'],
       ['c_de_11', 'c_it_12', 'c_other_064', 'c_other_039'],
       ['c_leg_jubilo', 'c_de_21', 'c_fr_13', 'c_other_067'],
       ['c_other_068', 'c_it_20', 'c_it_18', 'c_other_038'],
-      ['c_other_074', 'c_fr_14', 'c_fr_19', 'c_es_12'],
-      ['c_de_23', 'c_en4_15', 'c_it2_12', 'c_de_25'],
-      ['c_leg_urawa', 'c_es_15', 'c_en2_25', 'c_de2_11'],
-      ['c_es2_05', 'c_en2_02', 'c_it2_16', 'c_en4_12'],
-      ['c_de2_10', 'c_en3_15', 'c_it2_05', 'c_es2_09'],
-      ['nt_47', 'c_en5_07', 'c_en5_13', 'c_en4_23'],
-      ['c_en4_17', 'c_jp1_20', 'c_es2_23', 'c_en4_13'],
-      ['c_en4_19', 'c_fr2_14', 'c_it2_07', 'c_fr2_10'],
-      ['c_fr2_01', 'c_en4_20', 'c_it2_06', 'c_en4_04'],
-      ['c_es2_21', 'c_es2_18', 'c_it2_09', 'c_en2_17'],
-      ['c_en4_05', 'c_it2_03', 'c_en2_08', 'c_it2_20'],
-      ['c_it2_18', 'c_en4_10', 'c_jp1_15', 'c_es2_11'],
-      ['c_jp1_17', 'c_jp1_23', 'c_es3_25', 'c_jp1_08'],
-      ['c_fr2_07', 'c_en2_15', 'c_de3_16', 'c_fr3_10'],
-      ['c_jp2_23', 'c_es3_30', 'c_es3_29', 'c_fr3_11'],
-      ['c_es3_03', 'c_es3_15', 'c_jp2_01', 'c_fr3_09'],
-      ['c_es3_06', 'c_fr3_04', 'c_fr3_14', 'c_jp3_17'],
+      ['c_it_22', 'c_other_074', 'c_fr_14', 'c_fr_19'],
+      ['c_es_12', 'c_de_23', 'c_en4_15', 'c_it2_12'],
+      ['c_de_25', 'c_leg_urawa', 'c_es_15', 'c_en2_25'],
+      ['c_it2_15', 'c_it2_14', 'c_de2_11', 'c_es2_05'],
+      ['c_en2_02', 'c_it2_16', 'c_en4_12', 'c_de2_10'],
+      ['c_it2_01', 'c_en3_15', 'c_it2_13', 'c_it2_05'],
+      ['c_it2_02', 'c_es2_09', 'nt_47', 'c_it2_19'],
+      ['c_en5_07', 'c_it2_10', 'c_en5_13', 'c_en4_23'],
+      ['c_it2_04', 'c_it2_17', 'c_en4_17', 'c_jp1_20'],
+      ['c_es2_23', 'c_en4_13', 'c_en4_19', 'c_fr2_14'],
+      ['c_it2_07', 'c_fr2_10', 'c_fr2_01', 'c_en4_20'],
+      ['c_it2_06', 'c_en4_04', 'c_es2_21', 'c_es2_18'],
+      ['c_it2_09', 'c_en2_17', 'c_en4_05', 'c_it2_03'],
+      ['c_en2_08', 'c_it2_20', 'c_it2_18', 'c_en4_10'],
+      ['c_it2_11', 'c_jp1_15', 'c_es2_11', 'c_it2_08'],
+      ['c_it3_40', 'c_jp1_17', 'c_it3_30', 'c_jp1_23'],
+      ['c_it3_34', 'c_es3_25', 'c_jp1_08', 'c_it3_36'],
+      ['c_fr2_07', 'c_en2_15', 'c_it3_05', 'c_de3_16'],
+      ['c_it3_53', 'c_it3_10', 'c_it3_47', 'c_fr3_10'],
+      ['c_it3_44', 'c_it3_27', 'c_jp2_23', 'c_it3_20'],
+      ['c_it3_29', 'c_it3_15', 'c_es3_30', 'c_it3_23'],
+      ['c_it3_24', 'c_es3_29', 'c_fr3_11', 'c_it3_22'],
+      ['c_es3_03', 'c_it3_12', 'c_es3_15', 'c_it3_39'],
+      ['c_jp2_01', 'c_fr3_09', 'c_es3_06', 'c_it3_48'],
+      ['c_fr3_04', 'c_fr3_14', 'c_jp3_17', 'c_it3_04'],
       ['c_jp2_19', 'c_de3_11', 'c_jp2_04', 'c_jp3_16'],
       ['c_en3_24', 'c_en3_22', 'c_en3_13', 'c_en3_08'],
     ],
     DE: [
-      ['c_sel_free', 'c_fa_a', 'c_leg_africa', 'sel_gb_3'],
+      // 2026-10-23 DE：ドイツに関連するクラブ（所属国一致・代表・レジェンド・選抜）と、ドイツに関連する★18以上の選手の所属クラブを全て収録
+      ['c_leg_world', 'c_leg_nt_brazil', 'c_leg_nt_portugal', 'c_sel_free'],
+      ['c_fa_a', 'c_leg_africa', 'c_leg_bayern', 'sel_gb_3'],
       ['c_leg_nt_germany', 'c_leg_nt_france', 'nt_0', 'c_leg_nt_argentina'],
-      ['c_leg_atletico', 'c_leg_liverpool', 'nt_11', 'c_leg_nt_croatia'],
-      ['c_leg_parma', 'c_other_011', 'nt_12', 'c_en_14'],
-      ['c_other_018', 'c_it_07', 'c_es_06', 'c_it_19'],
+      ['nt_5', 'c_leg_atletico', 'c_leg_liverpool', 'nt_11'],
+      ['c_leg_nt_croatia', 'c_sel_de_all', 'c_leg_parma', 'c_other_011'],
+      ['nt_12', 'c_en_14', 'c_other_018', 'c_it_07'],
+      ['sel_de_2', 'c_es_06', 'sel_de_1', 'c_it_19'],
       ['sel_es_1', 'c_other_003', 'c_de_01', 'c_en_07'],
       ['c_en_17', 'c_en_11', 'c_leg_ajax', 'c_fa_b'],
       ['c_fr_02', 'c_it_06', 'c_es_05', 'c_es_07'],
-      ['sel_de_3', 'c_en_09', 'c_de_04', 'c_other_036'],
-      ['c_en_18', 'c_de_08', 'c_de2_16', 'c_other_029'],
-      ['c_fa_c', 'c_leg_kashima', 'c_other_031', 'c_fr_07'],
+      ['sel_de_3', 'c_en_09', 'c_de_03', 'c_de_04'],
+      ['c_de_02', 'c_other_036', 'c_en_18', 'c_de_08'],
+      ['c_de_05', 'c_de2_16', 'c_other_029', 'c_fa_c'],
+      ['c_de_12', 'c_de2_18', 'c_de_09', 'c_de_10'],
+      ['c_de_13', 'c_leg_kashima', 'c_other_031', 'c_fr_07'],
       ['c_it_21', 'c_it_09', 'c_de_06', 'c_other_030'],
       ['c_it_10', 'c_other_033', 'c_fr_18', 'c_other_055'],
       ['c_other_040', 'c_other_043', 'c_other_049', 'c_it_16'],
       ['c_other_044', 'c_other_061', 'c_other_052', 'c_other_058'],
       ['c_it_15', 'c_other_051', 'c_other_053', 'c_other_056'],
-      ['c_de_11', 'c_it_12', 'c_other_037', 'c_de_22'],
-      ['c_de_14', 'c_nl_01', 'c_jleaguesel', 'c_fr_13'],
+      ['c_de2_20', 'c_de_11', 'c_it_12', 'c_other_037'],
+      ['c_de_22', 'c_de_14', 'c_de_21', 'c_de2_19'],
+      ['c_de2_04', 'c_de_24', 'c_de2_17', 'c_de2_03'],
+      ['c_de2_05', 'c_de2_13', 'c_de2_11', 'c_de2_08'],
+      ['c_de2_02', 'c_de2_01', 'c_de2_12', 'c_de2_10'],
+      ['c_de2_15', 'c_nl_01', 'c_jleaguesel', 'c_fr_13'],
       ['c_other_068', 'c_it_20', 'c_it_18', 'c_fr_14'],
       ['c_other_074', 'c_other_073', 'c_fr_19', 'c_de2_07'],
       ['c_de_23', 'c_other_077', 'c_de_25', 'c_leg_yokohamafm'],
       ['c_es_15', 'c_fr_15', 'c_es2_22', 'c_es2_05'],
       ['c_es_21', 'c_es2_17', 'c_en4_09', 'c_jp1_02'],
       ['c_it2_01', 'c_en2_04', 'c_es2_03', 'c_en5_07'],
-      ['c_en4_14', 'c_en4_23', 'c_it2_17', 'c_fr2_03'],
-      ['c_en4_19', 'c_jp1_06', 'c_fr2_10', 'c_en4_20'],
-      ['c_fr2_01', 'c_es2_21', 'c_it2_06', 'c_en4_04'],
-      ['c_es2_18', 'c_it2_09', 'c_en2_17', 'c_en4_05'],
-      ['c_it2_03', 'c_en2_08', 'c_it2_20', 'c_it2_18'],
-      ['c_en4_10', 'c_en2_10', 'c_it2_11', 'c_en2_12'],
-      ['c_en2_14', 'c_es2_14', 'c_jp1_12', 'c_it2_08'],
-      ['c_fr2_02', 'c_jp1_21', 'c_fr2_18', 'c_it3_36'],
-      ['c_es3_36', 'c_jp2_20', 'c_it3_53', 'c_it3_44'],
+      ['c_en4_14', 'c_en4_23', 'c_it2_17', 'c_de2_14'],
+      ['c_fr2_03', 'c_en4_19', 'c_jp1_06', 'c_fr2_10'],
+      ['c_en4_20', 'c_fr2_01', 'c_es2_21', 'c_it2_06'],
+      ['c_en4_04', 'c_es2_18', 'c_it2_09', 'c_en2_17'],
+      ['c_en4_05', 'c_it2_03', 'c_en2_08', 'c_it2_20'],
+      ['c_it2_18', 'c_en4_10', 'c_en2_10', 'c_it2_11'],
+      ['c_en2_12', 'c_en2_14', 'c_es2_14', 'c_jp1_12'],
+      ['c_it2_08', 'c_fr2_02', 'c_jp1_21', 'c_fr2_18'],
+      ['c_it3_36', 'c_de3_02', 'c_de3_04', 'c_es3_36'],
+      ['c_de3_03', 'c_jp2_20', 'c_de3_01', 'c_de3_16'],
+      ['c_de3_15', 'c_it3_53', 'c_de3_08', 'c_it3_44'],
       ['c_jp2_13', 'c_en2_21', 'c_jp2_22', 'c_fr3_08'],
-      ['c_it3_12', 'c_de3_10', 'c_jp3_19', 'c_jp3_05'],
-      ['c_es3_38', 'c_fr3_03', 'c_jp3_03', 'c_de3_18'],
-      ['c_jp3_04', 'c_jp3_07', 'c_en3_02', 'c_en3_19'],
-      ['c_jp3_13', 'c_jp3_11', 'c_jp3_12', 'c_en3_07'],
+      ['c_it3_12', 'c_de3_10', 'c_jp3_19', 'c_de3_14'],
+      ['c_jp3_05', 'c_de3_19', 'c_es3_38', 'c_fr3_03'],
+      ['c_de3_13', 'c_de3_09', 'c_jp3_03', 'c_de3_06'],
+      ['c_de3_18', 'c_de3_05', 'c_jp3_04', 'c_de3_12'],
+      ['c_de3_11', 'c_jp3_07', 'c_de3_07', 'c_de3_20'],
+      ['c_en3_02', 'c_en3_19', 'c_de3_17', 'c_jp3_13'],
     ],
     FR: [
-      ['c_en_02', 'c_leg_chelsea', 'c_leg_manutd', 'sel_gb_3'],
-      ['c_leg_nt_germany', 'c_leg_nt_france', 'c_it_02', 'c_leg_nt_argentina'],
-      ['c_en_03', 'nt_5', 'c_leg_nt_croatia', 'c_it_01'],
-      ['c_sel_de_all', 'c_leg_liverpool', 'c_leg_parma', 'sel_fr_1'],
-      ['c_es_02', 'c_en_08', 'c_it_05', 'c_other_014'],
-      ['c_en_13', 'c_en_11', 'nt_25', 'c_other_012'],
-      ['c_fa_b', 'c_fr_02', 'c_es_05', 'c_it_08'],
-      ['c_other_019', 'c_en_20', 'sel_de_3', 'c_other_017'],
-      ['c_en_09', 'c_de_03', 'c_de_04', 'c_other_020'],
-      ['c_fr_08', 'c_de2_16', 'c_other_029', 'c_es_09'],
-      ['c_fa_c', 'c_other_031', 'c_fr_07', 'c_leg_kashima'],
-      ['c_it_09', 'c_other_021', 'c_other_032', 'c_other_022'],
-      ['c_it_10', 'c_fr_18', 'c_other_055', 'c_other_046'],
-      ['c_other_043', 'c_other_049', 'c_de_09', 'c_it_16'],
-      ['c_other_061', 'c_other_052', 'c_other_048', 'c_it_15'],
-      ['c_other_051', 'c_de_13', 'c_other_057', 'c_de_11'],
+      // 2026-10-23 FR：フランスに関連するクラブ（所属国一致・代表・レジェンド・選抜）と、フランスに関連する★18以上の選手の所属クラブを全て収録
+      ['c_leg_madrid', 'c_leg_world', 'nt_2', 'c_sel_gb_all'],
+      ['c_sel_it_all', 'c_leg_nt_brazil', 'c_leg_arsenal', 'c_leg_nt_portugal'],
+      ['c_leg_inter', 'c_madrid', 'c_sel_free', 'nt_6'],
+      ['c_sel_fr_all', 'c_en_02', 'nt_0', 'c_leg_africa'],
+      ['c_fa_a', 'c_fr_01', 'c_leg_chelsea', 'c_leg_manutd'],
+      ['c_leg_juventus', 'nt_1', 'sel_gb_3', 'c_leg_nt_germany'],
+      ['c_leg_nt_france', 'c_it_02', 'c_leg_nt_argentina', 'c_en_03'],
+      ['nt_5', 'c_leg_nt_croatia', 'c_leg_monaco', 'c_it_04'],
+      ['c_it_01', 'c_sel_de_all', 'c_leg_liverpool', 'nt_12'],
+      ['sel_fr_3', 'c_leg_parma', 'sel_fr_1', 'c_es_02'],
+      ['c_en_08', 'sel_fr_2', 'c_it_05', 'nt_13'],
+      ['c_other_014', 'c_en_13', 'c_en_11', 'nt_25'],
+      ['c_other_012', 'c_fr_06', 'c_fa_b', 'c_fr_02'],
+      ['c_es_05', 'c_fr_03', 'c_it_08', 'c_other_019'],
+      ['c_en_20', 'sel_de_3', 'c_other_017', 'c_en_09'],
+      ['c_other_023', 'c_de_03', 'c_de_04', 'c_other_036'],
+      ['c_fr_04', 'c_other_020', 'c_fr_08', 'c_de2_16'],
+      ['c_other_029', 'c_es_09', 'c_fa_c', 'c_other_031'],
+      ['c_fr_07', 'c_fr_12', 'c_leg_kashima', 'c_it_09'],
+      ['c_other_021', 'c_other_032', 'c_other_022', 'c_it_10'],
+      ['c_fr_18', 'c_other_055', 'c_other_046', 'c_other_043'],
+      ['c_other_049', 'c_de_09', 'c_it_16', 'c_other_061'],
+      ['c_other_052', 'c_other_048', 'c_it_15', 'c_other_051'],
+      ['c_de_13', 'c_other_057', 'c_fr_05', 'c_de_11'],
       ['c_other_064', 'c_other_037', 'c_de_22', 'c_de_14'],
-      ['c_other_066', 'c_jleaguesel', 'c_other_067', 'c_other_072'],
-      ['c_it_20', 'c_it_18', 'c_fr_14', 'c_de_24'],
-      ['c_other_073', 'c_leg_yokohamafm', 'c_de2_07', 'c_other_077'],
-      ['c_de2_03', 'c_de_25', 'c_leg_urawa', 'c_es_15'],
-      ['c_de2_13', 'c_es2_22', 'c_de2_08', 'c_es_21'],
-      ['c_es2_17', 'c_en4_09', 'c_es2_15', 'c_it2_01'],
-      ['c_it2_05', 'c_es2_09', 'c_en2_06', 'c_en4_14'],
-      ['c_it2_04', 'c_de2_14', 'c_es2_20', 'c_it2_07'],
-      ['c_it2_06', 'c_jp1_03', 'c_it2_09', 'c_jp1_19'],
-      ['c_en2_17', 'c_en4_05', 'c_it2_03', 'c_en2_08'],
-      ['c_it2_20', 'c_en4_10', 'c_it2_18', 'c_it2_11'],
-      ['c_en2_12', 'c_en2_14', 'c_en2_10', 'c_es2_14'],
-      ['c_fr2_17', 'c_en5_10', 'c_be_11', 'c_fr2_04'],
-      ['c_en2_07', 'c_jp1_09', 'c_fr2_08', 'c_fr2_13'],
-      ['c_jp2_09', 'c_jp1_18', 'c_jp1_04', 'c_en2_13'],
-      ['c_de3_02', 'c_jp2_21', 'c_en2_11', 'c_it3_10'],
-      ['c_es3_37', 'c_it3_20', 'c_jp2_16', 'c_fr3_01'],
-      ['c_it3_22', 'c_es3_12', 'c_en2_20', 'c_es3_08'],
-      ['c_es3_35', 'c_it3_48', 'c_de3_13', 'c_jp2_03'],
-      ['c_de3_05', 'c_jp2_12', 'c_de3_07', 'c_jp2_24'],
-      ['c_jp3_15', 'c_en3_17', 'c_jp3_14', 'c_en3_21'],
+      ['c_fr_13', 'c_fr_17', 'c_other_066', 'c_jleaguesel'],
+      ['c_other_067', 'c_other_072', 'c_it_20', 'c_it_18'],
+      ['c_fr_14', 'c_de_24', 'c_other_073', 'c_fr_09'],
+      ['c_fr_19', 'c_fr_10', 'c_leg_yokohamafm', 'c_de2_07'],
+      ['c_other_077', 'c_de2_03', 'c_de_25', 'c_leg_urawa'],
+      ['c_es_15', 'c_de2_13', 'c_fr_15', 'c_es2_22'],
+      ['c_de2_08', 'c_fr_16', 'c_es_21', 'c_es2_17'],
+      ['c_en4_09', 'c_es2_15', 'c_it2_01', 'c_it2_05'],
+      ['c_es2_09', 'c_en2_06', 'c_en4_14', 'c_it2_04'],
+      ['c_de2_14', 'c_fr2_03', 'c_es2_20', 'c_fr2_14'],
+      ['c_it2_07', 'c_fr2_01', 'c_fr2_10', 'c_it2_06'],
+      ['c_jp1_03', 'c_it2_09', 'c_jp1_19', 'c_en2_17'],
+      ['c_en4_05', 'c_it2_03', 'c_en2_08', 'c_it2_20'],
+      ['c_en4_10', 'c_it2_18', 'c_it2_11', 'c_en2_12'],
+      ['c_en2_14', 'c_en2_10', 'c_es2_14', 'c_fr2_17'],
+      ['c_en5_10', 'c_be_11', 'c_fr2_04', 'c_en2_07'],
+      ['c_jp1_09', 'c_fr2_08', 'c_fr2_13', 'c_jp2_09'],
+      ['c_fr2_09', 'c_fr2_02', 'c_jp1_18', 'c_fr2_06'],
+      ['c_fr2_11', 'c_jp1_04', 'c_fr2_18', 'c_en2_13'],
+      ['c_fr2_12', 'c_fr2_15', 'c_de3_02', 'c_fr2_07'],
+      ['c_jp2_21', 'c_en2_11', 'c_it3_10', 'c_fr3_10'],
+      ['c_es3_37', 'c_it3_20', 'c_jp2_16', 'c_fr3_15'],
+      ['c_fr3_01', 'c_fr3_02', 'c_fr3_12', 'c_fr3_11'],
+      ['c_fr3_08', 'c_it3_22', 'c_fr3_17', 'c_es3_12'],
+      ['c_fr3_05', 'c_en2_20', 'c_es3_08', 'c_fr3_07'],
+      ['c_fr3_06', 'c_fr3_09', 'c_es3_35', 'c_it3_48'],
+      ['c_fr3_16', 'c_fr3_04', 'c_fr3_03', 'c_de3_13'],
+      ['c_fr3_13', 'c_fr3_14', 'c_jp2_03', 'c_de3_05'],
+      ['c_jp2_12', 'c_de3_07', 'c_jp2_24', 'c_jp3_15'],
     ],
     JP: [
-      ['nt_10', 'c_other_014', 'nt_34', 'c_other_018'],
-      ['nt_13', 'c_fr_06', 'c_es_04', 'c_other_012'],
-      ['c_it_07', 'c_other_013', 'c_other_019', 'c_en_12'],
-      ['c_fr_03', 'c_es_06', 'c_en_20', 'c_other_016'],
-      ['c_other_036', 'c_it_19', 'c_other_023', 'c_other_028'],
-      ['c_en_18', 'c_fr_08', 'c_nl_02', 'c_other_029'],
+      // 2026-10-23 JP：日本に関連するクラブ（所属国一致・代表・レジェンド・選抜・Jリーグ全ディビジョン）と、日本に関連する★18以上の選手の所属クラブを全て収録
+      ['c_leg_world', 'c_leg_nt_brazil', 'c_leg_nt_portugal', 'c_leg_nt_japan'],
+      ['nt_10', 'c_other_014', 'nt_34', 'nt_15'],
+      ['c_other_018', 'nt_13', 'c_fr_06', 'c_es_04'],
+      ['c_other_012', 'c_it_07', 'c_other_013', 'c_other_019'],
+      ['c_en_12', 'c_fr_03', 'c_es_06', 'c_en_20'],
+      ['c_other_016', 'c_other_036', 'c_it_19', 'c_other_023'],
+      ['c_other_028', 'c_en_18', 'c_fr_08', 'c_leg_kashima'],
+      ['c_leg_visselkobe', 'c_leg_jubilo', 'c_jleaguesel', 'c_leg_yokohamafm'],
+      ['c_leg_urawa', 'c_jp1_02', 'c_nl_02', 'c_other_029'],
       ['c_de2_16', 'c_es_08', 'c_de_05', 'c_other_034'],
       ['c_other_025', 'c_other_024', 'c_fr_12', 'c_other_026'],
       ['c_it_16', 'c_other_021', 'c_it_17', 'c_other_055'],
@@ -18122,23 +18182,35 @@
       ['c_es_17', 'c_de2_02', 'c_en2_25', 'c_jpsel_b'],
       ['c_it2_15', 'c_es2_02', 'c_es2_05', 'c_es_21'],
       ['c_es_22', 'c_es2_17', 'c_it2_16', 'c_de2_01'],
-      ['c_en4_12', 'nt_51', 'c_en3_15', 'c_en2_04'],
-      ['c_it2_05', 'c_it2_13', 'c_de2_15', 'c_es2_09'],
-      ['c_es2_03', 'c_en2_06', 'c_en4_14', 'c_en4_23'],
-      ['c_fr2_03', 'c_es2_23', 'c_en4_13', 'c_en4_24'],
-      ['c_es2_20', 'c_en4_19', 'c_it2_07', 'c_fr2_14'],
+      ['c_en4_12', 'nt_51', 'c_en3_15', 'c_jp1_16'],
+      ['c_en2_04', 'c_it2_05', 'c_it2_13', 'c_de2_15'],
+      ['c_es2_09', 'c_es2_03', 'c_jp1_11', 'c_en2_06'],
+      ['c_en4_14', 'c_en4_23', 'c_fr2_03', 'c_jp1_20'],
+      ['c_es2_23', 'c_en4_13', 'c_en4_24', 'c_es2_20'],
+      ['c_en4_19', 'c_jp1_06', 'c_it2_07', 'c_fr2_14'],
       ['c_fr2_10', 'c_fr2_01', 'c_en4_20', 'c_it2_06'],
-      ['c_en4_04', 'c_es2_21', 'c_es2_18', 'c_it2_09'],
-      ['c_fctokyo', 'c_jp1_19', 'c_en2_17', 'c_en4_05'],
-      ['c_it2_03', 'c_en2_08', 'c_it2_20', 'c_it2_18'],
-      ['c_en4_10', 'c_en2_14', 'c_en2_10', 'c_jp1_10'],
-      ['c_sa_06', 'c_fr2_06', 'c_es3_34', 'c_fr2_12'],
-      ['c_de3_04', 'c_en2_24', 'c_it3_05', 'c_jp2_14'],
-      ['c_it3_27', 'c_it3_29', 'c_it3_23', 'c_jp2_17'],
-      ['c_fr3_17', 'c_fr3_05', 'c_jp2_11', 'c_fr3_07'],
-      ['c_jp1_05', 'c_en3_12', 'c_jp1_22', 'c_jp3_01'],
-      ['c_it3_04', 'c_jp3_08', 'c_en3_09', 'c_en3_01'],
-      ['c_de3_17', 'c_jp3_18', 'c_en3_06', 'c_en3_05'],
+      ['c_en4_04', 'c_es2_21', 'c_jp1_03', 'c_es2_18'],
+      ['c_it2_09', 'c_fctokyo', 'c_jp1_19', 'c_jp1_14'],
+      ['c_en2_17', 'c_en4_05', 'c_it2_03', 'c_en2_08'],
+      ['c_it2_20', 'c_it2_18', 'c_en4_10', 'c_en2_14'],
+      ['c_en2_10', 'c_jp1_15', 'c_jp1_12', 'c_jp1_09'],
+      ['c_jp1_10', 'c_sa_06', 'c_jp2_09', 'c_jp1_17'],
+      ['c_jp1_18', 'c_fr2_06', 'c_jp1_23', 'c_jp1_21'],
+      ['c_jp1_04', 'c_es3_34', 'c_fr2_12', 'c_jp1_07'],
+      ['c_jp1_08', 'c_de3_04', 'c_jp2_21', 'c_en2_24'],
+      ['c_jp1_13', 'c_jp2_20', 'c_it3_05', 'c_jp2_14'],
+      ['c_it3_27', 'c_jp2_10', 'c_jp2_23', 'c_jp2_13'],
+      ['c_it3_29', 'c_jp2_16', 'c_it3_23', 'c_jp2_22'],
+      ['c_jp2_17', 'c_fr3_17', 'c_fr3_05', 'c_jp2_11'],
+      ['c_jp2_01', 'c_jp3_19', 'c_fr3_07', 'c_jp3_05'],
+      ['c_jp1_05', 'c_jp2_02', 'c_en3_12', 'c_jp1_22'],
+      ['c_jp2_03', 'c_jp3_03', 'c_jp3_01', 'c_jp2_08'],
+      ['c_jp3_17', 'c_it3_04', 'c_jp2_19', 'c_jp3_04'],
+      ['c_jp2_12', 'c_jp3_08', 'c_jp3_09', 'c_jp3_07'],
+      ['c_en3_09', 'c_jp2_04', 'c_jp2_24', 'c_en3_01'],
+      ['c_jp3_10', 'c_jp3_16', 'c_jp3_15', 'c_de3_17'],
+      ['c_jp3_13', 'c_jp3_18', 'c_jp3_11', 'c_jp3_14'],
+      ['c_en3_06', 'c_jp3_06', 'c_jp3_12', 'c_en3_05'],
     ],
   };
   function legendLadderMaxTier(cc) {
@@ -18149,6 +18221,58 @@
     const max = legendLadderMaxTier(cc);
     const t = legendLadderTier[cc];
     return (typeof t === 'number' && t >= 1 && t <= max) ? t : max;
+  }
+
+  // ---- レジェンドカップの国別関連づけ（2026-10-23） ----
+  // 各国のレジェンドカップでは、その国に関連するクラブ（所属国一致・代表・レジェンド・選抜）と、その国に関連する選手の
+  // 所属クラブが全て登場する。逆に★18以上の選手は、プレイ中の国に関連する選手しか獲得できない（図鑑コンプ保証のため
+  // 関連づけは「国籍／所属クラブの国／同一人物の別レコードの所属国／実キャリア」の和集合）。
+  // GB＝イングランド。スコットランド等は含めない。
+  const LEGEND_COUNTRY_ALIASES = {
+    GB: 'GB', 'イングランド': 'GB', ES: 'ES', 'スペイン': 'ES', IT: 'IT', 'イタリア': 'IT',
+    DE: 'DE', 'ドイツ': 'DE', FR: 'FR', 'フランス': 'FR', JP: 'JP', '日本': 'JP',
+  };
+  // データ上は6カ国と接点がない★18以上の選手に、実キャリアで在籍した国を補う（人物名で指定）
+  const LEGEND_CAREER_COUNTRIES_BY_NAME = {
+    'モーテン・ヒュルマン': ['IT'],
+    'クリスティアーノ・ロナウド': ['GB', 'ES', 'IT'],
+    'リオネル・メッシ': ['ES', 'FR'],
+    'チアゴ・シウバ': ['IT', 'FR', 'GB'],
+    'ネイマール': ['ES', 'FR'],
+    'ルカ・モドリッチ': ['GB', 'ES', 'IT'],
+    'ラダメル・ファルカオ': ['FR', 'GB', 'ES'],
+    'モハメド・サラー': ['GB', 'IT'],
+    'ディディエ・ドログバ': ['GB', 'FR'],
+    'ディエゴ・マラドーナ': ['ES', 'IT'],
+    'ロマリオ': ['ES'],
+    'ロベルト・カルロス': ['IT', 'ES'],
+    'ルイス・フィーゴ': ['ES', 'IT'],
+  };
+  // 6カ国のどこにも在籍歴がない★18以上の選手は、どの国のレジェンドカップでも獲得可能（コンプ保証の例外）
+  const LEGEND_ANY_COUNTRY_NAMES = new Set(['ペレ', 'ガリンシャ', 'エウゼビオ', 'レフ・ヤシン']);
+  let legendRelatedCache = null;
+  function legendRelatedCountriesByName() {
+    if (legendRelatedCache && legendRelatedCache.n === data.players.length) return legendRelatedCache.map;
+    const clubCountry = new Map(data.clubs.map((c) => [c.id, LEGEND_COUNTRY_ALIASES[c.country] || null]));
+    const map = new Map();
+    data.players.forEach((p) => {
+      let set = map.get(p.name);
+      if (!set) {
+        set = new Set();
+        map.set(p.name, set);
+        (LEGEND_CAREER_COUNTRIES_BY_NAME[p.name] || []).forEach((cc) => set.add(cc));
+        if (LEGEND_ANY_COUNTRY_NAMES.has(p.name)) Object.values(LEGEND_COUNTRY_ALIASES).forEach((cc) => set.add(cc));
+      }
+      if (LEGEND_COUNTRY_ALIASES[p.nationality]) set.add(LEGEND_COUNTRY_ALIASES[p.nationality]);
+      const cc = clubCountry.get(p.club);
+      if (cc) set.add(cc);
+    });
+    legendRelatedCache = { n: data.players.length, map };
+    return map;
+  }
+  function isLegendRelatedToCountry(p, countryCode) {
+    const set = legendRelatedCountriesByName().get(p.name);
+    return !!set && set.has(countryCode);
   }
 
   // インターナショナルスーパーカップ（GB/ES/IT/DE/FR/JP共通、全カップ制覇後に解放される最終カップ群）専用の対戦相手プール。
@@ -18242,7 +18366,7 @@
   //  - 解放：カップ通算優勝回数・図鑑コンプ率・スカウト獲得上限＋（★16以降は）一つ下の★帯のカップを TARGET_CUP_PREV_WINS 回優勝（全ヶ国通算）。
   //  - 報酬人数：候補が未入手選手に限られるため、勝利数×1（通常カップは×2）。
   //  - 毎月の自動踏襲はしない（終了後は選択解除）。勝手に参加費が引かれ続けないようにするため。
-  // ★18以上の選手はレジェンドカップ（legendLadder）専用の入手源。他のカップ・移籍市場チケットでは獲得できない
+  // ★18以上の選手はレジェンドカップ（legendLadder）専用の入手源。他のカップでは獲得できない
   const LEGEND_ONLY_MIN_RARITY = 18;
   const TARGET_CUP_TIERS = [
     { n: 21, band: 15, minRarity: 1,  maxRarity: 15, focusMin: 1,  focusMax: 13, lowerMin: 11, lowerMax: 12, fee: 100000,  titles: 30,  comp: 0.20, minCap: 15, prevN: null },
@@ -21086,6 +21210,8 @@
     // ★18以上の選手はレジェンドカップ（legendLadder）でしか獲得できない。他のカップ・スカウトでは抽選対象から外す
     // （ターゲットカップは例外：★18〜20の各段が★指定で未入手選手を狙うカップのため、従来どおり排出可能）
     if (cs.poolType !== 'legendLadder' && !cs.targetPool) pool = pool.filter((p) => p.rarity < LEGEND_ONLY_MIN_RARITY);
+    // ★18以上が出るカップ（レジェンドカップ・レジェンドハントカップ等）でも、プレイ中の国に関連しない★18以上は獲得できない
+    else pool = pool.filter((p) => p.rarity < LEGEND_ONLY_MIN_RARITY || isLegendRelatedToCountry(p, season.country));
     // 同名の別IDレコードを所持済みの選手は抽選対象から外す（全カップ共通。レジェンド/ターゲットでの二重獲得防止）
     pool = excludeSameNameOwned(pool);
 
@@ -21108,7 +21234,7 @@
     let chosen = [];
     let pityUsed = false;
     let effectiveMaxRarity = guard.cap;
-    // ポジション指定チケット・移籍市場チケットで名指しした選手は、自動売却の対象から除外する
+    // ポジション指定チケットで名指しした選手は、自動売却の対象から除外する
     const protectedIds = new Set();
     if (pool.length > 0 && baseCount > 0) {
       const count = baseCount + fx.extraSlots;
@@ -21148,24 +21274,7 @@
       // }
     }
 
-    // 移籍市場チケット：成績に関わらず指名した未所持選手を1人追加（hardCap以内のみ指名可能）
-    let transferNote = '';
-    const transferUsed = consumableArmed.transferScout && consumables.transferScout > 0 && transferTargetPlayerId;
-    if (transferUsed) {
-      const targetPlayer = data.players.find((p) => p.id === transferTargetPlayerId);
-      if (targetPlayer && targetPlayer.rarity > guard.hardCap) {
-        // 旧セーブなどでキャップ超えの指名が残っていた場合：チケットは消費せず保留
-        transferNote = `<div class="summary">移籍市場チケット：★${targetPlayer.rarity} ${displayName(targetPlayer)} は現在の獲得上限（★${guard.hardCap}）を超えているため指名を保留しました（チケットは未消費）。</div>`;
-      } else {
-        if (targetPlayer && !chosen.includes(targetPlayer)) chosen.push(targetPlayer);
-        if (targetPlayer) protectedIds.add(targetPlayer.id);
-        consumables.transferScout -= 1;
-        consumableArmed.transferScout = false;
-        transferTargetPlayerId = null;
-      }
-    }
-
-    if (chosen.length === 0) return transferNote ? { headerHtml: '', bodyHtml: transferNote, pulls: [] } : null;
+    if (chosen.length === 0) return null;
 
     const pulls = chosen.map((p) => resolvePull(p, collectionState));
     const totalRefund = pulls.reduce((s, x) => s + x.refund, 0);
@@ -21204,7 +21313,7 @@
       ? (scoutedFromSubstitute ? `${clubDisplayName(cs.lastBeatenClubId)}相当の他クラブ選手` : clubDisplayName(cs.lastBeatenClubId) + 'の選手')
       : '参加クラブの控え選手';
     const headerHtml = `<div class="summary">スカウト結果（${scoutSourceLabel}）／獲得上限 ★${effectiveMaxRarity}：</div>${pityLine}`;
-    const bodyHtml = `${rows}${transferNote}`;
+    const bodyHtml = rows;
     return { headerHtml, bodyHtml, pulls };
   }
 
@@ -21931,8 +22040,28 @@
       const countryCode = document.getElementById('zukanCupCountrySelect').value || season.country;
       const cup = buildCupsForCountry(countryCode).find((c) => c.id === cupId);
       if (!cup) return new Set();
-      const clubIds = new Set(cup.clubs.filter(Boolean).map((c) => c.id));
-      return new Set(data.players.filter((p) => clubIds.has(p.club)).map((p) => p.id));
+      // 実際のスカウト（runCupScout）で理論上入手できない選手は一覧から外す：
+      //  ・通常カップ：複数所属は最強チームのレコードのみ／★18以上はレジェンドカップ専用／参加クラブ戦力による★上限（cupRarityCap）
+      //  ・ターゲット／ハントカップ：そのカップの★帯のみ
+      //  ・レジェンドカップ：上限なし
+      const clubs = cup.clubs.filter(Boolean);
+      const isNormalCup = cup.poolType !== 'legendLadder' && !cup.targetPool;
+      let minR = 1;
+      let maxR = 20;
+      if (isNormalCup) {
+        maxR = Math.min(LEGEND_ONLY_MIN_RARITY - 1,
+          cupRarityCap(clubs.filter((c) => c.id !== MY_CLUB_ID).map((c) => clubPower(c.id, PLAYER_MAX_LEVEL)), data.levelTiers));
+      } else if (cup.targetPool) {
+        minR = cup.targetPool.minRarity;
+        maxR = cup.targetPool.maxRarity;
+      }
+      // 所属選手のいないクラブの代替プール（realPlayerPoolForClubのフォールバック）は一覧に含めない
+      const clubIds = new Set(clubs.map((c) => c.id));
+      const strongest = isNormalCup ? strongestTeamRecordIds() : null;
+      return new Set(data.players
+        .filter((p) => clubIds.has(p.club) && !p.dexHidden && (!strongest || strongest.has(p.id))
+          && p.rarity >= minR && p.rarity <= maxR)
+        .map((p) => p.id));
     }
     if (value.startsWith('comp:')) {
       const compId = value.slice(5);
@@ -22733,9 +22862,8 @@
       facilities = initialFacilityLevelsForCountry('JP');
       items = Object.fromEntries(ITEM_KEYS.map((k) => [k, 1]));
       itemActive = Object.fromEntries(ITEM_KEYS.map((k) => [k, false]));
-      consumables = Object.fromEntries(CONSUMABLE_KEYS.map((k) => [k, 0]));
-      consumableArmed = Object.fromEntries(CONSUMABLE_KEYS.map((k) => [k, false]));
       transferTargetPlayerId = null;
+      transferResultNote = '';
       seasonPlayerStats = {};
       seasonAwardsHistory = [];
       careerRecord = { cupChampionships: 0, cupRunnerUps: 0, cupSemifinals: 0, leagueTitles: 0, promotions: 0, topHalfFinishes: 0 };
