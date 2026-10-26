@@ -18410,14 +18410,15 @@
     FR: ['クープ・ナシオナル・シャランジュ', 'トロフェ・ナシオナル', 'クープ・ドゥ・リーグ2', 'クープ・ドゥ・モンテ', 'トロフェ・シャランジュ', 'クープ・デ・ロワ'],
   };
   // ターゲットカップ（有料・資金の終盤シンク。全体ガードレール E1 の具体化）。
-  // 「未入手の選手が在籍するクラブ」だけを相手にするカップ戦。★帯ごとに6種類（★15まで／★16／★17／★18／★19／★20）。
-  //  - 相手プール：その★帯（15は★1〜15、他はちょうどその★）の未入手選手が1人以上いるクラブ（自クラブ除く）。
-  //  - 対戦相手：プールのクラブを①その★の未入手人数（15は★1〜13）②その一つ下の★帯の未入手人数（15は★11〜12、16は★13〜15、
+  // 「未入手の選手が在籍するクラブ」だけを相手にするカップ戦。★帯ごとに6種類（★13〜15／★16／★17／★18／★19／★20）。
+  //  - 相手プール：その★帯（15は★13〜15、他はちょうどその★）の未入手選手が1人以上いるクラブ（自クラブ除く）。
+  //  - 対戦相手：プールのクラブを①その★の未入手人数（15は★13〜15）②その一つ下の★帯の未入手人数（15は★11〜12、16は★13〜15、
   //    17以上は★(n-1)のみ）③戦力 の優先順（①が最優先、同数なら②、さらに同数なら③）で並べた上位 TARGET_CUP_SHORTLIST_SIZE クラブから、
   //    ランダムに TARGET_CUP_OPPONENTS クラブ（＝4試合）。
   //    選出は月ごと（キャッシュ切れのたび）にやり直す。対戦相手の選び方モードは使わない。
   //  - 参加費：カップを選んだ時点で支払う。月初に別カップへ変更すれば全額返金（試合開始後は返金なし）。
-  //  - 報酬：1勝以上すると、最後に倒したクラブの「その★帯の未入手選手」から優先してスカウトされる。
+  //  - 報酬：1勝以上すると、倒したクラブの「その★帯の未入手選手」からスカウトされる。
+  //    その★帯の未入手が足りない（いない）分は、倒したクラブの「帯より下の未入手選手」を高い★から補充する（targetCupLowerUnownedPlayers）。
   //    ただしスカウトの獲得上限（収集ペースのガードレール）は越えられない。
   //  - 解放：カップ通算優勝回数・図鑑コンプ率・スカウト獲得上限＋（★16以降は）一つ下の★帯のカップを TARGET_CUP_PREV_WINS 回優勝（全ヶ国通算）。
   //  - 報酬人数：候補が未入手選手に限られるため、勝利数×1（通常カップは×2）。
@@ -18425,7 +18426,7 @@
   // ★18以上の選手はレジェンドカップ（legendLadder）専用の入手源。他のカップでは獲得できない
   const LEGEND_ONLY_MIN_RARITY = 18;
   const TARGET_CUP_TIERS = [
-    { n: 21, band: 15, minRarity: 1,  maxRarity: 15, focusMin: 1,  focusMax: 13, lowerMin: 11, lowerMax: 12, upperMin: 16, upperMax: 16, bannedMin: 17, bannedMax: 20, fee: 100000,  titles: 30,  comp: 0.20, minCap: 15, prevN: null },
+    { n: 21, band: 15, minRarity: 13, maxRarity: 15, focusMin: 13, focusMax: 15, lowerMin: 11, lowerMax: 12, upperMin: 16, upperMax: 16, bannedMin: 17, bannedMax: 20, fee: 100000,  titles: 30,  comp: 0.20, minCap: 15, prevN: null },
     { n: 22, band: 16, minRarity: 16, maxRarity: 16, focusMin: 16, focusMax: 16, lowerMin: 13, lowerMax: 15, upperMin: 17, upperMax: 17, bannedMin: 18, bannedMax: 20, fee: 150000,  titles: 50,  comp: 0.25, minCap: 16, prevN: 21 },
     { n: 23, band: 17, minRarity: 17, maxRarity: 17, focusMin: 17, focusMax: 17, lowerMin: 16, lowerMax: 16, upperMin: 18, upperMax: 18, bannedMin: 19, bannedMax: 20, fee: 250000,  titles: 70,  comp: 0.30, minCap: 17, prevN: 22 },
     { n: 24, band: 18, minRarity: 18, maxRarity: 18, focusMin: 18, focusMax: 18, lowerMin: 17, lowerMax: 17, upperMin: 19, upperMax: 19, bannedMin: 20, bannedMax: 20, fee: 400000,  titles: 100, comp: 0.45, minCap: 18, prevN: 23 },
@@ -18440,6 +18441,9 @@
   // 対戦クラブ数（自チーム＋この数のクラブの総当たり＝この数の試合）と、そのランダム抽選元にする上位クラブ数
   const TARGET_CUP_OPPONENTS = 4;
   const TARGET_CUP_SHORTLIST_SIZE = 10;
+  // 大物制限（G3）の緩和：ターゲットカップは実効上限に近い帯を1スカウト2人まで（通常は GUARDRAILS.topBandPerScout=1人）。
+  // 例：★20のカップで全勝（4人）なら、★20が2人出る
+  const TARGET_CUP_TOP_BAND_PER_SCOUT = 2;
   // 前段のターゲットカップを全ヶ国通算で何回優勝していれば次段が解放されるか
   const TARGET_CUP_PREV_WINS = 10;
   function targetCupPrevWins(n) {
@@ -18447,7 +18451,7 @@
   }
   const TARGET_CUP_DEFS = TARGET_CUP_TIERS.map((t) => ({
     n: t.n,
-    name: `ターゲットカップ ${t.band === 15 ? '★15まで' : '★' + t.band}`,
+    name: `ターゲットカップ ${t.band === 15 ? '★13〜15' : '★' + t.band}`,
     pool: {
       type: 'targetUnowned', band: t.band, minRarity: t.minRarity, maxRarity: t.maxRarity, fee: t.fee,
       focusMin: t.focusMin, focusMax: t.focusMax, lowerMin: t.lowerMin, lowerMax: t.lowerMax,
@@ -18524,6 +18528,11 @@
   function targetCupUnownedPlayers(clubId, pool) {
     return data.players.filter((p) => p.club === clubId && !p.dexHidden && !isDexOwned(p.id)
       && p.rarity >= pool.minRarity && p.rarity <= pool.maxRarity);
+  }
+  // そのクラブの、ターゲットカップの★帯より下の未入手選手（帯の未入手が足りないときの補充用）
+  function targetCupLowerUnownedPlayers(clubId, pool) {
+    return data.players.filter((p) => p.club === clubId && !p.dexHidden && !isDexOwned(p.id)
+      && p.rarity < pool.minRarity);
   }
   // そのクラブに在籍する「1つ上の★帯」の選手数（入手済み・未入手を問わない）。上の★がないカップは常に0
   function targetCupUpperCount(clubId, pool) {
@@ -21257,6 +21266,8 @@
     let scoutedFromSubstitute = false;
     let scoutedFromBeatenUnion = false;
     let scoutedFromBeatenAll = false;
+    let targetFillerPool = [];
+    let targetBandEmpty = false;
     if (cs.wins >= 1) {
       pool = realPlayerPoolForClub(cs.lastBeatenClubId, restrictStrongest);
       scoutedFromSubstitute = pool.length > 0 && pool[0].club !== cs.lastBeatenClubId;
@@ -21272,10 +21283,13 @@
         if (union.length > 0) { pool = union; scoutedFromSubstitute = false; scoutedFromBeatenAll = true; }
       }
       // ターゲットカップ：倒したクラブ全ての「その★帯の未入手選手」をまとめてスカウト対象にする（どのクラブからかはランダム）
+      // 帯の未入手が足りない（いない）ときは、帯より下の未入手選手を高い★から補充する（targetFillerPool）
       if (cs.targetPool) {
         const beaten = (cs.beatenClubIds && cs.beatenClubIds.length) ? cs.beatenClubIds : [cs.lastBeatenClubId];
         const targets = beaten.flatMap((cid) => targetCupUnownedPlayers(cid, cs.targetPool));
+        targetFillerPool = beaten.flatMap((cid) => targetCupLowerUnownedPlayers(cid, cs.targetPool));
         if (targets.length > 0) { pool = targets; scoutedFromSubstitute = false; scoutedFromBeatenUnion = true; }
+        else if (targetFillerPool.length > 0) { pool = targetFillerPool; targetBandEmpty = true; scoutedFromSubstitute = false; scoutedFromBeatenUnion = true; }
       }
     } else {
       const poolClubIds = cs.participants.filter((id) => id !== MY_CLUB_ID);
@@ -21292,6 +21306,9 @@
     else pool = pool.filter((p) => p.rarity < LEGEND_ONLY_MIN_RARITY || isLegendRelatedToCountry(p, season.country));
     // 同名の別IDレコードを所持済みの選手は抽選対象から外す（全カップ共通。レジェンド/ターゲットでの二重獲得防止）
     pool = excludeSameNameOwned(pool);
+    // 補充用プールにも同じ絞り込み（★18以上の関連国／同名所持）をかける。excludeSameNameOwnedの「空なら元に戻す」は使わない
+    targetFillerPool = targetFillerPool.filter((p) => (p.rarity < LEGEND_ONLY_MIN_RARITY || isLegendRelatedToCountry(p, season.country))
+      && !ownsOtherSameNameRecord(p));
 
     // 収集ペースのガードレール（scout.js参照）。チケット類も hardCap は越えられない
     const guard = currentScoutGuardrails();
@@ -21327,7 +21344,32 @@
         : Math.min(guard.hardCap, maxRarityForScoutLevel(scoutLevel) + fx.rareBoostLevel);
       effectiveMaxRarity = Math.min(effectiveMaxRarity, cupCap);
 
-      chosen = pickWeightedCandidates(pool, count, effectiveMaxRarity, effectiveManagerLevel, isNormalCup);
+      // 帯に未入手が1人もいない場合は抽選せず、補充（下の★を高い順）だけで埋める
+      const topBandLimit = cs.targetPool && cs.targetPool.type === 'targetUnowned'
+        ? TARGET_CUP_TOP_BAND_PER_SCOUT : GUARDRAILS.topBandPerScout;
+      chosen = targetBandEmpty ? [] : pickWeightedCandidates(pool, count, effectiveMaxRarity, effectiveManagerLevel, isNormalCup, topBandLimit);
+
+      // ターゲットカップ：帯の未入手が足りない分を、倒したクラブの帯より下の未入手選手で高い★から補充する。
+      // 大物制限（G3）は抽選と同じく守る＝実効上限に近い帯は1スカウト topBandLimit 人まで
+      if (cs.targetPool && chosen.length < count && targetFillerPool.length > 0) {
+        const g3 = effectiveMaxRarity >= GUARDRAILS.topBandActivationMinCap;
+        const topBandMin = effectiveMaxRarity - (GUARDRAILS.topBandWidth - 1);
+        let topUsed = g3 ? chosen.filter((p) => p.rarity >= topBandMin).length : 0;
+        const names = new Set(chosen.map((p) => p.name));
+        const fillers = targetFillerPool.filter((p) => p.rarity <= effectiveMaxRarity && !chosen.includes(p));
+        shuffleArray(fillers);
+        fillers.sort((a, b) => b.rarity - a.rarity);
+        for (const p of fillers) {
+          if (chosen.length >= count) break;
+          if (names.has(p.name)) continue;
+          if (g3 && p.rarity >= topBandMin) {
+            if (topUsed >= topBandLimit) continue;
+            topUsed++;
+          }
+          chosen.push(p);
+          names.add(p.name);
+        }
+      }
 
       if (fx.positionLock) {
         const forced = pool.find((p) => p.position === fx.positionLockPosition
@@ -21396,7 +21438,7 @@
   }
 
   // レアリティ上限・監督補正（未所持優先）をかけた重み付き抽選でcount人選ぶ
-  function pickWeightedCandidates(pool, count, maxRarity, managerLevel, softenHighRarity) {
+  function pickWeightedCandidates(pool, count, maxRarity, managerLevel, softenHighRarity, topBandPerScout = GUARDRAILS.topBandPerScout) {
     let eligible = pool.filter((p) => p.rarity <= maxRarity);
     if (eligible.length === 0) {
       // キャップ内の候補が1人もいない場合の救済：空振りにはせず、プール内の最弱帯だけ許可する
@@ -21411,7 +21453,7 @@
     // topBandEligibleDraws 回目までの抽選に限定する（それ以降の枠は最初から大物対象外）
     const g3Active = maxRarity >= GUARDRAILS.topBandActivationMinCap;
     const topBandMin = maxRarity - (GUARDRAILS.topBandWidth - 1);
-    let topBandLeft = GUARDRAILS.topBandPerScout;
+    let topBandLeft = topBandPerScout;
     const remaining = [...eligible];
     const chosen = [];
     // G5 低レア抑制：★lowRaritySuppressMax以下の排出重みを、監督レベルが上がるほど大きく減衰させる
