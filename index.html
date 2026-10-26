@@ -15571,6 +15571,9 @@
   // 移籍チケットの指名リストの絞り込み条件（セーブ対象外）。country は「移籍元の国」
   let transferFilter = { text: '', country: '', minRarity: 0, position: '', sort: 'overall' };
   const TRANSFER_LIST_LIMIT = 300;
+  const TRANSFER_NAME_COLLATOR = new Intl.Collator('ja'); // 名前順ソート用（比較のたびにlocaleCompareで照合器を作らない）
+  const TRANSFER_FILTER_DEBOUNCE_MS = 150;
+  let transferFilterTimer = null; // 検索入力のデバウンス用
 
   function escapeAttr(s) {
     return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -15591,11 +15594,34 @@
     return club ? club.country : null;
   }
 
-  // 移籍元の国が選手を手放しても編成が成り立つか（最低11人・各ポジション1人以上は残す）
-  function canLeaveCountry(list, player) {
-    const rest = list.filter((id) => id !== player.id).map((id) => data.players.find((p) => p.id === id)).filter(Boolean);
-    if (rest.length < 11) return false;
-    return ['GK', 'DF', 'MF', 'FW'].every((pos) => rest.some((p) => p.position === pos));
+  // 選手ID→選手のMap（data.players が差し替わる・増える時だけ作り直す）
+  let playerByIdCache = null;
+  function playerByIdMap() {
+    if (!playerByIdCache || playerByIdCache.arr !== data.players || playerByIdCache.len !== data.players.length) {
+      playerByIdCache = { arr: data.players, len: data.players.length, map: new Map(data.players.map((p) => [p.id, p])) };
+    }
+    return playerByIdCache.map;
+  }
+
+  // 移籍元の国が選手を手放しても編成が成り立つか（最低11人・各ポジション1人以上は残す）を判定する関数を返す。
+  // 編成リストを1回だけ集計しておき、選手ごとの判定は定数時間で行う
+  function leaveCheckerForList(list) {
+    const byId = playerByIdMap();
+    const idCount = new Map();
+    const posCount = { GK: 0, DF: 0, MF: 0, FW: 0 };
+    let total = 0;
+    list.forEach((id) => {
+      const p = byId.get(id);
+      if (!p) return;
+      idCount.set(id, (idCount.get(id) || 0) + 1);
+      posCount[p.position] = (posCount[p.position] || 0) + 1;
+      total += 1;
+    });
+    return (player) => {
+      const leaving = idCount.get(player.id) || 0;
+      if (total - leaving < 11) return false;
+      return ['GK', 'DF', 'MF', 'FW'].every((pos) => posCount[pos] - (player.position === pos ? leaving : 0) > 0);
+    };
   }
 
   // 移籍チケットで指名できる選手の候補。
@@ -15614,9 +15640,10 @@
     ccs.forEach((cc) => {
       const list = countrySnapshots[cc].eligibility;
       if (!list) return;
+      const canLeave = leaveCheckerForList(list);
       list.forEach((id) => {
         const p = ownedById.get(id);
-        if (p && !source.has(id) && canLeaveCountry(list, p)) source.set(id, cc);
+        if (p && !source.has(id) && canLeave(p)) source.set(id, cc);
       });
     });
     ccs.forEach((cc) => {
@@ -15639,7 +15666,7 @@
       return true;
     });
     const cmp = f.sort === 'rarity' ? (a, b) => b.p.rarity - a.p.rarity || b.p.overall - a.p.overall
-      : f.sort === 'name' ? (a, b) => displayName(a.p).localeCompare(displayName(b.p), 'ja')
+      : f.sort === 'name' ? (a, b) => TRANSFER_NAME_COLLATOR.compare(displayName(a.p), displayName(b.p))
       : f.sort === 'attack' ? (a, b) => b.p.stats.attack - a.p.stats.attack
       : f.sort === 'defense' ? (a, b) => b.p.stats.defense - a.p.stats.defense
       : f.sort === 'speed' ? (a, b) => b.p.stats.speed - a.p.stats.speed
@@ -15706,6 +15733,8 @@
     const box = document.getElementById('consumablesList');
     if (!box) return;
     const def = CONSUMABLE_DEFS.rosterTransfer;
+    clearTimeout(transferFilterTimer); // 作り直す前の画面に向けた検索入力の保留分は捨てる
+    // 候補の計算はこの再描画のときだけ。選択・絞り込みの操作中はこの結果（クロージャ）を使い回す
     const { restricted, candidates } = transferCandidates();
     if (transferTargetPlayerId && !candidates.some((e) => e.p.id === transferTargetPlayerId)) transferTargetPlayerId = null;
     const listHtml = transferListHtml(candidates);
@@ -15713,10 +15742,8 @@
     const filterStyle = 'margin:0 4px 4px 0;';
     const fromCountries = [...new Set(candidates.map((e) => e.from))];
 
-    const selectedEntry = transferTargetPlayerId ? candidates.find((e) => e.p.id === transferTargetPlayerId) : null;
-    const selectedCost = selectedEntry ? transferScoutCost(selectedEntry.p.rarity) : null;
-
-    const resultHtml = transferResultNote ? `<div style="font-size:12px; color:#9f9; margin-bottom:6px;">${escapeAttr(transferResultNote)}</div>` : '';
+    // 結果メッセージ・契約金・「移籍させる」ボタンは、選択のたびに updateSelection() で部分更新する
+    const resultHtml = `<div data-transfer-result style="font-size:12px; color:#9f9; margin-bottom:6px; ${transferResultNote ? '' : 'display:none;'}">${escapeAttr(transferResultNote)}</div>`;
     let bodyHtml;
     if (!restricted) {
       bodyHtml = '<div style="font-size:11px; color:#f99;">今いる国では所持選手をすべて編成に使えるため、移籍させる必要はありません。他の国へ移籍したあと、その国の編成に呼びたい選手がいるときに使えます。</div>';
@@ -15747,8 +15774,8 @@
           <option value="">－ 移籍させる選手を選択 －</option>
           ${listHtml.options}
         </select>
-        ${selectedEntry ? `<div class="itemLevel">契約金: ${selectedCost.toLocaleString()}資金${gold < selectedCost ? '（資金不足）' : ''}</div>` : ''}
-        <button class="action" data-transfer-contract ${selectedEntry && gold >= selectedCost ? '' : 'disabled'}>移籍させる${selectedEntry ? `（${selectedCost.toLocaleString()}資金）` : ''}</button>
+        <div class="itemLevel" data-transfer-cost style="display:none;"></div>
+        <button class="action" data-transfer-contract disabled>移籍させる</button>
       `;
     }
 
@@ -15761,6 +15788,28 @@
       </div>
     `;
 
+    // 選択中の選手に応じて、結果メッセージ・契約金表示・ボタンだけを更新する（選手リストや入力欄は触らない）
+    const updateSelection = () => {
+      const entry = transferTargetPlayerId ? candidates.find((e) => e.p.id === transferTargetPlayerId) : null;
+      const cost = entry ? transferScoutCost(entry.p.rarity) : null;
+      const resultEl = box.querySelector('[data-transfer-result]');
+      if (resultEl) {
+        resultEl.textContent = transferResultNote;
+        resultEl.style.display = transferResultNote ? '' : 'none';
+      }
+      const costEl = box.querySelector('[data-transfer-cost]');
+      if (costEl) {
+        costEl.textContent = entry ? `契約金: ${cost.toLocaleString()}資金${gold < cost ? '（資金不足）' : ''}` : '';
+        costEl.style.display = entry ? '' : 'none';
+      }
+      const btn = box.querySelector('button[data-transfer-contract]');
+      if (btn) {
+        btn.disabled = !(entry && gold >= cost);
+        btn.textContent = `移籍させる${entry ? `（${cost.toLocaleString()}資金）` : ''}`;
+      }
+    };
+    updateSelection();
+
     const contractBtn = box.querySelector('button[data-transfer-contract]');
     if (contractBtn) contractBtn.addEventListener('click', executeRosterTransfer);
     const targetSel = box.querySelector('select[data-transfer-target]');
@@ -15768,19 +15817,26 @@
       targetSel.addEventListener('change', (e) => {
         transferTargetPlayerId = e.target.value || null;
         transferResultNote = '';
-        renderConsumables();
+        updateSelection();
       });
     }
-    // 絞り込み：入力欄を作り直さない（フォーカスを失わない）よう、件数表示と選手リストだけを差し替える
+    // 絞り込み：入力欄を作り直さない（フォーカスを失わない）よう、件数表示と選手リストだけを差し替える。
+    // 検索の文字入力はデバウンスし、選択式の絞り込みは即時反映する
+    const applyFilter = () => {
+      const html = transferListHtml(candidates);
+      const countEl = box.querySelector('[data-transfer-count]');
+      const listEl = box.querySelector('select[data-transfer-target]');
+      if (countEl) countEl.textContent = html.count;
+      if (listEl) listEl.innerHTML = `<option value="">－ 移籍させる選手を選択 －</option>${html.options}`;
+    };
     box.querySelectorAll('[data-transfer-filter]').forEach((el) => {
-      el.addEventListener(el.tagName === 'INPUT' ? 'input' : 'change', () => {
+      const isText = el.tagName === 'INPUT';
+      el.addEventListener(isText ? 'input' : 'change', () => {
         const key = el.dataset.transferFilter;
         transferFilter[key] = key === 'minRarity' ? Number(el.value) : el.value;
-        const html = transferListHtml(candidates);
-        const countEl = box.querySelector('[data-transfer-count]');
-        const listEl = box.querySelector('select[data-transfer-target]');
-        if (countEl) countEl.textContent = html.count;
-        if (listEl) listEl.innerHTML = `<option value="">－ 移籍させる選手を選択 －</option>${html.options}`;
+        clearTimeout(transferFilterTimer);
+        if (isText) transferFilterTimer = setTimeout(applyFilter, TRANSFER_FILTER_DEBOUNCE_MS);
+        else applyFilter();
       });
     });
   }
@@ -18369,13 +18425,18 @@
   // ★18以上の選手はレジェンドカップ（legendLadder）専用の入手源。他のカップでは獲得できない
   const LEGEND_ONLY_MIN_RARITY = 18;
   const TARGET_CUP_TIERS = [
-    { n: 21, band: 15, minRarity: 1,  maxRarity: 15, focusMin: 1,  focusMax: 13, lowerMin: 11, lowerMax: 12, fee: 100000,  titles: 30,  comp: 0.20, minCap: 15, prevN: null },
-    { n: 22, band: 16, minRarity: 16, maxRarity: 16, focusMin: 16, focusMax: 16, lowerMin: 13, lowerMax: 15, fee: 150000,  titles: 50,  comp: 0.25, minCap: 16, prevN: 21 },
-    { n: 23, band: 17, minRarity: 17, maxRarity: 17, focusMin: 17, focusMax: 17, lowerMin: 16, lowerMax: 16, fee: 250000,  titles: 70,  comp: 0.30, minCap: 17, prevN: 22 },
-    { n: 24, band: 18, minRarity: 18, maxRarity: 18, focusMin: 18, focusMax: 18, lowerMin: 17, lowerMax: 17, fee: 400000,  titles: 100, comp: 0.45, minCap: 18, prevN: 23 },
-    { n: 25, band: 19, minRarity: 19, maxRarity: 19, focusMin: 19, focusMax: 19, lowerMin: 18, lowerMax: 18, fee: 650000,  titles: 150, comp: 0.60, minCap: 19, prevN: 24 },
-    { n: 26, band: 20, minRarity: 20, maxRarity: 20, focusMin: 20, focusMax: 20, lowerMin: 19, lowerMax: 19, fee: 1000000, titles: 200, comp: 0.75, minCap: 20, prevN: 25 },
+    { n: 21, band: 15, minRarity: 1,  maxRarity: 15, focusMin: 1,  focusMax: 13, lowerMin: 11, lowerMax: 12, upperMin: 16, upperMax: 16, bannedMin: 17, bannedMax: 20, fee: 100000,  titles: 30,  comp: 0.20, minCap: 15, prevN: null },
+    { n: 22, band: 16, minRarity: 16, maxRarity: 16, focusMin: 16, focusMax: 16, lowerMin: 13, lowerMax: 15, upperMin: 17, upperMax: 17, bannedMin: 18, bannedMax: 20, fee: 150000,  titles: 50,  comp: 0.25, minCap: 16, prevN: 21 },
+    { n: 23, band: 17, minRarity: 17, maxRarity: 17, focusMin: 17, focusMax: 17, lowerMin: 16, lowerMax: 16, upperMin: 18, upperMax: 18, bannedMin: 19, bannedMax: 20, fee: 250000,  titles: 70,  comp: 0.30, minCap: 17, prevN: 22 },
+    { n: 24, band: 18, minRarity: 18, maxRarity: 18, focusMin: 18, focusMax: 18, lowerMin: 17, lowerMax: 17, upperMin: 19, upperMax: 19, bannedMin: 20, bannedMax: 20, fee: 400000,  titles: 100, comp: 0.45, minCap: 18, prevN: 23 },
+    { n: 25, band: 19, minRarity: 19, maxRarity: 19, focusMin: 19, focusMax: 19, lowerMin: 18, lowerMax: 18, upperMin: 20, upperMax: 20, bannedMin: null, bannedMax: null, fee: 650000,  titles: 150, comp: 0.60, minCap: 19, prevN: 24 },
+    { n: 26, band: 20, minRarity: 20, maxRarity: 20, focusMin: 20, focusMax: 20, lowerMin: 19, lowerMax: 19, upperMin: null, upperMax: null, bannedMin: null, bannedMax: null, fee: 1000000, titles: 200, comp: 0.75, minCap: 20, prevN: 25 },
   ];
+  // 上位★帯の在籍人数による制限：クラブ在籍選手（入手済み含む全員）のうち「1つ上の★（upperMin〜upperMax）」が
+  // この人数を超えるクラブは対戦相手になれない（強すぎるため）。1人在籍する場合は①の未入手人数を1人分減らして並べる。
+  // ★20のカップには上の★がないので制限なし（upperMin=null）。
+  // さらに「2つ以上上の★（bannedMin〜bannedMax）」は1人でも在籍するクラブは対戦相手になれない（例：★16のカップは★18以上が1人でもNG）
+  const TARGET_CUP_UPPER_LIMIT = 1;
   // 対戦クラブ数（自チーム＋この数のクラブの総当たり＝この数の試合）と、そのランダム抽選元にする上位クラブ数
   const TARGET_CUP_OPPONENTS = 4;
   const TARGET_CUP_SHORTLIST_SIZE = 10;
@@ -18390,6 +18451,7 @@
     pool: {
       type: 'targetUnowned', band: t.band, minRarity: t.minRarity, maxRarity: t.maxRarity, fee: t.fee,
       focusMin: t.focusMin, focusMax: t.focusMax, lowerMin: t.lowerMin, lowerMax: t.lowerMax,
+      upperMin: t.upperMin, upperMax: t.upperMax, bannedMin: t.bannedMin, bannedMax: t.bannedMax,
     },
     cond: { type: 'targetCup', titles: t.titles, comp: t.comp, minCap: t.minCap, prevN: t.prevN },
   }));
@@ -18463,6 +18525,18 @@
     return data.players.filter((p) => p.club === clubId && !p.dexHidden && !isDexOwned(p.id)
       && p.rarity >= pool.minRarity && p.rarity <= pool.maxRarity);
   }
+  // そのクラブに在籍する「1つ上の★帯」の選手数（入手済み・未入手を問わない）。上の★がないカップは常に0
+  function targetCupUpperCount(clubId, pool) {
+    if (pool.upperMin == null) return 0;
+    return data.players.filter((p) => p.club === clubId && !p.dexHidden
+      && p.rarity >= pool.upperMin && p.rarity <= pool.upperMax).length;
+  }
+  // そのクラブが「2つ以上上の★」の選手を1人でも抱えているか（抱えていれば対戦相手にできない）
+  function targetCupHasBannedPlayer(clubId, pool) {
+    if (pool.bannedMin == null) return false;
+    return data.players.some((p) => p.club === clubId && !p.dexHidden
+      && p.rarity >= pool.bannedMin && p.rarity <= pool.bannedMax);
+  }
   function unownedCountInRarity(clubId, minRarity, maxRarity) {
     return data.players.filter((p) => p.club === clubId && !p.dexHidden && !isDexOwned(p.id)
       && p.rarity >= minRarity && p.rarity <= maxRarity).length;
@@ -18473,7 +18547,8 @@
   function selectTargetCupClubs(candidates, pool) {
     const rows = candidates.map((c) => ({
       club: c,
-      focus: unownedCountInRarity(c.id, pool.focusMin, pool.focusMax),
+      // 1つ上の★が在籍するクラブは①の未入手人数をその人数分（最大 TARGET_CUP_UPPER_LIMIT）減らす
+      focus: Math.max(0, unownedCountInRarity(c.id, pool.focusMin, pool.focusMax) - targetCupUpperCount(c.id, pool)),
       lower: unownedCountInRarity(c.id, pool.lowerMin, pool.lowerMax),
       power: clubPower(c.id, PLAYER_MAX_LEVEL),
     }));
@@ -18691,7 +18766,10 @@
       data.players.forEach((p) => {
         if (!p.dexHidden && !isDexOwned(p.id) && p.rarity >= pool.minRarity && p.rarity <= pool.maxRarity) clubIds.add(p.club);
       });
-      return data.clubs.filter((c) => c.id !== MY_CLUB_ID && clubIds.has(c.id));
+      // 1つ上の★の選手が TARGET_CUP_UPPER_LIMIT 人を超えて在籍するクラブは対戦相手から除く
+      return data.clubs.filter((c) => c.id !== MY_CLUB_ID && clubIds.has(c.id)
+        && targetCupUpperCount(c.id, pool) <= TARGET_CUP_UPPER_LIMIT
+        && !targetCupHasBannedPlayer(c.id, pool));
     }
     if (pool.type === 'legendHunt') {
       // レジェンドハントカップ：全ヶ国のレジェンドカップ登場クラブのうち、未入手選手が多い上位N（実際の3クラブはselectCupClubsが抽選）
