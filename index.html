@@ -18416,6 +18416,8 @@
   //    17以上は★(n-1)のみ）③戦力 の優先順（①が最優先、同数なら②、さらに同数なら③）で並べた上位 TARGET_CUP_SHORTLIST_SIZE クラブから、
   //    ランダムに TARGET_CUP_OPPONENTS クラブ（＝4試合）。
   //    選出は月ごと（キャッシュ切れのたび）にやり直す。対戦相手の選び方モードは使わない。
+  //    プールが TARGET_CUP_OPPONENTS クラブに満たないときは、帯より下の未入手選手がいるクラブで枠を埋める（targetCupFillerClubs。
+  //    上位★の在籍制限は同じ）。報酬は帯の未入手が優先で、いなければ下の★から補充される。
   //  - 参加費：カップを選んだ時点で支払う。月初に別カップへ変更すれば全額返金（試合開始後は返金なし）。
   //  - 報酬：1勝以上すると、倒したクラブの「その★帯の未入手選手」からスカウトされる。
   //    その★帯の未入手が足りない（いない）分は、倒したクラブの「帯より下の未入手選手」を高い★から補充する（targetCupLowerUnownedPlayers）。
@@ -18564,7 +18566,31 @@
     rows.sort((a, b) => (b.focus - a.focus) || (b.lower - a.lower) || (b.power - a.power));
     const shortlist = rows.slice(0, TARGET_CUP_SHORTLIST_SIZE).map((r) => r.club);
     shuffleArray(shortlist);
-    return shortlist.slice(0, TARGET_CUP_OPPONENTS);
+    const picked = shortlist.slice(0, TARGET_CUP_OPPONENTS);
+    // 帯の未入手が在籍するクラブが足りないときは、帯より下の未入手選手がいるクラブで枠を埋める
+    if (picked.length < TARGET_CUP_OPPONENTS) {
+      picked.push(...targetCupFillerClubs(pool, picked, TARGET_CUP_OPPONENTS - picked.length));
+    }
+    return picked;
+  }
+  // 補充用の対戦相手：帯の未入手がいないクラブのうち、帯より下の未入手選手がいるクラブ（上位★の制限は本来の候補と同じ）。
+  // 並びは直下の★帯（lowerMin〜lowerMax）の未入手人数→帯より下の未入手総数→戦力の大きい順で、上位から need 件をランダムに選ぶ
+  function targetCupFillerClubs(pool, picked, need) {
+    const rows = data.clubs
+      .filter((c) => c.id !== MY_CLUB_ID && !picked.includes(c)
+        && targetCupUpperCount(c.id, pool) <= TARGET_CUP_UPPER_LIMIT
+        && !targetCupHasBannedPlayer(c.id, pool))
+      .map((c) => ({
+        club: c,
+        lower: unownedCountInRarity(c.id, pool.lowerMin, pool.lowerMax),
+        lowerAll: targetCupLowerUnownedPlayers(c.id, pool).length,
+        power: clubPower(c.id, PLAYER_MAX_LEVEL),
+      }))
+      .filter((r) => r.lowerAll > 0);
+    rows.sort((a, b) => (b.lower - a.lower) || (b.lowerAll - a.lowerAll) || (b.power - a.power));
+    const shortlist = rows.slice(0, TARGET_CUP_SHORTLIST_SIZE).map((r) => r.club);
+    shuffleArray(shortlist);
+    return shortlist.slice(0, need);
   }
   // 参加費の支払い／返金（cupStateごとに支払い済みフラグを持つ）
   function chargeCupEntryFee(cs) {
